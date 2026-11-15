@@ -941,18 +941,27 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 
                 <div class="row align-items-center gy-3">
                   <div class="col-lg-8">
-                    <h4 style="font-weight: 800; color: var(--forest); font-size: 18px; margin-bottom: 8px;">
+                    <h4 style="font-weight: 800; color: var(--forest); font-size: 18px; margin-bottom: 12px; line-height: 1.3;">
                       {{ $p->judul_kerjasama ?? $p->jenis_kegiatan ?? 'Permohonan Kerjasama Kegiatan' }}
                     </h4>
-                    <div class="d-flex flex-wrap gap-x-4 gap-y-2 mb-2" style="font-size: 13.5px; color: var(--text-main);">
-                      <div><span class="text-muted">Instansi:</span> <strong>{{ $p->nama_instansi ?? $p->universitas ?? '-' }}</strong></div>
-                      <div><span class="text-muted">Pemohon:</span> <strong>{{ $p->nama_lengkap }}</strong></div>
+                    <div class="d-flex flex-wrap align-items-center mb-2" style="column-gap: 20px; row-gap: 8px; font-size: 13.5px; color: var(--text-main);">
+                      <div class="me-3 me-sm-4">
+                        <span class="text-muted me-1">Instansi:</span>
+                        <strong>{{ $p->nama_instansi ?? $p->universitas ?? '-' }}</strong>
+                      </div>
+                      <div class="me-3 me-sm-4">
+                        <span class="text-muted me-1">Pemohon:</span>
+                        <strong>{{ $p->nama_lengkap }}</strong>
+                      </div>
                       @if($p->fakultas)
-                        <div><span class="text-muted">Fakultas:</span> <strong>{{ $p->fakultas }}</strong></div>
+                        <div>
+                          <span class="text-muted me-1">Fakultas:</span>
+                          <strong>{{ $p->fakultas }}</strong>
+                        </div>
                       @endif
                     </div>
                     @if ($p->catatan_admin)
-                      <div class="mt-2 p-2 px-3 rounded" style="background: #FFFBEB; border: 1px solid #FDE68A; font-size: 13px; color: #92400E;">
+                      <div class="mt-3 p-2 px-3 rounded" style="background: #FFFBEB; border: 1px solid #FDE68A; font-size: 13px; color: #92400E;">
                         <strong>Catatan Petugas:</strong> {{ $p->catatan_admin }}
                       </div>
                     @endif
