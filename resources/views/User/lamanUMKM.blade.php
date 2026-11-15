@@ -254,11 +254,11 @@
         <label for="navCheck" class="nav-burger" aria-label="Buka menu"><i class="bi bi-list"></i></label>
 
         <nav>
-            <a href="">Dashboard</a>
-            <a href="">Potensi Desa</a>
-            <a href="">Pengajuan</a>
-            <a href="">Layanan</a>
-            <a href="">UMKM</a>
+            <a href="{{ route('home') }}">Dashboard</a>
+            <a href="{{ route('potensi-desa') }}">Potensi Desa</a>
+            <a href="{{ route('pengajuan.index') }}">Pengajuan</a>
+            <a href="{{ route('home') }}#layanan">Layanan</a>
+            <a href="{{ route('laman-umkm') }}">UMKM</a>
         </nav>
     </div>
 

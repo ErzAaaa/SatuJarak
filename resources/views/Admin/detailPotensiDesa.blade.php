@@ -193,7 +193,7 @@
 
     {{-- Aksi --}}
     <div class="action-bar">
-        <a href="#" class="btn-outline-soft"><i class="bi bi-arrow-left"></i> Kembali</a>
+        <a href="{{ route('admin.potensi.index') }}" class="btn-outline-soft"><i class="bi bi-arrow-left"></i> Kembali</a>
         <button type="button" class="btn-gold" data-bs-toggle="modal" data-bs-target="#modalUbah"><i
                 class="bi bi-pencil-square"></i> Ubah</button>
         <button type="button" class="btn-danger-soft" data-bs-toggle="modal" data-bs-target="#modalHapus"><i

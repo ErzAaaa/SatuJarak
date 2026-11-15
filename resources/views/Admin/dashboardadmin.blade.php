@@ -630,14 +630,14 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
     </div>
 
     <ul class="nav-list">
-      <li><a href="{{ url('admin/dashboard') }}" class="nav-pill active"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
-      <li><a href="{{ url('admin/pengajuan') }}" class="nav-pill"><i class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
-      <li><a href="{{ url('admin/layanan') }}" class="nav-pill"><i class="bi bi-gear-fill"></i> Layanan</a></li>
-      <li><a href="{{ url('admin/profile-desa') }}" class="nav-pill"><i class="bi bi-signpost-split-fill"></i> Profile Desa</a></li>
-      <li><a href="{{ url('admin/kelola pengguna') }}" class="nav-pill"><i class="bi bi-sliders"></i> Kelola Pengguna</a></li>
+      <li><a href="{{ route('admin.dashboard') }}" class="nav-pill active"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
+      <li><a href="{{ route('admin.pengajuan.index') }}" class="nav-pill"><i class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
+      <li><a href="{{ route('admin.layanan.index') }}" class="nav-pill"><i class="bi bi-gear-fill"></i> Layanan</a></li>
+      <li><a href="{{ route('admin.potensi.index') }}" class="nav-pill"><i class="bi bi-signpost-split-fill"></i> Potensi Desa</a></li>
+      <li><a href="{{ route('admin.users.index') }}" class="nav-pill"><i class="bi bi-sliders"></i> Kelola Pengguna</a></li>
     </ul>
 
-    <form method="POST" action="{{ url('logout') }}" class="w-100">
+    <form method="POST" action="{{ route('logout') }}" class="w-100">
       @csrf
       <button type="submit" class="logout-btn">Log Out <i class="bi bi-box-arrow-right"></i></button>
     </form>
@@ -694,19 +694,19 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
       <div class="total-card">
         <div style="position:relative; z-index:1;">
           <div class="total-label">Total Pengajuan</div>
-          <div class="total-value" id="total-pengajuan">0</div>
+          <div class="total-value" id="total-pengajuan">{{ $statsPengajuan['total'] }}</div>
         </div>
         <div class="total-breakdown">
           <div class="breakdown-item">
-            <div class="breakdown-num" id="num-menunggu">0</div>
+            <div class="breakdown-num" id="num-menunggu">{{ $statsPengajuan['menunggu'] }}</div>
             <div class="breakdown-label"><span class="breakdown-dot menunggu"></span>Menunggu</div>
           </div>
           <div class="breakdown-item">
-            <div class="breakdown-num" id="num-disetujui">0</div>
+            <div class="breakdown-num" id="num-disetujui">{{ $statsPengajuan['disetujui'] }}</div>
             <div class="breakdown-label"><span class="breakdown-dot disetujui"></span>Disetujui</div>
           </div>
           <div class="breakdown-item">
-            <div class="breakdown-num" id="num-ditolak">0</div>
+            <div class="breakdown-num" id="num-ditolak">{{ $statsPengajuan['ditolak'] }}</div>
             <div class="breakdown-label"><span class="breakdown-dot ditolak"></span>Ditolak</div>
           </div>
         </div>
@@ -718,32 +718,32 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
           <div class="menu-card">
             <div class="menu-icon i-green"><i class="bi bi-people-fill"></i></div>
             <div class="menu-title">Manage User</div>
-            <div class="menu-count"><b id="count-user">0</b> pengguna</div>
-            <a href="{{ url('admin/adminUserTable') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="menu-count"><b id="count-user">{{ $counts['user'] }}</b> pengguna</div>
+            <a href="{{ route('admin.users.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="menu-card">
             <div class="menu-icon i-tan"><i class="bi bi-file-earmark-text-fill"></i></div>
             <div class="menu-title">Manage Pengajuan</div>
-            <div class="menu-count"><b id="count-pengajuan">0</b> pengajuan</div>
-            <a href="{{ url('admin/pengajuan') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="menu-count"><b id="count-pengajuan">{{ $counts['pengajuan'] }}</b> pengajuan</div>
+            <a href="{{ route('admin.pengajuan.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="menu-card">
             <div class="menu-icon i-mint"><i class="bi bi-gear-fill"></i></div>
             <div class="menu-title">Manage Layanan</div>
-            <div class="menu-count"><b id="count-layanan">0</b> layanan</div>
-            <a href="{{ url('admin/layanan') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="menu-count"><b id="count-layanan">{{ $counts['layanan'] }}</b> layanan</div>
+            <a href="{{ route('admin.layanan.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
         <div class="col-6 col-xl-3">
           <div class="menu-card">
             <div class="menu-icon i-pink"><i class="bi bi-stars"></i></div>
             <div class="menu-title">Manage Potensi Desa</div>
-            <div class="menu-count"><b id="count-potensi">0</b> potensi</div>
-            <a href="{{ url('admin/potensi') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="menu-count"><b id="count-potensi">{{ $counts['potensi'] }}</b> potensi</div>
+            <a href="{{ route('admin.potensi.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
       </div>
@@ -752,16 +752,54 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
       <div class="row g-3">
         <div class="col-lg-6">
           <div class="detail-card">
-            <div class="detail-card-title">Detail User</div>
-            <ul class="mini-list" id="list-user"></ul>
-            <a href="{{ url('admin/adminUserDetail') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="detail-card-title mb-0">Pengguna Terbaru</div>
+              <span class="badge bg-light text-dark">{{ $counts['user'] }} Akun</span>
+            </div>
+            <ul class="mini-list" id="list-user">
+              @forelse($recentUsers as $u)
+                @php
+                  $initials = collect(explode(' ', $u['name']))->map(fn($w) => strtoupper(substr($w, 0, 1)))->take(2)->join('');
+                @endphp
+                <li class="mini-item">
+                  <div class="mini-left">
+                    <span class="mini-avatar">{{ $initials }}</span>
+                    <div>
+                      <div class="mini-name d-flex align-items-center gap-2">
+                        <span>{{ $u['name'] }}</span>
+                        @if($u['is_online'])
+                          <span class="badge rounded-pill bg-success" style="font-size: 9px; padding: 2px 6px;">Online</span>
+                        @endif
+                      </div>
+                      <div class="mini-meta">{{ $u['email'] }} · <span class="text-muted">{{ $u['last_active'] }}</span></div>
+                    </div>
+                  </div>
+                  <span class="badge {{ $u['role'] === 'Admin' ? 'bg-primary' : 'bg-light text-dark' }}">{{ $u['role'] }}</span>
+                </li>
+              @empty
+                <li class="text-muted text-center py-3">Belum ada user terdaftar</li>
+              @endforelse
+            </ul>
+            <a href="{{ route('admin.users.index') }}" class="detail-link">Kelola Semua Pengguna <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
         <div class="col-lg-6">
           <div class="detail-card">
-            <div class="detail-card-title">Detail Layanan</div>
-            <ul class="mini-list" id="list-layanan"></ul>
-            <a href="{{ url('admin/layanan') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
+            <div class="d-flex align-items-center justify-content-between mb-3">
+              <div class="detail-card-title mb-0">Aktivitas Layanan & Riset</div>
+              <span class="badge bg-light text-dark">{{ $counts['pengajuan'] }} Masuk</span>
+            </div>
+            <ul class="mini-list" id="list-layanan">
+              @forelse($layananPopuler as $l)
+                <li class="mini-item">
+                  <div class="mini-name">{{ $l->nama }}</div>
+                  <span class="mini-badge">{{ $l->pengajuan }} pengajuan</span>
+                </li>
+              @empty
+                <li class="text-muted text-center py-3">Belum ada aktivitas layanan</li>
+              @endforelse
+            </ul>
+            <a href="{{ route('admin.layanan.index') }}" class="detail-link">Lihat Layanan <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
       </div>
@@ -806,71 +844,9 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
     });
   }
 
-  const DUMMY_DATA = {
-    pengajuan: { menunggu: 12, disetujui: 34, ditolak: 5 },
-    jumlahUser: 128,
-    jumlahLayanan: 9,
-    jumlahPotensi: 15,
-    userTerbaru: [
-      { nama: 'Aditya Pratama', kampus: 'Universitas Airlangga' },
-      { nama: 'Nabila Rahma', kampus: 'Universitas Negeri Surabaya' },
-      { nama: 'Bagus Setiawan', kampus: 'Universitas Brawijaya' },
-    ],
-    layananPopuler: [
-      { nama: 'Proposal KKN', pengajuan: 41 },
-      { nama: 'Proposal Riset', pengajuan: 27 },
-      { nama: 'Antrian Dukcapil', pengajuan: 18 },
-    ],
-  };
-
-  function getInitials(name) {
-    return name.split(' ').map((w) => w[0]).slice(0, 2).join('').toUpperCase();
-  }
-
-  function renderDashboard() {
-    const d = DUMMY_DATA;
-    const total = d.pengajuan.menunggu + d.pengajuan.disetujui + d.pengajuan.ditolak;
-
-    document.getElementById('total-pengajuan').textContent = total;
-    document.getElementById('num-menunggu').textContent = d.pengajuan.menunggu;
-    document.getElementById('num-disetujui').textContent = d.pengajuan.disetujui;
-    document.getElementById('num-ditolak').textContent = d.pengajuan.ditolak;
-
-    document.getElementById('count-user').textContent = d.jumlahUser;
-    document.getElementById('count-pengajuan').textContent = total;
-    document.getElementById('count-layanan').textContent = d.jumlahLayanan;
-    document.getElementById('count-potensi').textContent = d.jumlahPotensi;
-
-    document.getElementById('list-user').innerHTML = d.userTerbaru
-      .map(
-        (u) => `
-        <li class="mini-item">
-          <div class="mini-left">
-            <span class="mini-avatar">${getInitials(u.nama)}</span>
-            <div>
-              <div class="mini-name">${u.nama}</div>
-              <div class="mini-meta">${u.kampus}</div>
-            </div>
-          </div>
-        </li>`
-      )
-      .join('');
-
-    document.getElementById('list-layanan').innerHTML = d.layananPopuler
-      .map(
-        (l) => `
-        <li class="mini-item">
-          <div class="mini-name">${l.nama}</div>
-          <span class="mini-badge">${l.pengajuan} pengajuan</span>
-        </li>`
-      )
-      .join('');
-  }
-
   document.addEventListener('DOMContentLoaded', () => {
     initSidebarToggle();
     initProfileDropdown();
-    renderDashboard();
   });
 </script>
 </body>

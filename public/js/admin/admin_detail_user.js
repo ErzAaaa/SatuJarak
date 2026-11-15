@@ -1,5 +1,5 @@
 function goBack() {
-  window.location.href = "admin_user_table.html"; // Ganti 'index.html' dengan nama file tabel pengguna Anda
+  window.location.href = "/admin/users";
 }
 /* FUNGSI UNTUK MENGISI DATA JIKA KELAK TERSEDIA (OPSIONAL) */
 function loadUserData(user) {

@@ -372,7 +372,7 @@
                                 Aktif</span></td>
                         <td>
                             <div class="row-actions">
-                                <a href="#" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
+                                <a href="{{ route('admin.potensi.detail') }}" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
                                         class="bi bi-eye-fill"></i></a>
                                 <button type="button" class="act-btn edit" title="Ubah" aria-label="Ubah"
                                     data-bs-toggle="modal" data-bs-target="#modalUbah"><i
@@ -394,7 +394,7 @@
                                 Aktif</span></td>
                         <td>
                             <div class="row-actions">
-                                <a href="#" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
+                                <a href="{{ route('admin.potensi.detail') }}" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
                                         class="bi bi-eye-fill"></i></a>
                                 <button type="button" class="act-btn edit" title="Ubah" aria-label="Ubah"
                                     data-bs-toggle="modal" data-bs-target="#modalUbah"><i
@@ -416,7 +416,7 @@
                                 Aktif</span></td>
                         <td>
                             <div class="row-actions">
-                                <a href="#" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
+                                <a href="{{ route('admin.potensi.detail') }}" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
                                         class="bi bi-eye-fill"></i></a>
                                 <button type="button" class="act-btn edit" title="Ubah" aria-label="Ubah"
                                     data-bs-toggle="modal" data-bs-target="#modalUbah"><i
@@ -438,7 +438,7 @@
                                 Aktif</span></td>
                         <td>
                             <div class="row-actions">
-                                <a href="#" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
+                                <a href="{{ route('admin.potensi.detail') }}" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
                                         class="bi bi-eye-fill"></i></a>
                                 <button type="button" class="act-btn edit" title="Ubah" aria-label="Ubah"
                                     data-bs-toggle="modal" data-bs-target="#modalUbah"><i
@@ -460,7 +460,7 @@
                                 Aktif</span></td>
                         <td>
                             <div class="row-actions">
-                                <a href="#" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
+                                <a href="{{ route('admin.potensi.detail') }}" class="act-btn" title="Lihat detail" aria-label="Lihat detail"><i
                                         class="bi bi-eye-fill"></i></a>
                                 <button type="button" class="act-btn edit" title="Ubah" aria-label="Ubah"
                                     data-bs-toggle="modal" data-bs-target="#modalUbah"><i

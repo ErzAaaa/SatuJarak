@@ -8,10 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class PengajuanController extends Controller
 {
-    // ── User: Form pengajuan (wajib login) ───────────────────
-    public function index()
+    // ── User: Daftar / Form pengajuan (wajib login) ─────────
+    public function index(Request $request)
     {
-        return view('User.userpengajuan');
+        $pengajuans = Auth::user()
+            ? Auth::user()->pengajuans()->latest()->get()
+            : collect();
+
+        $action = $request->query('action', $pengajuans->isEmpty() ? 'create' : 'list');
+
+        return view('User.userpengajuan', compact('pengajuans', 'action'));
     }
 
     // ── User: Detail / konfirmasi pengajuan ──────────────────
@@ -107,12 +113,17 @@ class PengajuanController extends Controller
             $query->where('status', $request->status);
         }
 
+        if ($request->filled('layanan')) {
+            $query->where('jenis_kegiatan', 'like', '%'.$request->layanan.'%');
+        }
+
         if ($request->filled('search')) {
             $search = $request->search;
             $query->where(function ($q) use ($search) {
                 $q->where('nama_lengkap', 'like', "%{$search}%")
                     ->orWhere('judul_kerjasama', 'like', "%{$search}%")
-                    ->orWhere('nama_instansi', 'like', "%{$search}%");
+                    ->orWhere('nama_instansi', 'like', "%{$search}%")
+                    ->orWhere('universitas', 'like', "%{$search}%");
             });
         }
 
@@ -146,8 +157,8 @@ class PengajuanController extends Controller
 
         $pengajuan->update($data);
 
-        return redirect()->route('admin.pengajuan.index')
-            ->with('success', "Status pengajuan #{$pengajuan->id} berhasil diperbarui.");
+        return redirect()->route('admin.pengajuan.show', $pengajuan->id)
+            ->with('success', "Status pengajuan #{$pengajuan->id} berhasil diperbarui ke \"{$pengajuan->status}\".");
     }
 
     // Menampilkan template Surat Keterangan Persetujuan

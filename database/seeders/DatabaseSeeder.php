@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Akun Admin Utama SatuJarak
+        // Akun Admin
         User::updateOrCreate(
             ['email' => 'admin@satujarak.desa.id'],
             [

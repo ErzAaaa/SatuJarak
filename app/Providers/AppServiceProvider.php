@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Listeners\LimitAdminSessions;
 use Illuminate\Auth\Events\Login;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
-use App\Listeners\LimitAdminSessions;
 
 class AppServiceProvider extends ServiceProvider
 {

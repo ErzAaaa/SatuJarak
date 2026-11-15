@@ -48,28 +48,28 @@ ss
 
         <nav class="sidebar-nav">
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item">
                 <i class="bi bi-grid-fill"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="managePengajuan.html" class="nav-item">
+            <a href="{{ route('admin.pengajuan.index') }}" class="nav-item">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>Pengajuan</span>
             </a>
 
-            <a href="manageLayanan.html" class="nav-item active">
+            <a href="{{ route('admin.layanan.index') }}" class="nav-item active">
                 <i class="bi bi-briefcase-fill"></i>
                 <span>Layanan</span>
                 <i class="bi bi-chevron-right nav-arrow"></i>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.potensi.index') }}" class="nav-item">
                 <i class="bi bi-building-fill"></i>
-                <span>Profile Desa</span>
+                <span>Potensi Desa</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.users.index') }}" class="nav-item">
                 <i class="bi bi-people-fill"></i>
                 <span>Kelola Pengguna</span>
             </a>
@@ -79,10 +79,13 @@ ss
 
         <div class="sidebar-bottom">
 
-            <a href="#" class="logout-btn">
-                <span>Log Out</span>
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
+            <form method="POST" action="{{ route('logout') }}" class="w-100">
+                @csrf
+                <button type="submit" class="logout-btn border-0 bg-transparent w-100 text-start d-flex align-items-center justify-content-between text-white" style="cursor: pointer; padding: 10px 14px;">
+                    <span>Log Out</span>
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
 
         </div>
 

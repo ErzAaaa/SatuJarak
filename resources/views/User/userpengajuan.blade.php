@@ -646,6 +646,45 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 
 .invalid-feedback { display: block; }
 
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+.status-pill.badge-menunggu {
+  background: var(--gold-light);
+  color: #8C5311;
+}
+.status-pill.badge-proses {
+  background: #E0E7FF;
+  color: #3730A3;
+}
+.status-pill.badge-selesai {
+  background: var(--mint-soft);
+  color: #0F5132;
+}
+.status-pill.badge-ditolak {
+  background: var(--pink-light);
+  color: #842029;
+}
+.pengajuan-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid var(--forest);
+}
+.pengajuan-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(11, 59, 44, 0.08);
+}
+.pengajuan-card.status-menunggu { border-left-color: var(--gold); }
+.pengajuan-card.status-proses { border-left-color: #6366F1; }
+.pengajuan-card.status-selesai { border-left-color: var(--mint); }
+.pengajuan-card.status-ditolak { border-left-color: #DC2626; }
+
 @media (max-width: 992px) {
   .main-content { margin-left: 0; }
 
@@ -709,6 +748,19 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   <ul class="nav-list">
     <li><a href="{{ route('home') }}" class="nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
     <li><a href="{{ route('potensi') }}" class="nav-link"><i class="bi bi-stars"></i> Potensi Desa</a></li>
+    <li>
+      <a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="nav-link {{ $action === 'list' ? 'active' : '' }}">
+        <i class="bi bi-clock-history"></i> Riwayat Pengajuan
+        @if(isset($pengajuans) && $pengajuans->count() > 0)
+          <span class="badge rounded-pill bg-light text-dark ms-auto" style="font-size: 11px;">{{ $pengajuans->count() }}</span>
+        @endif
+      </a>
+    </li>
+    <li>
+      <a href="{{ route('pengajuan.index', ['action' => 'create']) }}" class="nav-link {{ $action === 'create' ? 'active' : '' }}">
+        <i class="bi bi-plus-circle-fill"></i> Buat Pengajuan
+      </a>
+    </li>
   </ul>
 
   <div class="help-card">
@@ -782,8 +834,29 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
     </div>
 
     <div class="page-body">
-      <h1 class="page-heading">Pengajuan Permohonan</h1>
-      <p class="page-sub">Isi data di bawah ini dengan lengkap untuk mengajukan kegiatan KKN/Riset di desa.</p>
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+        <div>
+          <h1 class="page-heading">
+            {{ $action === 'list' ? 'Riwayat Pengajuan Saya' : 'Pengajuan Permohonan Baru' }}
+          </h1>
+          <p class="page-sub">
+            {{ $action === 'list' ? 'Pantau perkembangan dan status surat atau permohonan yang telah Anda ajukan.' : 'Isi data di bawah ini dengan lengkap untuk mengajukan kegiatan KKN/Riset di desa.' }}
+          </p>
+        </div>
+        <div class="d-flex align-items-center gap-2">
+          @if ($action === 'list')
+            <a href="{{ route('pengajuan.index', ['action' => 'create']) }}" class="btn-primary-green d-inline-flex align-items-center gap-2 text-decoration-none">
+              <i class="bi bi-plus-lg"></i> Buat Pengajuan Baru
+            </a>
+          @else
+            @if (isset($pengajuans) && $pengajuans->isNotEmpty())
+              <a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="btn-outline-soft d-inline-flex align-items-center gap-2 text-decoration-none">
+                <i class="bi bi-clock-history"></i> Riwayat Pengajuan ({{ $pengajuans->count() }})
+              </a>
+            @endif
+          @endif
+        </div>
+      </div>
 
       @if (session('success'))
         <div class="alert alert-success d-flex align-items-center gap-2 mb-4" style="border-radius: var(--radius-sm); font-size: 14px;" role="alert">
@@ -806,7 +879,101 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
         </div>
       @endif
 
-      <form id="form-pengajuan" novalidate method="POST" action="{{ route('pengajuan.store') }}" enctype="multipart/form-data">
+      @if ($action === 'list')
+        @if ($pengajuans->isEmpty())
+          <div class="section-card text-center py-5">
+            <div class="mb-3">
+              <div style="width: 84px; height: 84px; background: var(--mint-soft); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; color: var(--forest); font-size: 38px;">
+                <i class="bi bi-file-earmark-text"></i>
+              </div>
+            </div>
+            <h3 style="font-weight: 800; color: var(--forest); margin-bottom: 8px;">Belum Ada Pengajuan</h3>
+            <p style="color: var(--muted); max-width: 480px; margin: 0 auto 24px; font-size: 14.5px;">
+              Anda belum memiliki riwayat pengajuan kegiatan KKN atau Riset di Desa Jarak. Silakan buat pengajuan pertama Anda dengan menekan tombol di bawah.
+            </p>
+            <a href="{{ route('pengajuan.index', ['action' => 'create']) }}" class="btn-primary-green d-inline-flex align-items-center gap-2 text-decoration-none">
+              <i class="bi bi-plus-circle-fill"></i> Buat Pengajuan Sekarang
+            </a>
+          </div>
+        @else
+          <div class="d-flex flex-column gap-3">
+            @foreach ($pengajuans as $p)
+              @php
+                $kode = 'PGJ-' . str_pad($p->id, 3, '0', STR_PAD_LEFT);
+                $badgeClass = match($p->status) {
+                  'Menunggu Verifikasi' => 'badge-menunggu',
+                  'Sedang Diproses' => 'badge-proses',
+                  'Selesai' => 'badge-selesai',
+                  'Ditolak' => 'badge-ditolak',
+                  default => 'badge-menunggu',
+                };
+                $badgeIcon = match($p->status) {
+                  'Menunggu Verifikasi' => 'bi-hourglass-split',
+                  'Sedang Diproses' => 'bi-arrow-repeat',
+                  'Selesai' => 'bi-check-circle-fill',
+                  'Ditolak' => 'bi-x-circle-fill',
+                  default => 'bi-clock-fill',
+                };
+                $cardStatus = match($p->status) {
+                  'Menunggu Verifikasi' => 'status-menunggu',
+                  'Sedang Diproses' => 'status-proses',
+                  'Selesai' => 'status-selesai',
+                  'Ditolak' => 'status-ditolak',
+                  default => 'status-menunggu',
+                };
+              @endphp
+              <div class="section-card pengajuan-card {{ $cardStatus }} mb-0">
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 pb-3 mb-3 border-bottom">
+                  <div class="d-flex align-items-center gap-2">
+                    <span style="font-weight: 800; color: var(--forest); font-size: 16px;">#{{ $kode }}</span>
+                    <span class="text-muted">•</span>
+                    <span class="text-muted" style="font-size: 13.5px;">
+                      <i class="bi bi-calendar3 me-1"></i>
+                      {{ $p->created_at ? $p->created_at->translatedFormat('d F Y, H:i') : '-' }} WIB
+                    </span>
+                  </div>
+                  <div>
+                    <span class="status-pill {{ $badgeClass }}">
+                      <i class="bi {{ $badgeIcon }}"></i> {{ $p->status }}
+                    </span>
+                  </div>
+                </div>
+
+                <div class="row align-items-center gy-3">
+                  <div class="col-lg-8">
+                    <h4 style="font-weight: 800; color: var(--forest); font-size: 18px; margin-bottom: 8px;">
+                      {{ $p->judul_kerjasama ?? $p->jenis_kegiatan ?? 'Permohonan Kerjasama Kegiatan' }}
+                    </h4>
+                    <div class="d-flex flex-wrap gap-x-4 gap-y-2 mb-2" style="font-size: 13.5px; color: var(--text-main);">
+                      <div><i class="bi bi-building me-1 text-success"></i><span class="text-muted">Instansi:</span> <strong>{{ $p->nama_instansi ?? $p->universitas ?? '-' }}</strong></div>
+                      <div><i class="bi bi-person me-1 text-success"></i><span class="text-muted">Pemohon:</span> <strong>{{ $p->nama_lengkap }}</strong></div>
+                      @if($p->fakultas)
+                        <div><i class="bi bi-mortarboard me-1 text-success"></i><span class="text-muted">Fakultas:</span> <strong>{{ $p->fakultas }}</strong></div>
+                      @endif
+                    </div>
+                    @if ($p->catatan_admin)
+                      <div class="mt-2 p-2 px-3 rounded" style="background: #FFFBEB; border: 1px solid #FDE68A; font-size: 13px; color: #92400E;">
+                        <strong>Catatan Petugas:</strong> {{ $p->catatan_admin }}
+                      </div>
+                    @endif
+                  </div>
+                  <div class="col-lg-4 text-lg-end d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
+                    @if ($p->status === 'Selesai')
+                      <a href="{{ route('admin.pengajuan.surat', $p->id) }}" target="_blank" class="btn-outline-soft d-inline-flex align-items-center justify-content-center gap-2 text-decoration-none" style="padding: 10px 18px; font-size: 13.5px;">
+                        <i class="bi bi-file-earmark-check-fill text-success"></i> Surat
+                      </a>
+                    @endif
+                    <a href="{{ route('pengajuan.show', $p->id) }}" class="btn-primary-green d-inline-flex align-items-center justify-content-center gap-2 text-decoration-none" style="padding: 10px 22px; font-size: 13.5px;">
+                      <i class="bi bi-eye-fill"></i> Lihat Detail
+                    </a>
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          </div>
+        @endif
+      @else
+        <form id="form-pengajuan" novalidate method="POST" action="{{ route('pengajuan.store') }}" enctype="multipart/form-data">
         @csrf
 
         <div class="section-card">
@@ -908,10 +1075,11 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
         </div>
 
         <div class="d-flex justify-content-end gap-2">
-          <button type="reset" class="btn-outline-soft">Batal</button>
+          <a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="btn-outline-soft text-decoration-none">Batal</a>
           <button type="submit" class="btn-primary-green">Kirim Pengajuan</button>
         </div>
       </form>
+      @endif
     </div>
   </div>
 </div>

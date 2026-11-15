@@ -755,18 +755,18 @@
             </div>
             <ul class="nav-list">
                 </li>
-                <li><a href="#" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}"><i
+                <li><a href="{{ route('admin.dashboard') }}" class="nav-link {{ $activeMenu == 'dashboard' ? 'active' : '' }}"><i
                             class="bi bi-grid-fill"></i> Dashboard</a></li>
-                <li><a href="#" class="nav-link {{ $activeMenu == 'pengajuan' ? 'active' : '' }}"><i
+                <li><a href="{{ route('admin.pengajuan.index') }}" class="nav-link {{ $activeMenu == 'pengajuan' ? 'active' : '' }}"><i
                             class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
-                <li><a href="#" class="nav-link {{ $activeMenu == 'layanan' ? 'active' : '' }}"><i
+                <li><a href="{{ route('admin.layanan.index') }}" class="nav-link {{ $activeMenu == 'layanan' ? 'active' : '' }}"><i
                             class="bi bi-gear-fill"></i> Layanan</a></li>
-                <li><a href="#" class="nav-link {{ $activeMenu == 'potensi' ? 'active' : '' }}"><i
+                <li><a href="{{ route('admin.potensi.index') }}" class="nav-link {{ $activeMenu == 'potensi' ? 'active' : '' }}"><i
                             class="bi bi-stars"></i> Potensi Desa</a></li>
-                <li><a href="#" class="nav-link {{ $activeMenu == 'pengguna' ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i>Kelola Pengguna</a></li>
+                <li><a href="{{ route('admin.users.index') }}" class="nav-link {{ $activeMenu == 'pengguna' ? 'active' : '' }}">
+                    <i class="bi bi-people-fill"></i> Kelola Pengguna</a></li>
             </ul>
-            <form method="POST" action="#">
+            <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="logout-btn">Log Out <i class="bi bi-box-arrow-right"></i></button>
             </form>

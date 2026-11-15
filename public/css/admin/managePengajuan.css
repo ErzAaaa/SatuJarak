@@ -875,12 +875,18 @@ select {
 
 .status-badge.process {
     background: linear-gradient(135deg, #D8EFE4, #BCE2D0);
-    color: (--forest);
+    color: var(--forest);
 }
 
-.status-badge.complete {
-    background: linear-gradient(135deg, #FAD0DD, #F5B8CC);
-    color: #D94D79;
+.status-badge.complete,
+.status-badge.completed {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-badge.rejected {
+    background: #FEE2E2;
+    color: #991B1B;
 }
 
 .detail-btn {

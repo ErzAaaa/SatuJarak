@@ -1,77 +1,15 @@
-const applications = [
-    {
-        id: "PGJ-001",
-        pemohon: "Ahmad Fauzi",
-        judul: "Pengajuan Kerjasama KKN",
-        instansi: "Universitas Nusantara",
-        tanggal: "25 Sep 2026",
-        status: "Menunggu Verifikasi",
-        layanan: "KKN"
-    },
-    {
-        id: "PGJ-002",
-        pemohon: "Siti Aminah",
-        judul: "Surat Keterangan Domisili",
-        instansi: "Masyarakat",
-        tanggal: "24 Sep 2026",
-        status: "Sedang Diproses",
-        layanan: "Surat Keterangan"
-    },
-    {
-        id: "PGJ-003",
-        pemohon: "Budi Santoso",
-        judul: "Pengajuan Data Kependudukan",
-        instansi: "Desa Jarak",
-        tanggal: "23 Sep 2026",
-        status: "Selesai",
-        layanan: "Kependudukan"
-    },
-    {
-        id: "PGJ-004",
-        pemohon: "Universitas Kediri",
-        judul: "Pengajuan Penelitian Desa",
-        instansi: "Universitas Kediri",
-        tanggal: "22 Sep 2026",
-        status: "Sedang Diproses",
-        layanan: "Penelitian"
-    },
-    {
-        id: "PGJ-005",
-        pemohon: "Dewi Lestari",
-        judul: "Pengajuan Administrasi Desa",
-        instansi: "Masyarakat",
-        tanggal: "21 Sep 2026",
-        status: "Selesai",
-        layanan: "Administrasi"
-    },
-    {
-        id: "PGJ-006",
-        pemohon: "Rizky Pratama",
-        judul: "Pengajuan Surat Keterangan",
-        instansi: "Masyarakat",
-        tanggal: "20 Sep 2026",
-        status: "Menunggu Verifikasi",
-        layanan: "Surat Keterangan"
-    },
-    {
-        id: "PGJ-007",
-        pemohon: "Universitas Kediri",
-        judul: "Pengajuan KKN Desa",
-        instansi: "Universitas Kediri",
-        tanggal: "19 Sep 2026",
-        status: "Selesai",
-        layanan: "KKN"
-    },
-    {
-        id: "PGJ-008",
-        pemohon: "Andi Wijaya",
-        judul: "Pengajuan Data Penduduk",
-        instansi: "Masyarakat",
-        tanggal: "18 Sep 2026",
-        status: "Sedang Diproses",
-        layanan: "Kependudukan"
-    }
-];
+const applications = (typeof window.appData !== 'undefined' && Array.isArray(window.appData))
+    ? window.appData.map(item => ({
+        id: "PGJ-" + String(item.id).padStart(3, '0'),
+        rawId: item.id,
+        pemohon: item.nama_lengkap || (item.user ? item.user.name : '-'),
+        judul: item.judul_kerjasama || item.judul_kegiatan || item.jenis_kegiatan || 'Pengajuan #' + item.id,
+        instansi: item.nama_instansi || item.universitas || '-',
+        tanggal: item.created_at ? new Date(item.created_at).toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) : '-',
+        status: item.status || 'Menunggu Verifikasi',
+        layanan: item.jenis_kegiatan || item.jenis_permohonan || 'KKN'
+    }))
+    : [];
 
 let currentPage = 1;
 
@@ -90,7 +28,11 @@ function getStatusClass(status) {
         return "process";
     }
 
-    return "complete";
+    if (status === "Ditolak") {
+        return "rejected";
+    }
+
+    return "completed";
 }
 
 
@@ -211,7 +153,7 @@ function renderTable() {
                 <td class="text-center">
 
                     <a
-                        href="detailPengajuan.html?id=${item.id}"
+                        href="/admin/pengajuan/${item.rawId || item.id.replace('PGJ-', '').replace(/^0+/, '')}"
                         class="detail-btn"
                     >
 
@@ -363,54 +305,53 @@ function renderPagination(totalPages) {
 }
 
 
-/* Change page */
 
-function changePage(page) {
+/* ---- Server-side search & filter ---- */
 
-    currentPage = page;
+function submitFilters() {
+    const url = new URL(window.location.href);
+    const search  = document.getElementById('searchInput').value.trim();
+    const status  = document.getElementById('statusFilter').value;
+    const service = document.getElementById('serviceFilter').value;
 
-    renderTable();
+    url.searchParams.delete('page');
 
+    if (search)  { url.searchParams.set('search', search); }
+    else         { url.searchParams.delete('search'); }
+
+    if (status)  { url.searchParams.set('status', status); }
+    else         { url.searchParams.delete('status'); }
+
+    if (service) { url.searchParams.set('layanan', service); }
+    else         { url.searchParams.delete('layanan'); }
+
+    window.location.href = url.toString();
 }
 
-
-/* Search */
-
+/* Search — debounce 500ms */
+let searchTimer;
 document
-    .getElementById("searchInput")
-    .addEventListener("input", () => {
-
-        currentPage = 1;
-
-        renderTable();
-
+    .getElementById('searchInput')
+    .addEventListener('input', () => {
+        clearTimeout(searchTimer);
+        searchTimer = setTimeout(submitFilters, 500);
     });
 
+document
+    .getElementById('searchInput')
+    .addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { clearTimeout(searchTimer); submitFilters(); }
+    });
 
 /* Status filter */
-
 document
-    .getElementById("statusFilter")
-    .addEventListener("change", () => {
-
-        currentPage = 1;
-
-        renderTable();
-
-    });
-
+    .getElementById('statusFilter')
+    .addEventListener('change', submitFilters);
 
 /* Service filter */
-
 document
-    .getElementById("serviceFilter")
-    .addEventListener("change", () => {
-
-        currentPage = 1;
-
-        renderTable();
-
-    });
+    .getElementById('serviceFilter')
+    .addEventListener('change', submitFilters);
 
 
 /* Notification dropdown */
@@ -534,6 +475,10 @@ document.addEventListener("click", (event) => {
 });
 
 
-/* Initial render */
+/* Initial render — SSR rows dari Blade sudah ada, tidak perlu render ulang */
 
-renderTable();
+// Hanya update pagination Blade supaya konsisten
+(function initPagination() {
+    // Pagination sudah dihandle server-side oleh Laravel paginator di Blade
+    // Tidak ada yang perlu dilakukan di sini
+})();

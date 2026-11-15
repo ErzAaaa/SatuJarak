@@ -36,28 +36,28 @@
 
         <nav class="sidebar-nav">
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.dashboard') }}" class="nav-item">
                 <i class="bi bi-grid-fill"></i>
                 <span>Dashboard</span>
             </a>
 
-            <a href="managePengajuan.html" class="nav-item active">
+            <a href="{{ route('admin.pengajuan.index') }}" class="nav-item active">
                 <i class="bi bi-file-earmark-text-fill"></i>
                 <span>Pengajuan</span>
                 <i class="bi bi-chevron-right nav-arrow"></i>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.layanan.index') }}" class="nav-item">
                 <i class="bi bi-briefcase-fill"></i>
                 <span>Layanan</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.potensi.index') }}" class="nav-item">
                 <i class="bi bi-building-fill"></i>
-                <span>Profile Desa</span>
+                <span>Potensi Desa</span>
             </a>
 
-            <a href="#" class="nav-item">
+            <a href="{{ route('admin.users.index') }}" class="nav-item">
                 <i class="bi bi-people-fill"></i>
                 <span>Kelola Pengguna</span>
             </a>
@@ -66,10 +66,13 @@
 
         <div class="sidebar-bottom">
 
-            <a href="#" class="logout-btn">
-                <span>Log Out</span>
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
+            <form method="POST" action="{{ route('logout') }}" class="w-100">
+                @csrf
+                <button type="submit" class="logout-btn border-0 bg-transparent w-100 text-start d-flex align-items-center justify-content-between text-white" style="cursor: pointer; padding: 10px 14px;">
+                    <span>Log Out</span>
+                    <i class="bi bi-box-arrow-right"></i>
+                </button>
+            </form>
 
         </div>
 
@@ -215,6 +218,20 @@
 
             </div>
 
+            @if (session('success'))
+                <div class="alert alert-success d-flex align-items-center gap-2 mb-3 animate-item" style="border-radius: 12px; font-size: 14px;">
+                    <i class="bi bi-check-circle-fill fs-5"></i>
+                    <div>{{ session('success') }}</div>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div class="alert alert-danger d-flex align-items-center gap-2 mb-3 animate-item" style="border-radius: 12px; font-size: 14px;">
+                    <i class="bi bi-exclamation-circle-fill fs-5"></i>
+                    <div>{{ session('error') }}</div>
+                </div>
+            @endif
+
 
             <!-- Pengajuan Banner -->
             <div class="submission-banner animate-item">
@@ -350,6 +367,7 @@
                         type="text"
                         id="searchInput"
                         placeholder="Cari pengajuan..."
+                        value="{{ request('search') }}"
                     >
 
                 </div>
@@ -361,14 +379,17 @@
 
                     <select id="statusFilter">
                         <option value="">Status</option>
-                        <option value="Menunggu Verifikasi">
+                        <option value="Menunggu Verifikasi" {{ request('status') === 'Menunggu Verifikasi' ? 'selected' : '' }}>
                             Menunggu Verifikasi
                         </option>
-                        <option value="Sedang Diproses">
+                        <option value="Sedang Diproses" {{ request('status') === 'Sedang Diproses' ? 'selected' : '' }}>
                             Sedang Diproses
                         </option>
-                        <option value="Selesai">
+                        <option value="Selesai" {{ request('status') === 'Selesai' ? 'selected' : '' }}>
                             Selesai
+                        </option>
+                        <option value="Ditolak" {{ request('status') === 'Ditolak' ? 'selected' : '' }}>
+                            Ditolak
                         </option>
                     </select>
 
@@ -383,11 +404,11 @@
 
                     <select id="serviceFilter">
                         <option value="">Layanan</option>
-                        <option value="KKN">KKN</option>
-                        <option value="Penelitian">Penelitian</option>
-                        <option value="Administrasi">Administrasi</option>
-                        <option value="Kependudukan">Kependudukan</option>
-                        <option value="Surat Keterangan">
+                        <option value="KKN" {{ request('layanan') === 'KKN' ? 'selected' : '' }}>KKN</option>
+                        <option value="Penelitian" {{ request('layanan') === 'Penelitian' ? 'selected' : '' }}>Penelitian</option>
+                        <option value="Administrasi" {{ request('layanan') === 'Administrasi' ? 'selected' : '' }}>Administrasi</option>
+                        <option value="Kependudukan" {{ request('layanan') === 'Kependudukan' ? 'selected' : '' }}>Kependudukan</option>
+                        <option value="Surat Keterangan" {{ request('layanan') === 'Surat Keterangan' ? 'selected' : '' }}>
                             Surat Keterangan
                         </option>
                     </select>
@@ -417,6 +438,42 @@
                             </tr>
                         </thead>
                         <tbody id="applicationTable">
+                            @forelse ($pengajuans as $item)
+                                @php
+                                    $kode = 'PGJ-' . str_pad($item->id, 3, '0', STR_PAD_LEFT);
+                                    $statusClass = match($item->status) {
+                                        'Menunggu Verifikasi' => 'waiting',
+                                        'Sedang Diproses' => 'process',
+                                        'Selesai' => 'completed',
+                                        'Ditolak' => 'rejected',
+                                        default => 'waiting',
+                                    };
+                                @endphp
+                                <tr>
+                                    <td><strong>{{ $kode }}</strong></td>
+                                    <td>{{ $item->nama_lengkap ?? ($item->user->name ?? '-') }}</td>
+                                    <td>{{ $item->judul_kerjasama ?? $item->jenis_kegiatan ?? '-' }}</td>
+                                    <td>{{ $item->nama_instansi ?? $item->universitas ?? '-' }}</td>
+                                    <td>{{ $item->created_at ? $item->created_at->translatedFormat('d M Y') : '-' }}</td>
+                                    <td>
+                                        <span class="status-badge {{ $statusClass }}">
+                                            <i class="bi bi-circle-fill"></i>
+                                            {{ $item->status }}
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('admin.pengajuan.show', $item->id) }}" class="detail-btn">
+                                            Detail <i class="bi bi-arrow-right"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center py-4 text-muted">
+                                        Belum ada data pengajuan permohonan.
+                                    </td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -426,15 +483,49 @@
                 <div class="table-footer">
 
                     <span id="dataInfo">
-                        Menampilkan 1-5 dari 8 pengajuan
+                        @if($pengajuans->total() > 0)
+                            Menampilkan {{ $pengajuans->firstItem() }}&ndash;{{ $pengajuans->lastItem() }} dari {{ $pengajuans->total() }} pengajuan
+                        @else
+                            Tidak ada pengajuan ditemukan
+                        @endif
                     </span>
 
-                    <nav>
-                        <ul
-                            class="pagination"
-                            id="pagination"
-                        ></ul>
-                    </nav>
+                    @if($pengajuans->hasPages())
+                        <nav>
+                            <ul class="pagination" id="pagination">
+                                {{-- Prev --}}
+                                @if($pengajuans->onFirstPage())
+                                    <li class="page-item disabled">
+                                        <span class="page-link"><i class="bi bi-chevron-left"></i></span>
+                                    </li>
+                                @else
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $pengajuans->previousPageUrl() }}"><i class="bi bi-chevron-left"></i></a>
+                                    </li>
+                                @endif
+
+                                {{-- Page numbers --}}
+                                @foreach($pengajuans->getUrlRange(1, $pengajuans->lastPage()) as $page => $url)
+                                    <li class="page-item {{ $page == $pengajuans->currentPage() ? 'active' : '' }}">
+                                        <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                                    </li>
+                                @endforeach
+
+                                {{-- Next --}}
+                                @if($pengajuans->hasMorePages())
+                                    <li class="page-item">
+                                        <a class="page-link" href="{{ $pengajuans->nextPageUrl() }}"><i class="bi bi-chevron-right"></i></a>
+                                    </li>
+                                @else
+                                    <li class="page-item disabled">
+                                        <span class="page-link"><i class="bi bi-chevron-right"></i></span>
+                                    </li>
+                                @endif
+                            </ul>
+                        </nav>
+                    @else
+                        <nav><ul class="pagination" id="pagination"></ul></nav>
+                    @endif
 
                 </div>
 

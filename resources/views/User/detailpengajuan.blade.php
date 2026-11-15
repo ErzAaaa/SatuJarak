@@ -758,7 +758,8 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   <ul class="nav-list">
     <li><a href="{{ route('home') }}" class="nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
     <li><a href="{{ route('potensi') }}" class="nav-link"><i class="bi bi-stars"></i> Potensi Desa</a></li>
-    <li><a href="{{ route('pengajuan.index') }}" class="nav-link"><i class="bi bi-plus-circle"></i> Buat Pengajuan</a></li>
+    <li><a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="nav-link"><i class="bi bi-clock-history"></i> Riwayat Pengajuan</a></li>
+    <li><a href="{{ route('pengajuan.index', ['action' => 'create']) }}" class="nav-link"><i class="bi bi-plus-circle-fill"></i> Buat Pengajuan</a></li>
   </ul>
 
   <div class="help-card">
@@ -832,6 +833,11 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
     </div>
 
     <div class="page-body">
+      <div class="mb-3">
+        <a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="d-inline-flex align-items-center gap-2 text-decoration-none fw-semibold" style="color: var(--forest); font-size: 14px;">
+          <i class="bi bi-arrow-left"></i> Kembali ke Riwayat Pengajuan
+        </a>
+      </div>
       <h1 class="page-heading">Detail Pengajuan</h1>
       <p class="page-sub">Pantau status dan riwayat proses pengajuan kamu di sini.</p>
 

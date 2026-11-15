@@ -80,4 +80,38 @@ class PengajuanTest extends TestCase
         $response->assertStatus(200);
         $response->assertSee('Warga Pemohon');
     }
+
+    public function test_user_with_submissions_sees_history_and_detail_button_on_index(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+        $pengajuan = Pengajuan::create([
+            'user_id' => $user->id,
+            'nama_lengkap' => 'Madam Test',
+            'email_pemohon' => 'madam@example.com',
+            'no_hp' => '081234567890',
+            'nama_instansi' => 'UNESA Test',
+            'jenis_kegiatan' => 'KKN',
+            'judul_kerjasama' => 'Program Pemberdayaan',
+            'status' => 'Menunggu Verifikasi',
+        ]);
+
+        $response = $this->actingAs($user)->get(route('pengajuan.index'));
+
+        $response->assertStatus(200);
+        $response->assertSee('Riwayat Pengajuan Saya');
+        $response->assertSee('Program Pemberdayaan');
+        $response->assertSee('Lihat Detail');
+        $response->assertSee(route('pengajuan.show', $pengajuan->id));
+    }
+
+    public function test_user_without_submissions_sees_empty_state_on_list(): void
+    {
+        $user = User::factory()->create(['is_admin' => false]);
+
+        $response = $this->actingAs($user)->get(route('pengajuan.index', ['action' => 'list']));
+
+        $response->assertStatus(200);
+        $response->assertSee('Belum Ada Pengajuan');
+        $response->assertSee('Buat Pengajuan Sekarang');
+    }
 }

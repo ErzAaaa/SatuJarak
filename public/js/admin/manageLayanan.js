@@ -258,7 +258,7 @@ function renderServices(data) {
             <td>
 
                 <a
-                    href="/layanan/${service.id}"
+                    href="/admin/layanan/detail"
                     class="service-detail-btn"
                 >
                     <i class="bi bi-eye-fill"></i>

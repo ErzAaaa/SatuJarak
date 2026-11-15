@@ -638,7 +638,7 @@
         <!-- MENU NAVIGASI -->
         <nav class="nav-menu">
             <a
-                href="/"
+                href="{{ route('home') }}"
                 class="nav-link-custom"
             >
                 <i class="bi bi-grid-1x2"></i>
@@ -646,7 +646,7 @@
             </a>
 
             <a
-                href="/potensi-desa"
+                href="{{ route('potensi-desa') }}"
                 class="nav-link-custom active"
                 aria-current="page"
             >
@@ -655,7 +655,7 @@
             </a>
 
             <a
-                href="/userpengajuan"
+                href="{{ route('pengajuan.index') }}"
                 class="nav-link-custom"
             >
                 <i class="bi bi-file-earmark-text"></i>
@@ -698,7 +698,7 @@
             <div class="topbar-left">
                 <label for="navToggle" class="menu-toggle" aria-label="Buka menu"><i class="bi bi-list"></i></label>
                 <div class="page-heading">
-                    <a href="/potensi-desa" class="back-link"><i class="bi bi-arrow-left"></i> Kembali ke Potensi UMKM</a>
+                    <a href="{{ route('laman-umkm') }}" class="back-link"><i class="bi bi-arrow-left"></i> Kembali ke Potensi UMKM</a>
                     <h1>Detail UMKM</h1>
                     <p>Informasi lengkap produk dan kontak pelaku usaha Desa Jarak.</p>
                 </div>
@@ -756,7 +756,7 @@
                     <a href="https://wa.me/6285655367521" target="_blank" rel="noopener" class="wa-btn">
                         <i class="bi bi-whatsapp"></i> Hubungi via WhatsApp
                     </a>
-                    <a href="/potensi-desa/umkm" class="back-btn">
+                    <a href="{{ route('laman-umkm') }}" class="back-btn">
                         <i class="bi bi-arrow-left"></i> Kembali ke daftar UMKM
                     </a>
                 </div>
