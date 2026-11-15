@@ -763,8 +763,9 @@
                             class="bi bi-gear-fill"></i> Layanan</a></li>
                 <li><a href="{{ route('admin.potensi.index') }}" class="nav-link {{ $activeMenu == 'potensi' ? 'active' : '' }}"><i
                             class="bi bi-stars"></i> Potensi Desa</a></li>
-                <li><a href="{{ route('admin.users.index') }}" class="nav-link {{ $activeMenu == 'pengguna' ? 'active' : '' }}">
-                    <i class="bi bi-people-fill"></i> Kelola Pengguna</a></li>
+                {{-- Fitur kelola pengguna dinonaktifkan sementara --}}
+                {{-- <li><a href="{{ route('admin.users.index') }}" class="nav-link {{ $activeMenu == 'pengguna' ? 'active' : '' }}">
+                    <i class="bi bi-people-fill"></i> Kelola Pengguna</a></li> --}}
             </ul>
             <form method="POST" action="{{ route('logout') }}">
                 @csrf

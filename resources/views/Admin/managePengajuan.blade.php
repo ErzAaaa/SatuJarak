@@ -57,10 +57,11 @@
                 <span>Potensi Desa</span>
             </a>
 
-            <a href="{{ route('admin.users.index') }}" class="nav-item">
+            {{-- Fitur kelola pengguna dinonaktifkan sementara --}}
+            {{-- <a href="{{ route('admin.users.index') }}" class="nav-item">
                 <i class="bi bi-people-fill"></i>
                 <span>Kelola Pengguna</span>
-            </a>
+            </a> --}}
 
         </nav>
 

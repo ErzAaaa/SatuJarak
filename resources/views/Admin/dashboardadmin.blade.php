@@ -634,7 +634,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
       <li><a href="{{ route('admin.pengajuan.index') }}" class="nav-pill"><i class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
       <li><a href="{{ route('admin.layanan.index') }}" class="nav-pill"><i class="bi bi-gear-fill"></i> Layanan</a></li>
       <li><a href="{{ route('admin.potensi.index') }}" class="nav-pill"><i class="bi bi-signpost-split-fill"></i> Potensi Desa</a></li>
-      <li><a href="{{ route('admin.users.index') }}" class="nav-pill"><i class="bi bi-sliders"></i> Kelola Pengguna</a></li>
+      {{-- Fitur kelola pengguna dinonaktifkan sementara --}}
+      {{-- <li><a href="{{ route('admin.users.index') }}" class="nav-pill"><i class="bi bi-sliders"></i> Kelola Pengguna</a></li> --}}
     </ul>
 
     <form method="POST" action="{{ route('logout') }}" class="w-100">
@@ -714,15 +715,16 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
       <h2 class="section-heading">Menu Management</h2>
       <div class="row g-3 mb-4">
-        <div class="col-6 col-xl-3">
+        {{-- Manage User dinonaktifkan sementara --}}
+        {{-- <div class="col-6 col-xl-3">
           <div class="menu-card">
             <div class="menu-icon i-green"><i class="bi bi-people-fill"></i></div>
             <div class="menu-title">Manage User</div>
             <div class="menu-count"><b id="count-user">{{ $counts['user'] }}</b> pengguna</div>
             <a href="{{ route('admin.users.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
-        </div>
-        <div class="col-6 col-xl-3">
+        </div> --}}
+        <div class="col-12 col-md-4">
           <div class="menu-card">
             <div class="menu-icon i-tan"><i class="bi bi-file-earmark-text-fill"></i></div>
             <div class="menu-title">Manage Pengajuan</div>
@@ -730,7 +732,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
             <a href="{{ route('admin.pengajuan.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
-        <div class="col-6 col-xl-3">
+        <div class="col-12 col-md-4">
           <div class="menu-card">
             <div class="menu-icon i-mint"><i class="bi bi-gear-fill"></i></div>
             <div class="menu-title">Manage Layanan</div>
@@ -738,7 +740,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
             <a href="{{ route('admin.layanan.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
           </div>
         </div>
-        <div class="col-6 col-xl-3">
+        <div class="col-12 col-md-4">
           <div class="menu-card">
             <div class="menu-icon i-pink"><i class="bi bi-stars"></i></div>
             <div class="menu-title">Manage Potensi Desa</div>
@@ -750,7 +752,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
 
       <h2 class="section-heading">Menu Detail</h2>
       <div class="row g-3">
-        <div class="col-lg-6">
+        {{-- Tabel manage user / pengguna terbaru dinonaktifkan sementara --}}
+        {{-- <div class="col-lg-6">
           <div class="detail-card">
             <div class="d-flex align-items-center justify-content-between mb-3">
               <div class="detail-card-title mb-0">Pengguna Terbaru</div>
@@ -782,8 +785,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
             </ul>
             <a href="{{ route('admin.users.index') }}" class="detail-link">Kelola Semua Pengguna <i class="bi bi-chevron-right"></i></a>
           </div>
-        </div>
-        <div class="col-lg-6">
+        </div> --}}
+        <div class="col-12 col-lg-6">
           <div class="detail-card">
             <div class="d-flex align-items-center justify-content-between mb-3">
               <div class="detail-card-title mb-0">Aktivitas Layanan & Riset</div>

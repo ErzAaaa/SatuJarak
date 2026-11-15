@@ -945,10 +945,10 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
                       {{ $p->judul_kerjasama ?? $p->jenis_kegiatan ?? 'Permohonan Kerjasama Kegiatan' }}
                     </h4>
                     <div class="d-flex flex-wrap gap-x-4 gap-y-2 mb-2" style="font-size: 13.5px; color: var(--text-main);">
-                      <div><i class="bi bi-building me-1 text-success"></i><span class="text-muted">Instansi:</span> <strong>{{ $p->nama_instansi ?? $p->universitas ?? '-' }}</strong></div>
-                      <div><i class="bi bi-person me-1 text-success"></i><span class="text-muted">Pemohon:</span> <strong>{{ $p->nama_lengkap }}</strong></div>
+                      <div><span class="text-muted">Instansi:</span> <strong>{{ $p->nama_instansi ?? $p->universitas ?? '-' }}</strong></div>
+                      <div><span class="text-muted">Pemohon:</span> <strong>{{ $p->nama_lengkap }}</strong></div>
                       @if($p->fakultas)
-                        <div><i class="bi bi-mortarboard me-1 text-success"></i><span class="text-muted">Fakultas:</span> <strong>{{ $p->fakultas }}</strong></div>
+                        <div><span class="text-muted">Fakultas:</span> <strong>{{ $p->fakultas }}</strong></div>
                       @endif
                     </div>
                     @if ($p->catatan_admin)
