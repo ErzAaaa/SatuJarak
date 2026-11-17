@@ -716,19 +716,28 @@
             <article class="detail-card">
                 <div class="detail-visual">
                     <i class="bi bi-image placeholder-icon"></i>
-                    <img src="/images/umkm/supari-blangkon.jpg" alt="Supari Blangkon" onerror="this.remove()">
-                    <span class="category-badge">UMKM</span>
+                    @php
+                        $fotoProduk = $produk->foto 
+                            ? (Str::startsWith($produk->foto, ['http://', 'https://']) 
+                                ? $produk->foto 
+                                : (Str::startsWith($produk->foto, 'images/') 
+                                    ? asset($produk->foto) 
+                                    : asset('storage/' . $produk->foto)))
+                            : null;
+                    @endphp
+                    @if($fotoProduk)
+                        <img src="{{ $fotoProduk }}" alt="{{ $produk->nama }}" onerror="this.remove()">
+                    @endif
+                    <span class="category-badge">{{ $produk->kategori ?? 'UMKM' }}</span>
                 </div>
 
                 <div class="detail-body">
-                    <h2>Supari Blangkon</h2>
-                    <div class="price-tag"><i class="bi bi-tag"></i> Rp14.000 - Rp150.000</div>
+                    <h2>{{ $produk->nama }}</h2>
+                    <div class="price-tag"><i class="bi bi-tag"></i> {{ $produk->harga_teks ?? 'Hubungi Penjual' }}</div>
 
                     <h3 class="detail-subtitle">Tentang Usaha</h3>
                     <p class="detail-text">
-                        Usaha ini merupakan kerajinan tangan asli warga Desa Jarak yang telah diproduksi secara mandiri sejak tahun 2018.
-                        Setiap blankon dibuat secara manual dengan teknik jahit menggunakan kain udeng, sehingga menghasilkan produk yang
-                        autentik dengan sentuhan khas pengrajin lokal. Tersedia dalam berbagai jenis, seperti Blangkon Solo dan Blangkon Jogja.
+                        {{ $produk->deskripsi ?? 'Informasi tentang usaha dan produk ini dapat ditanyakan langsung kepada pemilik melalui kontak WhatsApp yang tertera.' }}
                     </p>
                 </div>
             </article>
@@ -740,22 +749,35 @@
 
                     <div class="info-item">
                         <span class="info-icon"><i class="bi bi-tag"></i></span>
-                        <div><span class="meta-label">Harga</span><p>Rp14.000 - Rp150.000</p></div>
+                        <div><span class="meta-label">Harga</span><p>{{ $produk->harga_teks ?? 'Hubungi Penjual' }}</p></div>
+                    </div>
+
+                    <div class="info-item">
+                        <span class="info-icon"><i class="bi bi-person"></i></span>
+                        <div><span class="meta-label">Pemilik</span><p>{{ $produk->pemilik ?? '-' }}</p></div>
                     </div>
 
                     <div class="info-item">
                         <span class="info-icon"><i class="bi bi-geo-alt"></i></span>
-                        <div><span class="meta-label">Lokasi</span><p>Dsn. Jarak Kidul Ds. Jarak Kec. Plosoklaten</p></div>
+                        <div><span class="meta-label">Lokasi</span><p>{{ $produk->lokasi ?? '-' }}</p></div>
                     </div>
 
                     <div class="info-item">
                         <span class="info-icon"><i class="bi bi-telephone"></i></span>
-                        <div><span class="meta-label">Kontak</span><p>085655367521</p></div>
+                        <div><span class="meta-label">Kontak</span><p>{{ $produk->kontak ?? '-' }}</p></div>
                     </div>
 
-                    <a href="https://wa.me/6285655367521" target="_blank" rel="noopener" class="wa-btn">
-                        <i class="bi bi-whatsapp"></i> Hubungi via WhatsApp
-                    </a>
+                    @php
+                        $waNum = $produk->whatsapp ?? preg_replace('/[^0-9]/', '', $produk->kontak ?? '');
+                        if (str_starts_with($waNum, '0')) {
+                            $waNum = '62' . substr($waNum, 1);
+                        }
+                    @endphp
+                    @if($waNum)
+                        <a href="https://wa.me/{{ $waNum }}?text=Halo%20{{ urlencode($produk->pemilik ?? 'Penjual') }},%20saya%20tertarik%20dengan%20produk%20{{ urlencode($produk->nama) }}%20di%20SatuJarak" target="_blank" rel="noopener" class="wa-btn">
+                            <i class="bi bi-whatsapp"></i> Hubungi via WhatsApp
+                        </a>
+                    @endif
                     <a href="{{ route('laman-umkm') }}" class="back-btn">
                         <i class="bi bi-arrow-left"></i> Kembali ke daftar UMKM
                     </a>

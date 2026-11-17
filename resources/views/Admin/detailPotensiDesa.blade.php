@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Potensi Desa')
+@section('title', 'Detail Potensi: ' . ($potensi->nama ?? 'Potensi Desa'))
 @section('topbar_title', 'ADMIN · DETAIL POTENSI DESA')
 @section('active_menu', 'potensi')
 
@@ -105,10 +105,6 @@
             word-break: break-word;
         }
 
-        .table-rincian {
-            min-width: 620px;
-        }
-
         .photo-box {
             border-radius: var(--radius-md);
             border: 1.5px dashed var(--sage);
@@ -179,72 +175,110 @@
 
 @section('content')
     <h1 class="page-heading">Detail Potensi Desa</h1>
-    <p class="page-sub">Lihat rincian lengkap data potensi desa yang tersimpan.</p>
+    <p class="page-sub">Lihat rincian lengkap data potensi & UMKM desa yang tersimpan.</p>
+
+    {{-- Notifikasi Sukses / Error --}}
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show my-3 rounded-4 border-0 shadow-sm" role="alert" style="background:#EBF7F0; color:#1C6544;">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     {{-- Ringkasan --}}
     <div class="summary-card">
-        <div class="summary-code">UTS 1234</div>
-        <div class="summary-title">Nama UMKM</div>
+        <div class="summary-code">PTS-{{ str_pad($potensi->id, 4, '0', STR_PAD_LEFT) }}</div>
+        <div class="summary-title">{{ $potensi->nama }}</div>
         <div class="summary-meta">
-            <div class="status-badge status-aktif"><span class="status-dot status-aktif"></span> Aktif</div>
-  
+            @if($potensi->status === 'Aktif')
+                <div class="status-badge status-aktif"><span class="status-dot status-aktif"></span> Aktif</div>
+            @elseif($potensi->status === 'Draft')
+                <div class="status-badge status-proses"><span class="status-dot status-proses"></span> Draft</div>
+            @else
+                <div class="status-badge status-ditolak"><span class="status-dot status-ditolak"></span> Nonaktif</div>
+            @endif
+            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill">{{ $potensi->kategori ?? 'UMKM' }}</span>
         </div>
     </div>
 
     {{-- Aksi --}}
     <div class="action-bar">
         <a href="{{ route('admin.potensi.index') }}" class="btn-outline-soft"><i class="bi bi-arrow-left"></i> Kembali</a>
-        <button type="button" class="btn-gold" data-bs-toggle="modal" data-bs-target="#modalUbah"><i
-                class="bi bi-pencil-square"></i> Ubah</button>
-        <button type="button" class="btn-danger-soft" data-bs-toggle="modal" data-bs-target="#modalHapus"><i
-                class="bi bi-trash3-fill"></i> Hapus</button>
+        <button type="button" class="btn-gold" data-bs-toggle="modal" data-bs-target="#modalUbah">
+            <i class="bi bi-pencil-square"></i> Ubah
+        </button>
+        <button type="button" class="btn-danger-soft" data-bs-toggle="modal" data-bs-target="#modalHapus">
+            <i class="bi bi-trash3-fill"></i> Hapus
+        </button>
     </div>
 
     <div class="row g-4">
         <div class="col-12 col-xl-8">
             {{-- Tabel detail --}}
             <div class="section-card">
-                <div class="section-title">Detail Potensi</div>
+                <div class="section-title">Detail Informasi</div>
                 <div class="table-responsive">
                     <table class="table table-soft table-detail align-middle mb-0">
                         <tbody>
                             <tr>
                                 <th scope="row">Kode</th>
-                                <td>PTS-0001</td>
+                                <td>PTS-{{ str_pad($potensi->id, 4, '0', STR_PAD_LEFT) }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Nama UMKM</th>
-                                <td>Sawah Padi Organik</td>
+                                <th scope="row">Nama UMKM / Potensi</th>
+                                <td class="fw-bold">{{ $potensi->nama }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Kategori</th>
+                                <td>{{ $potensi->kategori ?? 'UMKM' }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Harga Produk</th>
+                                <td>{{ $potensi->harga_teks ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Lokasi</th>
-                                <td>Dusun Krajan, Desa Kediri</td>
+                                <td>{{ $potensi->lokasi ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Nama Pemilik</th>
-                                <td>Toto Wolff</td>
+                                <td>{{ $potensi->pemilik ?? '-' }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Kontak</th>
-                                <td>0812-3456-7890</td>
+                                <th scope="row">Kontak / WhatsApp</th>
+                                <td>
+                                    @if($potensi->kontak)
+                                        <a href="https://wa.me/{{ $potensi->whatsapp ?? preg_replace('/[^0-9]/', '', $potensi->kontak) }}" target="_blank" class="text-decoration-none">
+                                            <i class="bi bi-whatsapp text-success me-1"></i> {{ $potensi->kontak }}
+                                        </a>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">Status</th>
-                                <td><span class="pill pill-mint"><i class="bi bi-circle-fill" style="font-size:7px;"></i>
-                                        Aktif</span></td>
+                                <td>
+                                    @if($potensi->status === 'Aktif')
+                                        <span class="pill pill-mint"><i class="bi bi-circle-fill" style="font-size:7px;"></i> Aktif</span>
+                                    @elseif($potensi->status === 'Draft')
+                                        <span class="pill pill-gold"><i class="bi bi-circle-fill" style="font-size:7px;"></i> Draft</span>
+                                    @else
+                                        <span class="pill pill-pink"><i class="bi bi-circle-fill" style="font-size:7px;"></i> Nonaktif</span>
+                                    @endif
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">Deskripsi</th>
-                                <td>Hamparan sawah padi organik seluas ± 45 hektar yang dikelola secara berkelompok tanpa
-                                    pestisida kimia dan menjadi sumber pangan utama warga.</td>
+                                <td>{{ $potensi->deskripsi ?? '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Dibuat</th>
-                                <td>12 Agu 2025 · 09:15 WIB</td>
+                                <td>{{ $potensi->created_at ? $potensi->created_at->format('d M Y · H:i') . ' WIB' : '-' }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Diperbarui</th>
-                                <td>22 Sep 2025 · 10:30 WIB</td>
+                                <td>{{ $potensi->updated_at ? $potensi->updated_at->format('d M Y · H:i') . ' WIB' : '-' }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -255,11 +289,24 @@
         <div class="col-12 col-xl-4">
             {{-- Foto --}}
             <div class="section-card">
-                <div class="section-title">Foto</div>
-                <div class="photo-box">
-                    <i class="bi bi-image-fill"></i>
-                    <div>Belum ada foto yang diunggah</div>
-                </div>
+                <div class="section-title">Foto Produk / Potensi</div>
+                @if($potensi->foto)
+                    @php
+                        $fotoUrl = Str::startsWith($potensi->foto, ['http://', 'https://']) 
+                            ? $potensi->foto 
+                            : (Str::startsWith($potensi->foto, 'images/') 
+                                ? asset($potensi->foto) 
+                                : asset('storage/' . $potensi->foto));
+                    @endphp
+                    <div class="text-center p-2 bg-light rounded-3">
+                        <img src="{{ $fotoUrl }}" alt="{{ $potensi->nama }}" class="img-fluid rounded-3 shadow-sm" style="max-height: 280px; object-fit: cover;">
+                    </div>
+                @else
+                    <div class="photo-box">
+                        <i class="bi bi-image-fill"></i>
+                        <div>Belum ada foto yang diunggah</div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -268,7 +315,7 @@
     <div class="modal fade" id="modalUbah" tabindex="-1" aria-labelledby="modalUbahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <form method="POST" action="#" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('admin.potensi.update', $potensi->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -277,47 +324,57 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-12 field-group">
-                                <label class="field-label">Nama UMKM</label>
-                                <input type="text" class="form-control" name="nama" value="Sawah Padi Organik"
-                                    required>
+                            <div class="col-md-8 field-group mb-3">
+                                <label class="field-label">Nama UMKM / Potensi</label>
+                                <input type="text" class="form-control" name="nama" value="{{ $potensi->nama }}" required>
                             </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Status</label>
-                                <select class="form-select" name="status" required>
-                                    <option selected>Aktif</option>
-                                    <option>Draft</option>
-                                    <option>Nonaktif</option>
+                            <div class="col-md-4 field-group mb-3">
+                                <label class="field-label">Kategori</label>
+                                <select class="form-select" name="kategori" required>
+                                    <option value="UMKM" {{ $potensi->kategori === 'UMKM' ? 'selected' : '' }}>UMKM</option>
+                                    <option value="Pertanian" {{ $potensi->kategori === 'Pertanian' ? 'selected' : '' }}>Pertanian</option>
+                                    <option value="Wisata" {{ $potensi->kategori === 'Wisata' ? 'selected' : '' }}>Wisata</option>
                                 </select>
                             </div>
-                            <div class="col-md-6 field-group">
+                            <div class="col-md-6 field-group mb-3">
+                                <label class="field-label">Status</label>
+                                <select class="form-select" name="status" required>
+                                    <option value="Aktif" {{ $potensi->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="Draft" {{ $potensi->status === 'Draft' ? 'selected' : '' }}>Draft</option>
+                                    <option value="Nonaktif" {{ $potensi->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 field-group mb-3">
+                                <label class="field-label">Harga Produk (Opsional)</label>
+                                <input type="text" class="form-control" name="harga_teks" value="{{ $potensi->harga_teks }}">
+                            </div>
+                            <div class="col-md-6 field-group mb-3">
                                 <label class="field-label">Lokasi</label>
-                                <input type="text" class="form-control" name="lokasi"
-                                    value="Dusun Krajan, Desa Kediri" required>
+                                <input type="text" class="form-control" name="lokasi" value="{{ $potensi->lokasi }}" required>
                             </div>
-                            <div class="col-md-6 field-group">
+                            <div class="col-md-6 field-group mb-3">
                                 <label class="field-label">Pemilik</label>
-                                <input type="text" class="form-control" name="pengelola" value="Kelompok Tani Makmur"
-                                    required>
+                                <input type="text" class="form-control" name="pemilik" value="{{ $potensi->pemilik }}" required>
                             </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Kontak</label>
-                                <input type="tel" class="form-control" name="kontak" value="081234567890">
+                            <div class="col-md-6 field-group mb-3">
+                                <label class="field-label">Kontak / WhatsApp</label>
+                                <input type="tel" class="form-control" name="kontak" value="{{ $potensi->kontak }}">
                             </div>
-                            <div class="col-12 field-group">
-                                <label class="field-label">Foto</label>
+                            <div class="col-md-6 field-group mb-3">
+                                <label class="field-label">Ganti Foto (Kosongkan jika tidak diubah)</label>
                                 <input type="file" class="form-control" name="foto" accept="image/*">
                             </div>
                             <div class="col-12 field-group mb-0">
                                 <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" name="deskripsi" rows="3" required>Hamparan sawah padi organik seluas ± 45 hektar yang dikelola secara berkelompok tanpa pestisida kimia dan menjadi sumber pangan utama warga.</textarea>
+                                <textarea class="form-control" name="deskripsi" rows="3" required>{{ $potensi->deskripsi }}</textarea>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green"><i class="bi bi-check2-circle"></i> Simpan
-                            Perubahan</button>
+                        <button type="submit" class="btn-primary-green">
+                            <i class="bi bi-check2-circle"></i> Simpan Perubahan
+                        </button>
                     </div>
                 </form>
             </div>
@@ -328,7 +385,7 @@
     <div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('admin.potensi.destroy', $potensi->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-header">
@@ -336,13 +393,13 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
-                        Potensi <strong>Sawah Padi Organik</strong> beserta seluruh rincian datanya akan dihapus permanen.
-                        Tindakan ini tidak dapat dibatalkan.
+                        Potensi <strong>"{{ $potensi->nama }}"</strong> beserta seluruh rincian datanya akan dihapus permanen dari database. Tindakan ini tidak dapat dibatalkan.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-danger-soft"><i class="bi bi-trash3-fill"></i> Ya,
-                            Hapus</button>
+                        <button type="submit" class="btn-danger-soft">
+                            <i class="bi bi-trash3-fill"></i> Ya, Hapus
+                        </button>
                     </div>
                 </form>
             </div>

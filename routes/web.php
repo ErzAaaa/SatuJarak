@@ -1,20 +1,22 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminPotensiDesaController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\AdminLoginController;
 use App\Http\Controllers\Auth\UserAuthController;
 use App\Http\Controllers\PengajuanController;
+use App\Http\Controllers\UmkmController;
 use Illuminate\Support\Facades\Route;
 
 // ---------- Publik ----------
 Route::view('/', 'welcome')->name('home');
 Route::redirect('/layanan', '/#layanan')->name('layanan');
 Route::view('/potensi', 'User.potensiDesa')->name('potensi');
-Route::view('/potensi-desa', 'User.potensidesa')->name('potensi-desa');
+Route::view('/potensi-desa', 'User.potensiDesa')->name('potensi-desa');
 Route::view('/potensi-desa/wisata', 'User.wisata')->name('wisata.index');
-Route::view('/potensi-desa/produk', 'User.lamanUMKM')->name('laman-umkm');
-Route::view('/potensi-desa/produk/1', 'User.detailUMKM')->name('detail-produk');
+Route::get('/potensi-desa/produk', [UmkmController::class, 'index'])->name('laman-umkm');
+Route::get('/potensi-desa/produk/{slug}', [UmkmController::class, 'show'])->name('detail-produk');
 Route::redirect('/potensi-desa/umkm', '/potensi-desa/produk');
 
 // ---------- Auth user (tamu saja) ----------
@@ -57,11 +59,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/users/{user}', [AdminUserController::class, 'update'])->name('users.update');
     Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('users.destroy');
 
-    // Halaman statis admin (belum ada controller)
+    // Kelola Potensi Desa / UMKM (CRUD Dinamis)
+    Route::get('/potensi-desa', [AdminPotensiDesaController::class, 'index'])->name('potensi.index');
+    Route::post('/potensi-desa', [AdminPotensiDesaController::class, 'store'])->name('potensi.store');
+    Route::get('/potensi-desa/detail', [AdminPotensiDesaController::class, 'index'])->name('potensi.detail');
+    Route::get('/potensi-desa/{potensi}', [AdminPotensiDesaController::class, 'show'])->name('potensi.show');
+    Route::put('/potensi-desa/{potensi}', [AdminPotensiDesaController::class, 'update'])->name('potensi.update');
+    Route::delete('/potensi-desa/{potensi}', [AdminPotensiDesaController::class, 'destroy'])->name('potensi.destroy');
+
+    // Halaman statis admin (layanan)
     Route::view('/layanan', 'Admin.manageLayanan')->name('layanan.index');
     Route::view('/layanan/detail', 'Admin.detailLayanan')->name('layanan.detail');
-    Route::view('/potensi-desa', 'Admin.potensiDesa')->name('potensi.index');
-    Route::view('/potensi-desa/detail', 'Admin.detailPotensiDesa')->name('potensi.detail');
     Route::view('/pengajuan/detail', 'Admin.detailPengajuan')->name('pengajuan.detail');
 
     // Alias lama (dipertahankan agar link tim tidak putus, kini di dalam group middleware)

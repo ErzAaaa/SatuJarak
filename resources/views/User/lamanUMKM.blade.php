@@ -314,118 +314,35 @@
             <p class="produk-paragraf">Pilihan terlaris dari para pelaku usaha desa.<br>Temukan apa saja yang kamu butuhkan</p>
         </div>
         <div class="produk-container">
-            <div class="reveal">
-            <a href="{{ route('detail-produk') }}" class="card-link">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/bolen_pisang_ash.jpeg" alt="BOLEN PISANG ASH" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>BOLEN PISANG ASH</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Nurry Nurhayati Yuski</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Dsn. Mloko, RT 04/RW 03, Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085736995477</span></div>
+            @php
+                $kulinerItems = isset($produks) ? $produks->where('jenis_produk', '!=', 'Kerajinan') : collect();
+            @endphp
+            @forelse ($kulinerItems as $item)
+                @php
+                    $imgSrc = Str::startsWith($item->foto, ['http://', 'https://']) 
+                        ? $item->foto 
+                        : (Str::startsWith($item->foto, 'images/') 
+                            ? asset($item->foto) 
+                            : asset('storage/' . $item->foto));
+                @endphp
+                <div class="reveal">
+                    <a href="{{ route('detail-produk', $item->slug ?? $item->id) }}" class="card-link text-decoration-none">
+                        <div class="block-produk">
+                            <div class="img-wrap">
+                                <img src="{{ $imgSrc }}" alt="{{ $item->nama }}" loading="lazy" onerror="this.onerror=null;this.src='/images/logo.png';">
+                            </div>
+                            <div class="content-produk">
+                                <h3>{{ $item->nama }}</h3>
+                                <div class="info"><span class="label">Pemilik:</span><span class="value">{{ $item->pemilik ?? '-' }}</span></div>
+                                <div class="info"><span class="label">Lokasi:</span><span class="value">{{ $item->lokasi ?? '-' }}</span></div>
+                                <div class="info"><span class="label">Kontak:</span><span class="value">{{ $item->kontak ?? '-' }}</span></div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-            </a>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/keripik_gothe.jpeg" alt="KERIPIK GOTHE JAJANAN NDESO" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>KERIPIK GOTHE JAJANAN NDESO</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Sriane</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 02/RW 05 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085607441974</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/kembang_goyang.jpeg" alt="KEMBANG GOYANG" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>KEMBANG GOYANG</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Mazroah</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 03/RW 06 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">081553670809</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/kemiri_bakery.jpeg" alt="KEMIRI BAKERY" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>KEMIRI BAKERY</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Sufyan</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 05/RW 05 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085895693754</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/bolu_jadul.jpeg" alt="BOLU JADUL" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>BOLU JADUL</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Sulistiani</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 01/RW 02 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085777736478</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/sambel_pecel_khas_kediri.jpeg" alt="SAMBAL PECEL KHAS KEDIRI" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>SAMBAL PECEL KHAS KEDIRI</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Sulistiani</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 01/RW 02 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085777736478</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/krupuk_rambak.jpeg" alt="KRUPUK RAMBAK TAPIOKA" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>KRUPUK RAMBAK TAPIOKA</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Setya Eka Kristanto</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Dsn. Kalasan Ds. Jarak RT 04/RW 08 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085790470092</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/keripik_gothe.jpeg" alt="KERIPIK GOTHE" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>KERIPIK GOTHE</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Miftahul Jannah</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 01/RW 06 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085735337410</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/stick_labu.jpeg" alt="STICK LABU" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>STICK LABU</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Siti Maryam</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 05/RW 05 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085606022247</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/peyek_kriuk.jpeg" alt="Peyek Kriuk Mbak Titin" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>Peyek Kriuk Mbak Titin</h3>
-                    <div class="info"><span class="label">Pemilik:</span><span class="value">Kristiana</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Ds. Jarak RT 05/RW 03 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085736680383</span></div>
-                </div>
-            </div>
-            </div>
+            @empty
+                <div class="text-center py-4 w-100 text-muted">Belum ada produk kuliner/olahan yang ditampilkan.</div>
+            @endforelse
         </div>
     </section>
 
@@ -436,39 +353,35 @@
                 telah diproduksi secara mandiri sejak tahun 2018.</p>
         </div>
         <div class="kerajinan-container">
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/SUPARI_BLANGKON.png" alt="SUPARI BLANGKON" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>SUPARI BLANGKON</h3>
-                    <div class="info"><span class="label">Harga:</span><span class="value">Rp14.000 - Rp150.000</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Dsn. Jarak Kidul Ds. Jarak Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085655367521</span></div>
+            @php
+                $kerajinanItems = isset($produks) ? $produks->where('jenis_produk', 'Kerajinan') : collect();
+            @endphp
+            @forelse ($kerajinanItems as $item)
+                @php
+                    $imgSrc = Str::startsWith($item->foto, ['http://', 'https://']) 
+                        ? $item->foto 
+                        : (Str::startsWith($item->foto, 'images/') 
+                            ? asset($item->foto) 
+                            : asset('storage/' . $item->foto));
+                @endphp
+                <div class="reveal">
+                    <a href="{{ route('detail-produk', $item->slug ?? $item->id) }}" class="card-link text-decoration-none">
+                        <div class="block-produk">
+                            <div class="img-wrap">
+                                <img src="{{ $imgSrc }}" alt="{{ $item->nama }}" loading="lazy" onerror="this.onerror=null;this.src='/images/logo.png';">
+                            </div>
+                            <div class="content-produk">
+                                <h3>{{ $item->nama }}</h3>
+                                <div class="info"><span class="label">Harga:</span><span class="value">{{ $item->harga_teks ?? 'Hubungi Pengrajin' }}</span></div>
+                                <div class="info"><span class="label">Lokasi:</span><span class="value">{{ $item->lokasi ?? '-' }}</span></div>
+                                <div class="info"><span class="label">Kontak:</span><span class="value">{{ $item->kontak ?? '-' }}</span></div>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/NUR_ADANU_CRAFT.jpg" alt="NUR ADANU CRAFT" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>NUR ADANU CRAFT</h3>
-                    <div class="info"><span class="label">Harga:</span><span class="value">Rp7.000 - Rp110.000</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Dsn. Jarak Lor Ds. Jarak Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085853668333</span></div>
-                </div>
-            </div>
-            </div>
-            <div class="reveal">
-            <div class="block-produk">
-                <div class="img-wrap"><img src="/images/riff_art.jpg" alt="RIFF ART" loading="lazy"></div>
-                <div class="content-produk">
-                    <h3>RIFF ART</h3>
-                    <div class="info"><span class="label">Harga:</span><span class="value">Rp200.000 - Rp1.000.000</span></div>
-                    <div class="info"><span class="label">Lokasi:</span><span class="value">Dsn. Sagi Ds. Jarak RT 05/RW 05 Kec. Plosoklaten</span></div>
-                    <div class="info"><span class="label">Kontak:</span><span class="value">085936153446</span></div>
-                </div>
-            </div>
-            </div>
+            @empty
+                <div class="text-center py-4 w-100 text-muted">Belum ada produk kerajinan yang ditampilkan.</div>
+            @endforelse
         </div>
     </section>
 
