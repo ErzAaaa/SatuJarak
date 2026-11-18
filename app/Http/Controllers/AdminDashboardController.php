@@ -61,9 +61,10 @@ class AdminDashboardController extends Controller
         // Jika data pengajuan masih sedikit, gabungkan dengan daftar master layanan
         if ($layananPopuler->isEmpty()) {
             $layananPopuler = Layanan::take(4)->get()->map(function ($l) {
+                $serviceName = $l->nama_layanan ?? $l->nama ?? 'Layanan';
                 return (object) [
-                    'nama' => $l->nama,
-                    'pengajuan' => Pengajuan::where('jenis_kegiatan', 'like', "%{$l->nama}%")->count(),
+                    'nama' => $serviceName,
+                    'pengajuan' => Pengajuan::where('jenis_kegiatan', 'like', "%{$serviceName}%")->count(),
                 ];
             });
         }

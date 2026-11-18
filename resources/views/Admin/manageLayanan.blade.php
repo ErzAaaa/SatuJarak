@@ -18,7 +18,6 @@
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
         rel="stylesheet"
     >
-ss
     <!-- CSS khusus Manage Layanan -->
     <link rel="stylesheet" href="{{ asset('css/admin/manageLayanan.css') }}">
 </head>
@@ -280,6 +279,24 @@ ss
 
             </div>
 
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 12px; margin-bottom: 20px;">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 12px; margin-bottom: 20px;">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> Mohon periksa input:
+                    <ul class="mb-0 mt-1">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
 
             <!-- ================= STATISTIC ================= -->
             <div class="row g-3 statistic-row">
@@ -295,7 +312,7 @@ ss
 
                         <div>
                             <span>Total Layanan</span>
-                            <h3 id="totalService">30</h3>
+                            <h3 id="totalService">{{ $stats['total'] ?? 0 }}</h3>
                         </div>
 
                         <i class="bi bi-grid-3x3-gap-fill card-decoration"></i>
@@ -316,7 +333,7 @@ ss
 
                         <div>
                             <span>Layanan Aktif</span>
-                            <h3 id="activeService">24</h3>
+                            <h3 id="activeService">{{ $stats['aktif'] ?? 0 }}</h3>
                         </div>
 
                         <i class="bi bi-check-circle card-decoration"></i>
@@ -337,7 +354,7 @@ ss
 
                         <div>
                             <span>Layanan Non Aktif</span>
-                            <h3 id="inactiveService">6</h3>
+                            <h3 id="inactiveService">{{ $stats['nonaktif'] ?? 0 }}</h3>
                         </div>
 
                         <i class="bi bi-dash-circle card-decoration"></i>
@@ -492,192 +509,211 @@ ss
 
         <div class="modal-content action-modal service-modal">
 
-            <!-- Modal Header -->
-            <div class="modal-header">
+            <form id="addServiceForm" method="POST" action="{{ route('admin.layanan.store') }}" enctype="multipart/form-data">
+                @csrf
 
-                <div class="modal-top">
+                <!-- Modal Header -->
+                <div class="modal-header">
 
-                    <div class="modal-action-icon service">
+                    <div class="modal-top">
 
-                        <i class="bi bi-plus-circle-fill"></i>
+                        <div class="modal-action-icon service">
+
+                            <i class="bi bi-plus-circle-fill"></i>
+
+                        </div>
+
+
+                        <span class="modal-label service">
+                            Layanan Baru
+                        </span>
 
                     </div>
 
 
-                    <span class="modal-label service">
-                        Layanan Baru
-                    </span>
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                    ></button>
 
                 </div>
 
 
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <!-- Modal Body -->
+                <div class="modal-body">
 
-            </div>
+                    <h4>
+                        Tambah Layanan
+                    </h4>
 
-
-            <!-- Modal Body -->
-            <div class="modal-body">
-
-                <h4>
-                    Tambah Layanan
-                </h4>
-
-                <p class="modal-description">
-                    Tambahkan layanan baru yang dapat digunakan
-                    oleh masyarakat Desa Jarak.
-                </p>
+                    <p class="modal-description">
+                        Tambahkan layanan baru yang dapat digunakan
+                        oleh masyarakat Desa Jarak.
+                    </p>
 
 
-                <!-- ID -->
-                <div class="modal-form-group">
+                    <!-- ID -->
+                    <div class="modal-form-group">
 
-                    <label for="serviceId">
-                        <i class="bi bi-hash"></i>
-                        ID Layanan
-                    </label>
+                        <label for="serviceId">
+                            <i class="bi bi-hash"></i>
+                            ID Layanan (Opsional)
+                        </label>
 
-                    <input
-                        type="text"
-                        id="serviceId"
-                        placeholder="Contoh: LYN-001"
+                        <input
+                            type="text"
+                            id="serviceId"
+                            name="kode_layanan"
+                            placeholder="Contoh: LYN-001"
+                            value="{{ old('kode_layanan') }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Icon -->
+                    <div class="modal-form-group">
+                        <label for="serviceIcon">
+                            <i class="bi bi-image"></i>
+                            Icon Layanan
+                        </label>
+
+                        <input
+                            type="file"
+                            id="serviceIcon"
+                            name="logo"
+                            accept="image/*"
+                        >
+
+                        <div id="iconPreview" class="icon-preview"></div>
+
+                        <small>
+                            Upload gambar icon layanan. Format JPG, PNG, atau SVG.
+                        </small>
+                    </div>
+
+
+                    <!-- Nama -->
+                    <div class="modal-form-group">
+
+                        <label for="serviceName">
+
+                            <i class="bi bi-briefcase"></i>
+
+                            Nama Layanan
+                            <span class="text-danger">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="serviceName"
+                            name="nama_layanan"
+                            placeholder="Masukkan nama layanan"
+                            value="{{ old('nama_layanan') }}"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Link -->
+                    <div class="modal-form-group">
+
+                        <label for="serviceLink">
+
+                            <i class="bi bi-link-45deg"></i>
+
+                            Link Layanan
+
+                        </label>
+
+                        <input
+                            type="url"
+                            id="serviceLink"
+                            name="link_url"
+                            placeholder="https://..."
+                            value="{{ old('link_url') }}"
+                        >
+
+                    </div>
+
+
+                    <!-- Deskripsi -->
+                    <div class="modal-form-group">
+
+                        <label for="serviceDescription">
+
+                            <i class="bi bi-text-paragraph"></i>
+
+                            Deskripsi
+
+                        </label>
+
+                        <textarea
+                            id="serviceDescription"
+                            name="deskripsi"
+                            rows="3"
+                            placeholder="Jelaskan fungsi layanan..."
+                        >{{ old('deskripsi') }}</textarea>
+
+                    </div>
+
+
+                    <!-- Tanggal -->
+                    <div class="modal-form-group">
+
+                        <label for="serviceDate">
+
+                            <i class="bi bi-calendar3"></i>
+
+                            Tanggal Dibuat
+
+                        </label>
+
+                        <input
+                            type="date"
+                            id="serviceDate"
+                            name="tanggal"
+                            value="{{ date('Y-m-d') }}"
+                        >
+
+                    </div>
+
+                    <input type="hidden" name="status" value="Aktif">
+                    <input type="hidden" name="kategori" value="masyarakat">
+
+                </div>
+
+
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+
+                    <button
+                        type="button"
+                        class="modal-cancel-btn"
+                        data-bs-dismiss="modal"
+                    >
+                        Batal
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="modal-submit-btn"
+                        id="saveServiceBtn"
                     >
 
-                </div>
+                        <i class="bi bi-plus-lg"></i>
 
+                        Tambah Layanan
 
-                <!-- Icon -->
-                <div class="modal-form-group">
-                    <label for="serviceIcon">
-                        <i class="bi bi-image"></i>
-                        Icon Layanan
-                    </label>
-
-                    <input
-                        type="file"
-                        id="serviceIcon"
-                        accept="image/*"
-                    >
-
-                    <div id="iconPreview" class="icon-preview"></div>
-
-                    <small>
-                        Upload gambar icon layanan. Format JPG, PNG, atau SVG.
-                    </small>
-                </div>
-
-
-                <!-- Nama -->
-                <div class="modal-form-group">
-
-                    <label for="serviceName">
-
-                        <i class="bi bi-briefcase"></i>
-
-                        Nama Layanan
-
-                    </label>
-
-                    <input
-                        type="text"
-                        id="serviceName"
-                        placeholder="Masukkan nama layanan"
-                    >
+                    </button>
 
                 </div>
 
-
-                <!-- Link -->
-                <div class="modal-form-group">
-
-                    <label for="serviceLink">
-
-                        <i class="bi bi-link-45deg"></i>
-
-                        Link Layanan
-
-                    </label>
-
-                    <input
-                        type="url"
-                        id="serviceLink"
-                        placeholder="https://..."
-                    >
-
-                </div>
-
-
-                <!-- Deskripsi -->
-                <div class="modal-form-group">
-
-                    <label for="serviceDescription">
-
-                        <i class="bi bi-text-paragraph"></i>
-
-                        Deskripsi
-
-                    </label>
-
-                    <textarea
-                        id="serviceDescription"
-                        rows="3"
-                        placeholder="Jelaskan fungsi layanan..."
-                    ></textarea>
-
-                </div>
-
-
-                <!-- Tanggal -->
-                <div class="modal-form-group">
-
-                    <label for="serviceDate">
-
-                        <i class="bi bi-calendar3"></i>
-
-                        Tanggal Dibuat
-
-                    </label>
-
-                    <input
-                        type="date"
-                        id="serviceDate"
-                    >
-
-                </div>
-
-            </div>
-
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-
-                <button
-                    type="button"
-                    class="modal-cancel-btn"
-                    data-bs-dismiss="modal"
-                >
-                    Batal
-                </button>
-
-
-                <button
-                    type="button"
-                    class="modal-submit-btn"
-                    id="saveServiceBtn"
-                >
-
-                    <i class="bi bi-plus-lg"></i>
-
-                    Tambah Layanan
-
-                </button>
-
-            </div>
+            </form>
 
         </div>
 
@@ -689,6 +725,9 @@ ss
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
 ></script>
 
+<script>
+    window.servicesData = @json($servicesData);
+</script>
 <script src="{{ asset('js/admin/manageLayanan.js') }}"></script>
 
 </body>

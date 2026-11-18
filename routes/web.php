@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\AdminLayananController;
 use App\Http\Controllers\AdminPotensiDesaController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\Auth\AdminLoginController;
@@ -10,7 +11,10 @@ use App\Http\Controllers\UmkmController;
 use Illuminate\Support\Facades\Route;
 
 // ---------- Publik ----------
-Route::view('/', 'welcome')->name('home');
+Route::get('/', function () {
+    $layanans = \App\Models\Layanan::aktif()->orderBy('urutan', 'asc')->get();
+    return view('welcome', compact('layanans'));
+})->name('home');
 Route::redirect('/layanan', '/#layanan')->name('layanan');
 Route::view('/potensi', 'User.potensiDesa')->name('potensi');
 Route::view('/potensi-desa', 'User.potensiDesa')->name('potensi-desa');
@@ -67,9 +71,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/potensi-desa/{potensi}', [AdminPotensiDesaController::class, 'update'])->name('potensi.update');
     Route::delete('/potensi-desa/{potensi}', [AdminPotensiDesaController::class, 'destroy'])->name('potensi.destroy');
 
-    // Halaman statis admin (layanan)
-    Route::view('/layanan', 'Admin.manageLayanan')->name('layanan.index');
-    Route::view('/layanan/detail', 'Admin.detailLayanan')->name('layanan.detail');
+    // Kelola Layanan (CRUD Dinamis)
+    Route::get('/layanan', [AdminLayananController::class, 'index'])->name('layanan.index');
+    Route::post('/layanan', [AdminLayananController::class, 'store'])->name('layanan.store');
+    Route::get('/layanan/detail', [AdminLayananController::class, 'index'])->name('layanan.detail');
+    Route::get('/layanan/{layanan}', [AdminLayananController::class, 'show'])->name('layanan.show');
+    Route::put('/layanan/{layanan}', [AdminLayananController::class, 'update'])->name('layanan.update');
+    Route::patch('/layanan/{layanan}/toggle-status', [AdminLayananController::class, 'toggleStatus'])->name('layanan.toggleStatus');
+    Route::delete('/layanan/{layanan}', [AdminLayananController::class, 'destroy'])->name('layanan.destroy');
     Route::view('/pengajuan/detail', 'Admin.detailPengajuan')->name('pengajuan.detail');
 
     // Alias lama (dipertahankan agar link tim tidak putus, kini di dalam group middleware)

@@ -260,8 +260,23 @@
                                 class="font-display flex h-12 w-12 items-center justify-center rounded-lg bg-[var(--leaf)] text-lg font-bold text-white"
                                 aria-hidden="true">
                                 {{-- {{ strtoupper(mb_substr($nama, 0, 1)) }} --}}
-                                @if (data_get($l, 'logo'))
-                                    <img src="{{ asset(data_get($l, 'logo')) }}" alt=""
+                                @php
+                                    $logoSrc = is_object($l) && isset($l->logo_url) ? $l->logo_url : null;
+                                    if (!$logoSrc && data_get($l, 'logo')) {
+                                        $rawLogo = data_get($l, 'logo');
+                                        if (file_exists(public_path($rawLogo))) {
+                                            $logoSrc = asset($rawLogo);
+                                        } elseif (file_exists(public_path(str_replace(' ', '_', $rawLogo)))) {
+                                            $logoSrc = asset(str_replace(' ', '_', $rawLogo));
+                                        } elseif (file_exists(public_path('storage/' . $rawLogo))) {
+                                            $logoSrc = asset('storage/' . $rawLogo);
+                                        } else {
+                                            $logoSrc = asset('images/logo.png');
+                                        }
+                                    }
+                                @endphp
+                                @if ($logoSrc)
+                                    <img src="{{ $logoSrc }}" alt="{{ $nama }}"
                                         class="h-10 w-10 object-contain">
                                 @else
                                     {{ strtoupper(mb_substr($nama, 0, 1)) }}

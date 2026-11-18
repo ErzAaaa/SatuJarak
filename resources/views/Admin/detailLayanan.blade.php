@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Detail Layanan')
+@section('title', 'Detail Layanan: ' . ($layanan->nama_layanan ?? 'Layanan Desa'))
 @section('topbar_title', 'ADMIN · DETAIL LAYANAN')
 @section('active_menu', 'layanan')
 
@@ -322,14 +322,33 @@
 
 @section('content')
     <h1 class="page-heading">Detail Layanan</h1>
-    <p class="page-sub">Kelola informasi, persyaratan, dan alur layanan publik desa.</p>
+    <p class="page-sub">Kelola informasi, tautan, dan data operasional layanan publik desa.</p>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 12px; margin-bottom: 20px;">
+            <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+
+    @if($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 12px; margin-bottom: 20px;">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> Mohon periksa input:
+            <ul class="mb-0 mt-1">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
 
     {{-- Ringkasan --}}
     <div class="summary-card">
-        <div class="summary-code">LYN-0003</div>
-        <div class="summary-title">Layanan KKN &amp; Riset Mahasiswa</div>
-        <div class="status-badge status-aktif">
-            <span class="status-dot status-aktif"></span> Aktif
+        <div class="summary-code">{{ $layanan->kode_layanan ?: ('LYN-' . str_pad($layanan->id, 3, '0', STR_PAD_LEFT)) }}</div>
+        <div class="summary-title">{{ $layanan->nama_layanan }}</div>
+        <div class="status-badge {{ $layanan->status === 'Aktif' ? 'status-aktif' : 'status-nonaktif' }}">
+            <span class="status-dot {{ $layanan->status === 'Aktif' ? 'status-aktif' : 'status-nonaktif' }}"></span> {{ $layanan->status }}
         </div>
     </div>
 
@@ -338,8 +357,13 @@
         <a href="{{ route('admin.layanan.index') }}" class="btn-outline-soft"><i class="bi bi-arrow-left"></i> Kembali</a>
         <button type="button" class="btn-gold" data-bs-toggle="modal" data-bs-target="#modalUbah"><i
                 class="bi bi-pencil-square"></i> Ubah</button>
-        <button type="button" class="btn-outline-soft" data-bs-toggle="modal" data-bs-target="#modalNonaktif"><i
-                class="bi bi-slash-circle"></i> Nonaktifkan</button>
+        @if($layanan->status === 'Aktif')
+            <button type="button" class="btn-outline-soft" data-bs-toggle="modal" data-bs-target="#modalNonaktif"><i
+                    class="bi bi-slash-circle"></i> Nonaktifkan</button>
+        @else
+            <button type="button" class="btn-gold" data-bs-toggle="modal" data-bs-target="#modalNonaktif"><i
+                    class="bi bi-check-circle"></i> Aktifkan</button>
+        @endif
         <button type="button" class="btn-danger-soft" data-bs-toggle="modal" data-bs-target="#modalHapus"><i
                 class="bi bi-trash3-fill"></i> Hapus</button>
     </div>
@@ -351,49 +375,74 @@
                 <div class="section-title">Informasi Layanan</div>
                 <div class="info-list">
                     <div class="info-row">
+                        <div class="info-key">ID Layanan</div>
+                        <div class="info-val"><strong>{{ $layanan->kode_layanan ?: ('LYN-' . str_pad($layanan->id, 3, '0', STR_PAD_LEFT)) }}</strong></div>
+                    </div>
+                    <div class="info-row">
                         <div class="info-key">Nama Layanan</div>
-                        <div class="info-val">Layanan KKN &amp; Riset Mahasiswa</div>
+                        <div class="info-val"><strong>{{ $layanan->nama_layanan }}</strong></div>
                     </div>
                     <div class="info-row">
                         <div class="info-key">Kategori</div>
-                        <div class="info-val"><span class="pill pill-mint">Administrasi Akademik</span></div>
+                        <div class="info-val"><span class="pill pill-mint">{{ ucfirst($layanan->kategori ?? 'Umum') }}</span></div>
                     </div>
                     <div class="info-row">
                         <div class="info-key">Deskripsi</div>
-                        <div class="info-val">Layanan pengajuan izin kegiatan Kuliah Kerja Nyata (KKN) dan riset bagi
-                            mahasiswa yang akan melaksanakan kegiatan di wilayah desa.</div>
+                        <div class="info-val">{{ $layanan->deskripsi ?: 'Tidak ada deskripsi.' }}</div>
                     </div>
                     <div class="info-row">
-                        <div class="info-key">Link</div>
-                        <div class="info-val">https://abcdefg</div>
+                        <div class="info-key">Link Layanan</div>
+                        <div class="info-val">
+                            @if(!empty($layanan->link_url) && $layanan->link_url !== '#')
+                                <a href="{{ $layanan->link_url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none">
+                                    {{ $layanan->link_url }} <i class="bi bi-box-arrow-up-right ms-1" style="font-size: 11px;"></i>
+                                </a>
+                            @else
+                                <span class="text-muted">-</span>
+                            @endif
+                        </div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-key">Status</div>
+                        <div class="info-val">
+                            <span class="badge {{ $layanan->status === 'Aktif' ? 'bg-success' : 'bg-secondary' }}">
+                                {{ $layanan->status }}
+                            </span>
+                        </div>
                     </div>
                     <div class="info-row">
                         <div class="info-key">Dibuat</div>
-                        <div class="info-val">12 Agu 2025 · 09:15 WIB</div>
+                        <div class="info-val">{{ $layanan->created_at ? $layanan->created_at->translatedFormat('d M Y · H:i') . ' WIB' : '-' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-key">Diperbarui</div>
-                        <div class="info-val">22 Sep 2025 · 10:30 WIB</div>
+                        <div class="info-val">{{ $layanan->updated_at ? $layanan->updated_at->translatedFormat('d M Y · H:i') . ' WIB' : '-' }}</div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="col-12 col-xl-5">
-            {{-- Foto --}}
+            {{-- Foto / Icon --}}
             <div class="section-card">
-                <div class="section-title">Foto</div>
-                <div class="photo-box">
-                    <i class="bi bi-image-fill"></i>
-                    <div>Belum ada foto yang diunggah</div>
-                </div>
+                <div class="section-title">Icon / Logo Layanan</div>
+                @if(!empty($layanan->logo))
+                    <div class="p-3 text-center bg-white rounded-3 border d-flex flex-column align-items-center justify-content-center" style="min-height: 220px;">
+                        <img src="{{ $layanan->logo_url }}" alt="{{ $layanan->nama_layanan }}" class="img-fluid rounded" style="max-height: 180px; max-width: 100%; object-fit: contain;">
+                    </div>
+                @else
+                    <div class="photo-box">
+                        <i class="bi bi-image-fill"></i>
+                        <div>Belum ada icon/foto yang diunggah</div>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
 
     {{-- Pengajuan terbaru --}}
-    <div class="section-card">
-        <div class="section-title">Pengajuan Terbaru</div>
+    <div class="section-card mt-4">
+        <div class="section-title">Pengajuan Kerjasama / Riset Terkait</div>
         <div class="table-responsive">
             <table class="table table-soft align-middle">
                 <thead>
@@ -406,27 +455,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><strong>KKN-2025-0001</strong></td>
-                        <td>Rina Wulandari</td>
-                        <td>Pemberdayaan UMKM Desa Berbasis Digital</td>
-                        <td>22 Sep 2025</td>
-                        <td><span class="pill pill-gold">Menunggu</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>KKN-2025-0002</strong></td>
-                        <td>Bagas Prasetyo</td>
-                        <td>Penyuluhan Sanitasi dan Kesehatan Lingkungan</td>
-                        <td>20 Sep 2025</td>
-                        <td><span class="pill pill-mint">Disetujui</span></td>
-                    </tr>
-                    <tr>
-                        <td><strong>RST-2025-0007</strong></td>
-                        <td>Dewi Anggraini</td>
-                        <td>Riset Pola Pertanian Organik Warga</td>
-                        <td>18 Sep 2025</td>
-                        <td><span class="pill pill-pink">Ditolak</span></td>
-                    </tr>
+                    @forelse ($pengajuans as $p)
+                        <tr>
+                            <td><strong>PGJ-{{ str_pad($p->id, 4, '0', STR_PAD_LEFT) }}</strong></td>
+                            <td>{{ $p->nama_lengkap ?? ($p->user->name ?? '-') }}</td>
+                            <td>{{ Str::limit($p->judul_kerjasama ?? ($p->deskripsi ?? '-'), 50) }}</td>
+                            <td>{{ $p->created_at ? $p->created_at->translatedFormat('d M Y') : '-' }}</td>
+                            <td>
+                                @if($p->status === 'Disetujui' || $p->status === 'Selesai')
+                                    <span class="pill pill-mint">{{ $p->status }}</span>
+                                @elseif($p->status === 'Ditolak')
+                                    <span class="pill pill-pink">{{ $p->status }}</span>
+                                @else
+                                    <span class="pill pill-gold">{{ $p->status }}</span>
+                                @endif
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">Belum ada pengajuan kegiatan terkait saat ini.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
@@ -436,7 +485,7 @@
     <div class="modal fade" id="modalUbah" tabindex="-1" aria-labelledby="modalUbahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
             <div class="modal-content">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('admin.layanan.update', $layanan->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="modal-header">
@@ -444,73 +493,86 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12 field-group">
-                                <label class="field-label">Nama Layanan</label>
-                                <input type="text" class="form-control" name="nama"
-                                    value="Layanan KKN & Riset Mahasiswa" required>
+                        <div class="row g-3">
+                            <div class="col-md-6 field-group">
+                                <label class="field-label">Kode / ID Layanan</label>
+                                <input type="text" class="form-control" name="kode_layanan"
+                                    value="{{ old('kode_layanan', $layanan->kode_layanan) }}">
+                            </div>
+                            <div class="col-md-6 field-group">
+                                <label class="field-label">Nama Layanan <span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" name="nama_layanan"
+                                    value="{{ old('nama_layanan', $layanan->nama_layanan) }}" required>
                             </div>
                             <div class="col-md-6 field-group">
                                 <label class="field-label">Kategori</label>
-                                <select class="form-select" name="kategori" required>
-                                    <option selected>Administrasi Akademik</option>
-                                    <option>Kependudukan</option>
-                                    <option>Perizinan</option>
-                                    <option>Sosial</option>
+                                <select class="form-select" name="kategori">
+                                    <option value="masyarakat" {{ old('kategori', $layanan->kategori) === 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                                    <option value="aparatur" {{ old('kategori', $layanan->kategori) === 'aparatur' ? 'selected' : '' }}>Aparatur Desa</option>
+                                    <option value="Administrasi Akademik" {{ old('kategori', $layanan->kategori) === 'Administrasi Akademik' ? 'selected' : '' }}>Administrasi Akademik</option>
+                                    <option value="Kependudukan" {{ old('kategori', $layanan->kategori) === 'Kependudukan' ? 'selected' : '' }}>Kependudukan</option>
+                                    <option value="Perizinan" {{ old('kategori', $layanan->kategori) === 'Perizinan' ? 'selected' : '' }}>Perizinan</option>
+                                    <option value="Sosial" {{ old('kategori', $layanan->kategori) === 'Sosial' ? 'selected' : '' }}>Sosial</option>
                                 </select>
                             </div>
                             <div class="col-md-6 field-group">
-                                <label class="field-label">Status</label>
+                                <label class="field-label">Status <span class="text-danger">*</span></label>
                                 <select class="form-select" name="status" required>
-                                    <option selected>Aktif</option>
-                                    <option>Nonaktif</option>
-                                    <option>Draft</option>
+                                    <option value="Aktif" {{ old('status', $layanan->status) === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                    <option value="Non Aktif" {{ old('status', $layanan->status) === 'Non Aktif' || old('status', $layanan->status) === 'Nonaktif' ? 'selected' : '' }}>Non Aktif</option>
+                                    <option value="Draft" {{ old('status', $layanan->status) === 'Draft' ? 'selected' : '' }}>Draft</option>
                                 </select>
+                            </div>
+                            <div class="col-12 field-group">
+                                <label class="field-label">Link Layanan</label>
+                                <input type="url" class="form-control" name="link_url" value="{{ old('link_url', $layanan->link_url) }}" placeholder="https://...">
                             </div>
                             <div class="col-12 field-group">
                                 <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" name="deskripsi" rows="3" required>Layanan pengajuan izin kegiatan Kuliah Kerja Nyata (KKN) dan riset bagi mahasiswa yang akan melaksanakan kegiatan di wilayah desa.</textarea>
-                            </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Link</label>
-                                <input type="text" class="form-control" name="link" value="https://abcdefgs"
-                                    required>
+                                <textarea class="form-control" name="deskripsi" rows="3">{{ old('deskripsi', $layanan->deskripsi) }}</textarea>
                             </div>
                             <div class="col-12 field-group">
-                                <label class="field-label">Foto</label>
-                                <input type="file" class="form-control" name="foto" accept="image/*">
+                                <label class="field-label">Ganti Foto / Icon (Opsional)</label>
+                                <input type="file" class="form-control" name="logo" accept="image/*">
+                                <small class="text-muted">Biarkan kosong jika tidak ingin mengubah icon.</small>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green"><i class="bi bi-check2-circle"></i> Simpan
-                            Perubahan</button>
+                        <button type="submit" class="btn-primary-green"><i class="bi bi-check2-circle"></i> Simpan Perubahan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    {{-- Modal Nonaktifkan --}}
+    {{-- Modal Nonaktifkan / Aktifkan --}}
     <div class="modal fade" id="modalNonaktif" tabindex="-1" aria-labelledby="modalNonaktifLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('admin.layanan.toggleStatus', $layanan->id) }}">
                     @csrf
                     @method('PATCH')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="modalNonaktifLabel">Nonaktifkan Layanan?</h5>
+                        <h5 class="modal-title" id="modalNonaktifLabel">
+                            {{ $layanan->status === 'Aktif' ? 'Nonaktifkan Layanan?' : 'Aktifkan Layanan?' }}
+                        </h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
-                        Layanan <strong>Layanan KKN &amp; Riset Mahasiswa</strong> tidak akan tampil bagi pemohon sampai
-                        diaktifkan kembali. Data pengajuan yang sudah ada tetap tersimpan.
+                        @if($layanan->status === 'Aktif')
+                            Layanan <strong>{{ $layanan->nama_layanan }}</strong> tidak akan tampil di halaman publik sampai diaktifkan kembali. Data layanan tetap tersimpan di sistem.
+                        @else
+                            Layanan <strong>{{ $layanan->nama_layanan }}</strong> akan kembali aktif dan dapat diakses oleh masyarakat di halaman publik.
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-gold"><i class="bi bi-slash-circle"></i> Ya,
-                            Nonaktifkan</button>
+                        <button type="submit" class="{{ $layanan->status === 'Aktif' ? 'btn-gold' : 'btn-primary-green' }}">
+                            <i class="bi {{ $layanan->status === 'Aktif' ? 'bi-slash-circle' : 'bi-check-circle' }}"></i>
+                            Ya, {{ $layanan->status === 'Aktif' ? 'Nonaktifkan' : 'Aktifkan' }}
+                        </button>
                     </div>
                 </form>
             </div>
@@ -521,7 +583,7 @@
     <div class="modal fade" id="modalHapus" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <form method="POST" action="#">
+                <form method="POST" action="{{ route('admin.layanan.destroy', $layanan->id) }}">
                     @csrf
                     @method('DELETE')
                     <div class="modal-header">
@@ -529,13 +591,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                     </div>
                     <div class="modal-body">
-                        Layanan <strong>Layanan KKN &amp; Riset Mahasiswa</strong> akan dihapus permanen beserta
-                        persyaratan dan alurnya. Tindakan ini tidak dapat dibatalkan.
+                        Layanan <strong>{{ $layanan->nama_layanan }}</strong> akan dihapus permanen dari sistem. Tindakan ini tidak dapat dibatalkan.
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-danger-soft"><i class="bi bi-trash3-fill"></i> Ya,
-                            Hapus</button>
+                        <button type="submit" class="btn-danger-soft"><i class="bi bi-trash3-fill"></i> Ya, Hapus</button>
                     </div>
                 </form>
             </div>

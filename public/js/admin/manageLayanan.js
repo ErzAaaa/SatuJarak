@@ -1,4 +1,4 @@
-const services = [
+const defaultMockServices = [
     {
         id: "LYN-001",
         icon: "image/logo simkah.png",
@@ -99,6 +99,10 @@ const services = [
         status: "Aktif"
     }
 ];
+
+const services = (typeof window.servicesData !== "undefined" && Array.isArray(window.servicesData))
+    ? window.servicesData
+    : defaultMockServices;
 
 
 const serviceTable =
@@ -258,7 +262,7 @@ function renderServices(data) {
             <td>
 
                 <a
-                    href="/admin/layanan/detail"
+                    href="${service.detail_url || ('/admin/layanan/' + (service.real_id || service.id))}"
                     class="service-detail-btn"
                 >
                     <i class="bi bi-eye-fill"></i>
@@ -479,7 +483,9 @@ function filterServices(
             const matchesStatus =
                 status === ""
                 ||
-                service.status === status;
+                service.status === status
+                ||
+                (status === "Non Aktif" && (service.status === "Nonaktif" || service.status === "Non Aktif"));
 
 
             return (
@@ -533,7 +539,7 @@ function updateStatistics() {
     const inactive =
         services.filter(
             service =>
-                service.status === "Non Aktif"
+                service.status !== "Aktif"
         ).length;
 
 
@@ -601,9 +607,10 @@ serviceIcon.addEventListener(
 
 /* Tombol Tambah Layanan */
 
-saveServiceBtn.addEventListener(
-    "click",
-    function () {
+if (saveServiceBtn && !document.getElementById("addServiceForm")) {
+    saveServiceBtn.addEventListener(
+        "click",
+        function () {
 
         const id =
             document
@@ -754,6 +761,7 @@ saveServiceBtn.addEventListener(
 
     }
 );
+}
 
 function editService(id) {
 
