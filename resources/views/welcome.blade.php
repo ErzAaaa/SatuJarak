@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>SatuJarak — Pintu layanan digital Desa Jarak</title>
+    <!-- Favicon / Logo Satu Jarak -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     <meta name="description"
         content="Temukan semua layanan dan sistem informasi Desa Jarak, Kecamatan Plosoklaten, Kabupaten Kediri, dari satu alamat.">
 

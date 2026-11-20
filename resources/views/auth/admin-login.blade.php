@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Admin Rahasia</title>
+    <title>Login Admin — Satu Jarak</title>
+    <!-- Favicon / Logo Satu Jarak -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     <!-- Simple styling for demonstration, replace with your app's actual CSS -->
     <style>
         body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f3f4f6; }
@@ -19,7 +23,11 @@
 <body>
 
 <div class="login-card">
-    <h2 style="text-align: center; color: #ef4444; margin-bottom: 1.5rem;">🔑 Portal Admin</h2>
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+        <img src="{{ asset('images/logo.png') }}" alt="Logo SatuJarak" style="width: 72px; height: 72px; object-fit: contain; margin-bottom: 0.5rem;">
+        <h2 style="margin: 0; color: #0B3828; font-size: 1.4rem; font-weight: bold;">Satu Jarak</h2>
+        <p style="margin: 0.25rem 0 0; color: #708078; font-size: 0.85rem;">Portal Admin Pelayanan Publik Desa</p>
+    </div>
     
     <form method="POST" action="{{ route('admin.login.submit') }}">
         @csrf

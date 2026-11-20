@@ -4,6 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Surat Keterangan Persetujuan</title>
+    <!-- Favicon / Logo Satu Jarak -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     <style>
         body {
             font-family: "Times New Roman", serif;

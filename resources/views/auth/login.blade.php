@@ -5,6 +5,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Masuk — SatuJarak</title>
+    <!-- Favicon / Logo Satu Jarak -->
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=bricolage-grotesque:600,700|figtree:400,500,600" rel="stylesheet">
@@ -62,8 +66,9 @@
         {{-- Panel kanan: form --}}
         <main class="flex items-center justify-center px-5 py-12">
             <div class="w-full max-w-md">
-                <a href="{{ url('/') }}" class="font-display mb-8 block text-xl font-bold md:hidden">
-                    Satu<span class="text-[var(--leaf)]">Jarak</span>
+                <a href="{{ url('/') }}" class="font-display mb-8 flex items-center text-xl font-bold md:hidden">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo SatuJarak" class="h-10 mr-2">
+                    <span>Satu<span class="text-[var(--leaf)]">Jarak</span></span>
                 </a>
 
                 <h1 class="font-display text-3xl font-bold">Masuk ke akun Anda</h1>
