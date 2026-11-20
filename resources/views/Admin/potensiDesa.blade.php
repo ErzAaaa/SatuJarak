@@ -298,7 +298,7 @@
             <p class="page-sub">Tambah, ubah, dan hapus data potensi & UMKM yang ditampilkan kepada masyarakat.</p>
         </div>
         <button type="button" class="btn-primary-green" data-bs-toggle="modal" data-bs-target="#modalTambah">
-            <i class="bi bi-plus-lg"></i> Tambah Potensi
+            <i class="bi bi-plus-lg"></i> Tambah UMKM
         </button>
     </div>
 
@@ -394,7 +394,7 @@
                             <td>
                                 <div class="item-name">{{ $item->nama }}</div>
                                 <div class="item-sub">
-                                    <span class="badge bg-light text-dark border">{{ $item->kategori ?? 'UMKM' }}</span>
+                                    <span class="badge bg-light text-dark border">{{ $item->jenis_produk ?: ($item->kategori ?? 'UMKM') }}</span>
                                     @if($item->harga_teks)
                                         <span class="ms-1 text-muted">{{ $item->harga_teks }}</span>
                                     @endif
@@ -425,7 +425,7 @@
                                         data-bs-toggle="modal" data-bs-target="#modalUbah"
                                         data-action="{{ route('admin.potensi.update', $item->id) }}"
                                         data-nama="{{ $item->nama }}"
-                                        data-kategori="{{ $item->kategori }}"
+                                        data-kategori="{{ ($item->jenis_produk === 'Kerajinan') ? 'Kerajinan' : 'Makanan' }}"
                                         data-status="{{ $item->status }}"
                                         data-lokasi="{{ $item->lokasi }}"
                                         data-pemilik="{{ $item->pemilik }}"
@@ -472,21 +472,21 @@
             <form method="POST" action="{{ route('admin.potensi.store') }}" enctype="multipart/form-data" class="modal-content">
                 @csrf
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalTambahLabel">Tambah Potensi Desa</h5>
+                    <h5 class="modal-title" id="modalTambahLabel">Tambah UMKM</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
                     <div class="row g-3">
                         <div class="col-md-7 field-group">
-                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <label class="field-label">Nama Produk UMKM <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="nama" placeholder="Contoh: Keripik Tempe Renyah" required>
                         </div>
 
                         <div class="col-md-5 field-group">
                             <label class="field-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select" name="kategori" required>
-                                <option value="UMKM" selected>UMKM</option>
-                                <option value="Wisata">Wisata</option>
+                                <option value="Makanan" selected>Makanan</option>
+                                <option value="Kerajinan">Kerajinan</option>
                             </select>
                         </div>
 
@@ -527,7 +527,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
                     <button type="submit" class="btn-primary-green">
-                        <i class="bi bi-check2-circle"></i> Simpan
+                        <i class="bi bi-plus-lg"></i> Tambah UMKM
                     </button>
                 </div>
             </form>
@@ -541,21 +541,21 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
+                    <h5 class="modal-title" id="modalUbahLabel">Ubah Data UMKM</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
                     <div class="row g-3">
                         <div class="col-md-7 field-group">
-                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <label class="field-label">Nama Produk UMKM <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="edit_nama" name="nama" required>
                         </div>
 
                         <div class="col-md-5 field-group">
                             <label class="field-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select" id="edit_kategori" name="kategori" required>
-                                <option value="UMKM">UMKM</option>
-                                <option value="Wisata">Wisata</option>
+                                <option value="Makanan">Makanan</option>
+                                <option value="Kerajinan">Kerajinan</option>
                             </select>
                         </div>
 
@@ -642,7 +642,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formUbah.action = action;
 
             document.getElementById('edit_nama').value = this.getAttribute('data-nama') || '';
-            document.getElementById('edit_kategori').value = this.getAttribute('data-kategori') || 'UMKM';
+            document.getElementById('edit_kategori').value = this.getAttribute('data-kategori') || 'Makanan';
             document.getElementById('edit_status').value = this.getAttribute('data-status') || 'Aktif';
             document.getElementById('edit_lokasi').value = this.getAttribute('data-lokasi') || '';
             document.getElementById('edit_pemilik').value = this.getAttribute('data-pemilik') || '';

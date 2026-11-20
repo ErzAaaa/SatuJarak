@@ -61,8 +61,17 @@ class AdminPotensiDesaController extends Controller
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ]);
 
-        if (empty($validated['kategori'])) {
+        $selectedCat = $request->input('kategori');
+        if (in_array($selectedCat, ['Makanan', 'Kerajinan', 'Kuliner'])) {
+            $validated['jenis_produk'] = ($selectedCat === 'Kerajinan') ? 'Kerajinan' : 'Makanan';
             $validated['kategori'] = 'UMKM';
+        } elseif (! empty($validated['jenis_produk'])) {
+            $validated['kategori'] = 'UMKM';
+        } else {
+            $validated['kategori'] = $validated['kategori'] ?? 'UMKM';
+            if ($validated['kategori'] === 'UMKM' && empty($validated['jenis_produk'])) {
+                $validated['jenis_produk'] = 'Makanan';
+            }
         }
 
         if ($request->hasFile('foto')) {
@@ -72,7 +81,7 @@ class AdminPotensiDesaController extends Controller
         $created = PotensiDesa::create($validated);
 
         return redirect()->route('admin.potensi.index')
-            ->with('success', "Potensi desa '{$created->nama}' berhasil ditambahkan!");
+            ->with('success', "Produk UMKM '{$created->nama}' berhasil ditambahkan!");
     }
 
     public function update(Request $request, PotensiDesa $potensi)
@@ -90,6 +99,12 @@ class AdminPotensiDesaController extends Controller
             'foto' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ]);
 
+        $selectedCat = $request->input('kategori');
+        if (in_array($selectedCat, ['Makanan', 'Kerajinan', 'Kuliner'])) {
+            $validated['jenis_produk'] = ($selectedCat === 'Kerajinan') ? 'Kerajinan' : 'Makanan';
+            $validated['kategori'] = 'UMKM';
+        }
+
         if ($request->hasFile('foto')) {
             if ($potensi->foto && Storage::disk('public')->exists($potensi->foto)) {
                 Storage::disk('public')->delete($potensi->foto);
@@ -100,7 +115,7 @@ class AdminPotensiDesaController extends Controller
         $potensi->update($validated);
 
         return redirect()->route('admin.potensi.index')
-            ->with('success', "Data potensi desa '{$potensi->nama}' berhasil diperbarui!");
+            ->with('success', "Data UMKM '{$potensi->nama}' berhasil diperbarui!");
     }
 
     public function destroy(PotensiDesa $potensi)
@@ -113,6 +128,6 @@ class AdminPotensiDesaController extends Controller
         $potensi->delete();
 
         return redirect()->route('admin.potensi.index')
-            ->with('success', "Potensi desa '{$nama}' berhasil dihapus!");
+            ->with('success', "Data UMKM '{$nama}' berhasil dihapus!");
     }
 }

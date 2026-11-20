@@ -135,4 +135,49 @@ class AdminPotensiDesaTest extends TestCase
             'id' => $potensi->id,
         ]);
     }
+
+    public function test_admin_can_create_umkm_with_makanan_and_kerajinan_categories(): void
+    {
+        // 1. Tambah Makanan
+        $resMakanan = $this->actingAs($this->admin)->post(route('admin.potensi.store'), [
+            'nama' => 'Keripik Tempe Gurih',
+            'kategori' => 'Makanan',
+            'status' => 'Aktif',
+            'lokasi' => 'Dusun Krajan',
+            'pemilik' => 'Bu Lastri',
+            'kontak' => '081234567891',
+            'harga_teks' => 'Rp 10.000',
+            'deskripsi' => 'Keripik tempe gurih dan renyah.',
+        ]);
+        $resMakanan->assertRedirect(route('admin.potensi.index'));
+        $this->assertDatabaseHas('potensi_desas', [
+            'nama' => 'Keripik Tempe Gurih',
+            'kategori' => 'UMKM',
+            'jenis_produk' => 'Makanan',
+        ]);
+
+        // 2. Tambah Kerajinan
+        $resKerajinan = $this->actingAs($this->admin)->post(route('admin.potensi.store'), [
+            'nama' => 'Tas Anyaman Bambu',
+            'kategori' => 'Kerajinan',
+            'status' => 'Aktif',
+            'lokasi' => 'Dusun Sagi',
+            'pemilik' => 'Pak Joko',
+            'kontak' => '081234567892',
+            'harga_teks' => 'Rp 50.000',
+            'deskripsi' => 'Tas anyaman bambu khas desa.',
+        ]);
+        $resKerajinan->assertRedirect(route('admin.potensi.index'));
+        $this->assertDatabaseHas('potensi_desas', [
+            'nama' => 'Tas Anyaman Bambu',
+            'kategori' => 'UMKM',
+            'jenis_produk' => 'Kerajinan',
+        ]);
+
+        // 3. Cek halaman user UMKM menampilkan keduanya di section yang tepat
+        $resUser = $this->get(route('laman-umkm'));
+        $resUser->assertOk();
+        $resUser->assertSee('Keripik Tempe Gurih');
+        $resUser->assertSee('Tas Anyaman Bambu');
+    }
 }

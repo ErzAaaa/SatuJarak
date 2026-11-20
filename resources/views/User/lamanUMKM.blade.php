@@ -315,7 +315,9 @@
         </div>
         <div class="produk-container">
             @php
-                $kulinerItems = isset($produks) ? $produks->where('jenis_produk', '!=', 'Kerajinan') : collect();
+                $kulinerItems = isset($produks) 
+                    ? $produks->filter(fn ($item) => strcasecmp($item->jenis_produk ?? '', 'Kerajinan') !== 0) 
+                    : collect();
             @endphp
             @forelse ($kulinerItems as $item)
                 @php
@@ -354,7 +356,9 @@
         </div>
         <div class="kerajinan-container">
             @php
-                $kerajinanItems = isset($produks) ? $produks->where('jenis_produk', 'Kerajinan') : collect();
+                $kerajinanItems = isset($produks) 
+                    ? $produks->filter(fn ($item) => strcasecmp($item->jenis_produk ?? '', 'Kerajinan') === 0) 
+                    : collect();
             @endphp
             @forelse ($kerajinanItems as $item)
                 @php

@@ -511,15 +511,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <div class="modal-top">
-                    <div class="modal-action-icon service">
-                        <i class="bi bi-plus-circle-fill"></i>
-                    </div>
-                    <div>
-                        <span class="modal-label service">Layanan Baru</span>
-                        <h4 class="mb-0 mt-1 fs-5 fw-bold" id="addServiceModalLabel">Tambah Layanan</h4>
-                    </div>
-                </div>
+                <h4 class="modal-title fs-5 fw-bold" id="addServiceModalLabel">Tambah Layanan</h4>
 
                 <button
                     type="button"

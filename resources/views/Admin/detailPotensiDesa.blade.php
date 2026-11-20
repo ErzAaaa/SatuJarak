@@ -197,7 +197,7 @@
             @else
                 <div class="status-badge status-ditolak"><span class="status-dot status-ditolak"></span> Nonaktif</div>
             @endif
-            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill">{{ $potensi->kategori ?? 'UMKM' }}</span>
+            <span class="badge bg-white text-dark border px-3 py-2 rounded-pill">{{ ($potensi->jenis_produk === 'Kerajinan') ? 'Kerajinan' : ($potensi->jenis_produk ?: ($potensi->kategori ?? 'UMKM')) }}</span>
         </div>
     </div>
 
@@ -230,7 +230,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Kategori</th>
-                                <td>{{ $potensi->kategori ?? 'UMKM' }}</td>
+                                <td>{{ ($potensi->jenis_produk === 'Kerajinan') ? 'Kerajinan' : ($potensi->jenis_produk ?: ($potensi->kategori ?? 'UMKM')) }}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Harga Produk</th>
@@ -318,20 +318,20 @@
                 @csrf
                 @method('PUT')
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
+                    <h5 class="modal-title" id="modalUbahLabel">Ubah Data UMKM</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
                     <div class="row g-3">
                         <div class="col-md-7 field-group">
-                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <label class="field-label">Nama Produk UMKM <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" name="nama" value="{{ $potensi->nama }}" required>
                         </div>
                         <div class="col-md-5 field-group">
                             <label class="field-label">Kategori <span class="text-danger">*</span></label>
                             <select class="form-select" name="kategori" required>
-                                <option value="UMKM" {{ $potensi->kategori === 'UMKM' ? 'selected' : '' }}>UMKM</option>
-                                <option value="Wisata" {{ $potensi->kategori === 'Wisata' ? 'selected' : '' }}>Wisata</option>
+                                <option value="Makanan" {{ ($potensi->jenis_produk !== 'Kerajinan') ? 'selected' : '' }}>Makanan</option>
+                                <option value="Kerajinan" {{ ($potensi->jenis_produk === 'Kerajinan') ? 'selected' : '' }}>Kerajinan</option>
                             </select>
                         </div>
                         <div class="col-md-6 field-group">

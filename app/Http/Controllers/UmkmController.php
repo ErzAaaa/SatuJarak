@@ -9,10 +9,13 @@ class UmkmController extends Controller
 {
     public function index(Request $request)
     {
-        $query = PotensiDesa::query()->aktif();
+        $query = PotensiDesa::query()->aktif()->where('kategori', 'UMKM');
 
-        if ($request->filled('kategori')) {
-            $query->where('kategori', $request->kategori);
+        if ($request->filled('kategori') && $request->kategori !== 'UMKM') {
+            $query->where(function ($q) use ($request) {
+                $q->where('jenis_produk', $request->kategori)
+                    ->orWhere('kategori', $request->kategori);
+            });
         }
 
         if ($request->filled('search')) {
