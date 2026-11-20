@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Layanan extends Model
 {
@@ -23,6 +24,35 @@ class Layanan extends Model
     public function scopeAktif($query)
     {
         return $query->where('status', 'Aktif');
+    }
+
+    /**
+     * Susun ulang seluruh nomor urut dan kode layanan secara rapat dan berurutan:
+     * LYN-001, LYN-002, LYN-003, ...
+     */
+    public static function reorderSequences(): void
+    {
+        DB::transaction(function () {
+            $layanans = static::query()->orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
+
+            // 1. Temporary code to avoid PostgreSQL unique constraint collisions
+            foreach ($layanans as $index => $item) {
+                $seq = $index + 1;
+                $item->updateQuietly([
+                    'urutan' => $seq,
+                    'kode_layanan' => 'TEMP-'.$item->id.'-'.$seq,
+                ]);
+            }
+
+            // 2. Set clean sequential codes: LYN-001, LYN-002, ...
+            foreach ($layanans as $index => $item) {
+                $seq = $index + 1;
+                $item->updateQuietly([
+                    'urutan' => $seq,
+                    'kode_layanan' => 'LYN-'.str_pad($seq, 3, '0', STR_PAD_LEFT),
+                ]);
+            }
+        });
     }
 
     public function getLogoUrlAttribute(): string
@@ -48,11 +78,11 @@ class Layanan extends Model
         }
 
         // Cek di folder public/storage/
-        if (file_exists(public_path('storage/' . $raw))) {
-            return asset('storage/' . $raw);
+        if (file_exists(public_path('storage/'.$raw))) {
+            return asset('storage/'.$raw);
         }
-        if (file_exists(public_path('storage/' . $withUnderscore))) {
-            return asset('storage/' . $withUnderscore);
+        if (file_exists(public_path('storage/'.$withUnderscore))) {
+            return asset('storage/'.$withUnderscore);
         }
 
         return asset('images/logo.png');

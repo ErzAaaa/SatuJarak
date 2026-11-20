@@ -6,7 +6,6 @@ use App\Models\Layanan;
 use App\Models\Pengajuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 class AdminLayananController extends Controller
 {
@@ -19,7 +18,7 @@ class AdminLayananController extends Controller
 
         $servicesData = $allLayanans->map(function ($item) {
             return [
-                'id' => $item->kode_layanan ?: ('LYN-' . str_pad($item->id, 3, '0', STR_PAD_LEFT)),
+                'id' => $item->kode_layanan ?: ('LYN-'.str_pad($item->id, 3, '0', STR_PAD_LEFT)),
                 'real_id' => $item->id,
                 'icon' => $item->logo_url,
                 'name' => $item->nama_layanan,
@@ -37,9 +36,13 @@ class AdminLayananController extends Controller
             'nonaktif' => $allLayanans->where('status', '!=', 'Aktif')->count(),
         ];
 
+        $nextUrutan = (Layanan::max('urutan') ?? 0) + 1;
+        $nextKodeLayanan = 'LYN-'.str_pad($nextUrutan, 3, '0', STR_PAD_LEFT);
+
         return view('Admin.manageLayanan', [
             'servicesData' => $servicesData,
             'stats' => $stats,
+            'nextKodeLayanan' => $nextKodeLayanan,
         ]);
     }
 
@@ -60,7 +63,7 @@ class AdminLayananController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'kode_layanan' => ['nullable', 'string', 'max:50', 'unique:layanans,kode_layanan'],
+            'kode_layanan' => ['nullable', 'string', 'max:50'],
             'nama_layanan' => ['required', 'string', 'max:150'],
             'kategori' => ['nullable', 'string', 'max:50'],
             'link_url' => ['nullable', 'string', 'max:255'],
@@ -69,10 +72,9 @@ class AdminLayananController extends Controller
             'logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,svg', 'max:2048'],
         ]);
 
-        if (empty($validated['kode_layanan'])) {
-            $nextId = (Layanan::max('id') ?? 0) + 1;
-            $validated['kode_layanan'] = 'LYN-' . str_pad($nextId, 3, '0', STR_PAD_LEFT);
-        }
+        $nextUrutan = (Layanan::max('urutan') ?? 0) + 1;
+        $validated['urutan'] = $nextUrutan;
+        $validated['kode_layanan'] = 'LYN-'.str_pad($nextUrutan, 3, '0', STR_PAD_LEFT);
 
         if (empty($validated['status'])) {
             $validated['status'] = 'Aktif';
@@ -82,18 +84,12 @@ class AdminLayananController extends Controller
             $validated['kategori'] = 'masyarakat';
         }
 
-        if (empty($validated['kode_layanan'])) {
-            unset($validated['kode_layanan']);
-        }
-
         if ($request->hasFile('logo')) {
             $validated['logo'] = $request->file('logo')->store('layanan', 'public');
         }
 
-        $nextUrutan = (Layanan::max('urutan') ?? 0) + 1;
-        $validated['urutan'] = $nextUrutan;
-
         Layanan::create($validated);
+        Layanan::reorderSequences();
 
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan baru berhasil ditambahkan.');
     }
@@ -106,7 +102,7 @@ class AdminLayananController extends Controller
         $layanan = Layanan::findOrFail($id);
 
         $validated = $request->validate([
-            'kode_layanan' => ['nullable', 'string', 'max:50', 'unique:layanans,kode_layanan,' . $layanan->id],
+            'kode_layanan' => ['nullable', 'string', 'max:50', 'unique:layanans,kode_layanan,'.$layanan->id],
             'nama_layanan' => ['required', 'string', 'max:150'],
             'kategori' => ['nullable', 'string', 'max:50'],
             'status' => ['required', 'string', 'max:50'],
@@ -148,7 +144,7 @@ class AdminLayananController extends Controller
 
         $layanan->save();
 
-        return redirect()->route('admin.layanan.show', $layanan->id)->with('success', 'Status layanan berhasil diubah menjadi ' . $layanan->status . '.');
+        return redirect()->route('admin.layanan.show', $layanan->id)->with('success', 'Status layanan berhasil diubah menjadi '.$layanan->status.'.');
     }
 
     /**
@@ -163,6 +159,7 @@ class AdminLayananController extends Controller
         }
 
         $layanan->delete();
+        Layanan::reorderSequences();
 
         return redirect()->route('admin.layanan.index')->with('success', 'Layanan berhasil dihapus.');
     }

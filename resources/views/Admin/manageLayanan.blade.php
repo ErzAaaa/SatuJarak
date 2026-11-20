@@ -502,133 +502,94 @@
     class="modal fade"
     id="addServiceModal"
     tabindex="-1"
+    aria-labelledby="addServiceModalLabel"
     aria-hidden="true"
 >
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <form id="addServiceForm" method="POST" action="{{ route('admin.layanan.store') }}" enctype="multipart/form-data" class="modal-content action-modal service-modal">
+            @csrf
 
-    <div class="modal-dialog modal-dialog-centered">
-
-        <div class="modal-content action-modal service-modal">
-
-            <form id="addServiceForm" method="POST" action="{{ route('admin.layanan.store') }}" enctype="multipart/form-data">
-                @csrf
-
-                <!-- Modal Header -->
-                <div class="modal-header">
-
-                    <div class="modal-top">
-
-                        <div class="modal-action-icon service">
-
-                            <i class="bi bi-plus-circle-fill"></i>
-
-                        </div>
-
-
-                        <span class="modal-label service">
-                            Layanan Baru
-                        </span>
-
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <div class="modal-top">
+                    <div class="modal-action-icon service">
+                        <i class="bi bi-plus-circle-fill"></i>
                     </div>
-
-
-                    <button
-                        type="button"
-                        class="btn-close"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"
-                    ></button>
-
+                    <div>
+                        <span class="modal-label service">Layanan Baru</span>
+                        <h4 class="mb-0 mt-1 fs-5 fw-bold" id="addServiceModalLabel">Tambah Layanan</h4>
+                    </div>
                 </div>
 
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
 
-                <!-- Modal Body -->
-                <div class="modal-body">
+            <!-- Modal Body (Scrollable & Responsive 2-Column Grid) -->
+            <div class="modal-body">
+                <p class="modal-description mb-3">
+                    Tambahkan layanan baru yang dapat digunakan oleh masyarakat Desa Jarak.
+                </p>
 
-                    <h4>
-                        Tambah Layanan
-                    </h4>
-
-                    <p class="modal-description">
-                        Tambahkan layanan baru yang dapat digunakan
-                        oleh masyarakat Desa Jarak.
-                    </p>
-
-
-                    <!-- ID -->
-                    <div class="modal-form-group">
-
+                <div class="row g-3">
+                    <!-- ID Layanan (Auto Generated) -->
+                    <div class="col-md-6 modal-form-group mb-0">
                         <label for="serviceId">
                             <i class="bi bi-hash"></i>
-                            ID Layanan (Opsional)
+                            ID Layanan <span class="badge bg-light text-success border ms-1">Otomatis</span>
                         </label>
-
                         <input
                             type="text"
                             id="serviceId"
                             name="kode_layanan"
-                            placeholder="Contoh: LYN-001"
-                            value="{{ old('kode_layanan') }}"
+                            value="{{ $nextKodeLayanan ?? 'LYN-009' }}"
+                            class="bg-light"
+                            readonly
                         >
-
+                        <small>ID digenerate otomatis dan selalu tersusun berurutan.</small>
                     </div>
 
-
-                    <!-- Icon -->
-                    <div class="modal-form-group">
-                        <label for="serviceIcon">
-                            <i class="bi bi-image"></i>
-                            Icon Layanan
-                        </label>
-
-                        <input
-                            type="file"
-                            id="serviceIcon"
-                            name="logo"
-                            accept="image/*"
-                        >
-
-                        <div id="iconPreview" class="icon-preview"></div>
-
-                        <small>
-                            Upload gambar icon layanan. Format JPG, PNG, atau SVG.
-                        </small>
-                    </div>
-
-
-                    <!-- Nama -->
-                    <div class="modal-form-group">
-
+                    <!-- Nama Layanan -->
+                    <div class="col-md-6 modal-form-group mb-0">
                         <label for="serviceName">
-
                             <i class="bi bi-briefcase"></i>
-
-                            Nama Layanan
-                            <span class="text-danger">*</span>
+                            Nama Layanan <span class="text-danger">*</span>
                         </label>
-
                         <input
                             type="text"
                             id="serviceName"
                             name="nama_layanan"
-                            placeholder="Masukkan nama layanan"
+                            placeholder="Contoh: Pengurusan Surat Domisili"
                             value="{{ old('nama_layanan') }}"
                             required
                         >
-
                     </div>
 
-
-                    <!-- Link -->
-                    <div class="modal-form-group">
-
-                        <label for="serviceLink">
-
-                            <i class="bi bi-link-45deg"></i>
-
-                            Link Layanan
-
+                    <!-- Kategori Layanan -->
+                    <div class="col-md-6 modal-form-group mb-0">
+                        <label for="serviceCategory">
+                            <i class="bi bi-tag"></i>
+                            Kategori Layanan
                         </label>
+                        <select id="serviceCategory" name="kategori" class="form-select" style="height:38px; border-radius:10px; font-size:11px; background:#F8FAF9; border:1px solid #E1E9E5;">
+                            <option value="masyarakat" selected>Masyarakat</option>
+                            <option value="aparatur">Aparatur Desa</option>
+                            <option value="Kependudukan">Kependudukan</option>
+                            <option value="Perizinan">Perizinan</option>
+                            <option value="Sosial">Sosial</option>
+                        </select>
+                    </div>
 
+                    <!-- Link Layanan -->
+                    <div class="col-md-6 modal-form-group mb-0">
+                        <label for="serviceLink">
+                            <i class="bi bi-link-45deg"></i>
+                            Link / URL Layanan
+                        </label>
                         <input
                             type="url"
                             id="serviceLink"
@@ -636,89 +597,62 @@
                             placeholder="https://..."
                             value="{{ old('link_url') }}"
                         >
-
                     </div>
 
+                    <!-- Icon Layanan -->
+                    <div class="col-12 modal-form-group mb-0">
+                        <label for="serviceIcon">
+                            <i class="bi bi-image"></i>
+                            Icon / Logo Layanan (Opsional)
+                        </label>
+                        <input
+                            type="file"
+                            id="serviceIcon"
+                            name="logo"
+                            accept="image/*"
+                        >
+                        <div id="iconPreview" class="icon-preview"></div>
+                        <small>Format JPG, PNG, WEBP, atau SVG. Maksimal 2MB.</small>
+                    </div>
 
                     <!-- Deskripsi -->
-                    <div class="modal-form-group">
-
+                    <div class="col-12 modal-form-group mb-0">
                         <label for="serviceDescription">
-
                             <i class="bi bi-text-paragraph"></i>
-
-                            Deskripsi
-
+                            Deskripsi Layanan
                         </label>
-
                         <textarea
                             id="serviceDescription"
                             name="deskripsi"
-                            rows="3"
-                            placeholder="Jelaskan fungsi layanan..."
+                            rows="2"
+                            placeholder="Jelaskan fungsi dan manfaat layanan ini..."
                         >{{ old('deskripsi') }}</textarea>
-
                     </div>
-
-
-                    <!-- Tanggal -->
-                    <div class="modal-form-group">
-
-                        <label for="serviceDate">
-
-                            <i class="bi bi-calendar3"></i>
-
-                            Tanggal Dibuat
-
-                        </label>
-
-                        <input
-                            type="date"
-                            id="serviceDate"
-                            name="tanggal"
-                            value="{{ date('Y-m-d') }}"
-                        >
-
-                    </div>
-
-                    <input type="hidden" name="status" value="Aktif">
-                    <input type="hidden" name="kategori" value="masyarakat">
-
                 </div>
 
+                <input type="hidden" name="status" value="Aktif">
+            </div>
 
-                <!-- Modal Footer -->
-                <div class="modal-footer">
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="modal-cancel-btn"
+                    data-bs-dismiss="modal"
+                >
+                    Batal
+                </button>
 
-                    <button
-                        type="button"
-                        class="modal-cancel-btn"
-                        data-bs-dismiss="modal"
-                    >
-                        Batal
-                    </button>
-
-
-                    <button
-                        type="submit"
-                        class="modal-submit-btn"
-                        id="saveServiceBtn"
-                    >
-
-                        <i class="bi bi-plus-lg"></i>
-
-                        Tambah Layanan
-
-                    </button>
-
-                </div>
-
-            </form>
-
-        </div>
-
+                <button
+                    type="submit"
+                    class="modal-submit-btn"
+                    id="saveServiceBtn"
+                >
+                    <i class="bi bi-plus-lg"></i> Tambah Layanan
+                </button>
+            </div>
+        </form>
     </div>
-
 </div>
 
 <script

@@ -484,66 +484,65 @@
     {{-- Modal Ubah --}}
     <div class="modal fade" id="modalUbah" tabindex="-1" aria-labelledby="modalUbahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('admin.layanan.update', $layanan->id) }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalUbahLabel">Ubah Layanan</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row g-3">
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Kode / ID Layanan</label>
-                                <input type="text" class="form-control" name="kode_layanan"
-                                    value="{{ old('kode_layanan', $layanan->kode_layanan) }}">
-                            </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Nama Layanan <span class="text-danger">*</span></label>
-                                <input type="text" class="form-control" name="nama_layanan"
-                                    value="{{ old('nama_layanan', $layanan->nama_layanan) }}" required>
-                            </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Kategori</label>
-                                <select class="form-select" name="kategori">
-                                    <option value="masyarakat" {{ old('kategori', $layanan->kategori) === 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
-                                    <option value="aparatur" {{ old('kategori', $layanan->kategori) === 'aparatur' ? 'selected' : '' }}>Aparatur Desa</option>
-                                    <option value="Administrasi Akademik" {{ old('kategori', $layanan->kategori) === 'Administrasi Akademik' ? 'selected' : '' }}>Administrasi Akademik</option>
-                                    <option value="Kependudukan" {{ old('kategori', $layanan->kategori) === 'Kependudukan' ? 'selected' : '' }}>Kependudukan</option>
-                                    <option value="Perizinan" {{ old('kategori', $layanan->kategori) === 'Perizinan' ? 'selected' : '' }}>Perizinan</option>
-                                    <option value="Sosial" {{ old('kategori', $layanan->kategori) === 'Sosial' ? 'selected' : '' }}>Sosial</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 field-group">
-                                <label class="field-label">Status <span class="text-danger">*</span></label>
-                                <select class="form-select" name="status" required>
-                                    <option value="Aktif" {{ old('status', $layanan->status) === 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="Non Aktif" {{ old('status', $layanan->status) === 'Non Aktif' || old('status', $layanan->status) === 'Nonaktif' ? 'selected' : '' }}>Non Aktif</option>
-                                    <option value="Draft" {{ old('status', $layanan->status) === 'Draft' ? 'selected' : '' }}>Draft</option>
-                                </select>
-                            </div>
-                            <div class="col-12 field-group">
-                                <label class="field-label">Link Layanan</label>
-                                <input type="url" class="form-control" name="link_url" value="{{ old('link_url', $layanan->link_url) }}" placeholder="https://...">
-                            </div>
-                            <div class="col-12 field-group">
-                                <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" name="deskripsi" rows="3">{{ old('deskripsi', $layanan->deskripsi) }}</textarea>
-                            </div>
-                            <div class="col-12 field-group">
-                                <label class="field-label">Ganti Foto / Icon (Opsional)</label>
-                                <input type="file" class="form-control" name="logo" accept="image/*">
-                                <small class="text-muted">Biarkan kosong jika tidak ingin mengubah icon.</small>
-                            </div>
+            <form method="POST" action="{{ route('admin.layanan.update', $layanan->id) }}" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUbahLabel">Ubah Layanan</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
+                    <div class="row g-3">
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Kode / ID Layanan <span class="badge bg-light text-muted border ms-1">Terkunci</span></label>
+                            <input type="text" class="form-control bg-light" name="kode_layanan"
+                                value="{{ old('kode_layanan', $layanan->kode_layanan) }}" readonly>
+                            <small class="text-muted">ID Layanan diatur berurutan secara otomatis.</small>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Nama Layanan <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama_layanan"
+                                value="{{ old('nama_layanan', $layanan->nama_layanan) }}" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Kategori</label>
+                            <select class="form-select" name="kategori">
+                                <option value="masyarakat" {{ old('kategori', $layanan->kategori) === 'masyarakat' ? 'selected' : '' }}>Masyarakat</option>
+                                <option value="aparatur" {{ old('kategori', $layanan->kategori) === 'aparatur' ? 'selected' : '' }}>Aparatur Desa</option>
+                                <option value="Administrasi Akademik" {{ old('kategori', $layanan->kategori) === 'Administrasi Akademik' ? 'selected' : '' }}>Administrasi Akademik</option>
+                                <option value="Kependudukan" {{ old('kategori', $layanan->kategori) === 'Kependudukan' ? 'selected' : '' }}>Kependudukan</option>
+                                <option value="Perizinan" {{ old('kategori', $layanan->kategori) === 'Perizinan' ? 'selected' : '' }}>Perizinan</option>
+                                <option value="Sosial" {{ old('kategori', $layanan->kategori) === 'Sosial' ? 'selected' : '' }}>Sosial</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" name="status" required>
+                                <option value="Aktif" {{ old('status', $layanan->status) === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Non Aktif" {{ old('status', $layanan->status) === 'Non Aktif' || old('status', $layanan->status) === 'Nonaktif' ? 'selected' : '' }}>Non Aktif</option>
+                                <option value="Draft" {{ old('status', $layanan->status) === 'Draft' ? 'selected' : '' }}>Draft</option>
+                            </select>
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Link Layanan</label>
+                            <input type="url" class="form-control" name="link_url" value="{{ old('link_url', $layanan->link_url) }}" placeholder="https://...">
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Deskripsi</label>
+                            <textarea class="form-control" name="deskripsi" rows="2">{{ old('deskripsi', $layanan->deskripsi) }}</textarea>
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Ganti Foto / Icon (Opsional)</label>
+                            <input type="file" class="form-control" name="logo" accept="image/*">
+                            <small class="text-muted">Biarkan kosong jika tidak ingin mengubah icon.</small>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green"><i class="bi bi-check2-circle"></i> Simpan Perubahan</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-primary-green"><i class="bi bi-check2-circle"></i> Simpan Perubahan</button>
+                </div>
+            </form>
         </div>
     </div>
 

@@ -314,69 +314,67 @@
     {{-- Modal Ubah --}}
     <div class="modal fade" id="modalUbah" tabindex="-1" aria-labelledby="modalUbahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('admin.potensi.update', $potensi->id) }}" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 field-group mb-3">
-                                <label class="field-label">Nama UMKM / Potensi</label>
-                                <input type="text" class="form-control" name="nama" value="{{ $potensi->nama }}" required>
-                            </div>
-                            <div class="col-md-4 field-group mb-3">
-                                <label class="field-label">Kategori</label>
-                                <select class="form-select" name="kategori" required>
-                                    <option value="UMKM" {{ $potensi->kategori === 'UMKM' ? 'selected' : '' }}>UMKM</option>
-                                    <option value="Wisata" {{ $potensi->kategori === 'Wisata' ? 'selected' : '' }}>Wisata</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Status</label>
-                                <select class="form-select" name="status" required>
-                                    <option value="Aktif" {{ $potensi->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
-                                    <option value="Draft" {{ $potensi->status === 'Draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="Nonaktif" {{ $potensi->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Harga Produk (Opsional)</label>
-                                <input type="text" class="form-control" name="harga_teks" value="{{ $potensi->harga_teks }}">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Lokasi</label>
-                                <input type="text" class="form-control" name="lokasi" value="{{ $potensi->lokasi }}" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Pemilik</label>
-                                <input type="text" class="form-control" name="pemilik" value="{{ $potensi->pemilik }}" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Kontak / WhatsApp</label>
-                                <input type="tel" class="form-control" name="kontak" value="{{ $potensi->kontak }}">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Ganti Foto (Kosongkan jika tidak diubah)</label>
-                                <input type="file" class="form-control" name="foto" accept="image/*">
-                            </div>
-                            <div class="col-12 field-group mb-0">
-                                <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" name="deskripsi" rows="3" required>{{ $potensi->deskripsi }}</textarea>
-                            </div>
+            <form method="POST" action="{{ route('admin.potensi.update', $potensi->id) }}" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
+                    <div class="row g-3">
+                        <div class="col-md-7 field-group">
+                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama" value="{{ $potensi->nama }}" required>
+                        </div>
+                        <div class="col-md-5 field-group">
+                            <label class="field-label">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select" name="kategori" required>
+                                <option value="UMKM" {{ $potensi->kategori === 'UMKM' ? 'selected' : '' }}>UMKM</option>
+                                <option value="Wisata" {{ $potensi->kategori === 'Wisata' ? 'selected' : '' }}>Wisata</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" name="status" required>
+                                <option value="Aktif" {{ $potensi->status === 'Aktif' ? 'selected' : '' }}>Aktif</option>
+                                <option value="Draft" {{ $potensi->status === 'Draft' ? 'selected' : '' }}>Draft</option>
+                                <option value="Nonaktif" {{ $potensi->status === 'Nonaktif' ? 'selected' : '' }}>Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Harga Produk (Opsional)</label>
+                            <input type="text" class="form-control" name="harga_teks" value="{{ $potensi->harga_teks }}">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Pemilik <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="pemilik" value="{{ $potensi->pemilik }}" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Kontak / WhatsApp</label>
+                            <input type="tel" class="form-control" name="kontak" value="{{ $potensi->kontak }}">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Lokasi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="lokasi" value="{{ $potensi->lokasi }}" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Ganti Foto (Kosongkan jika tidak diubah)</label>
+                            <input type="file" class="form-control" name="foto" accept="image/*">
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Deskripsi <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="deskripsi" rows="2" required>{{ $potensi->deskripsi }}</textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green">
-                            <i class="bi bi-check2-circle"></i> Simpan Perubahan
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-primary-green">
+                        <i class="bi bi-check2-circle"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 

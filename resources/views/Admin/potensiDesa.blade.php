@@ -277,6 +277,17 @@
                 text-align: center;
             }
         }
+
+        .modal-dialog-scrollable .modal-content {
+            max-height: calc(100vh - 3.5rem);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-dialog-scrollable .modal-body {
+            overflow-y: auto !important;
+            max-height: calc(100vh - 12rem);
+        }
     </style>
 @endpush
 
@@ -458,141 +469,137 @@
     {{-- Modal Tambah --}}
     <div class="modal fade" id="modalTambah" tabindex="-1" aria-labelledby="modalTambahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <form method="POST" action="{{ route('admin.potensi.store') }}" enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalTambahLabel">Tambah Potensi Desa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 field-group mb-3">
-                                <label class="field-label">Nama UMKM / Potensi</label>
-                                <input type="text" class="form-control" name="nama" placeholder="Contoh: Keripik Tempe Renyah" required>
-                            </div>
+            <form method="POST" action="{{ route('admin.potensi.store') }}" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahLabel">Tambah Potensi Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
+                    <div class="row g-3">
+                        <div class="col-md-7 field-group">
+                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="nama" placeholder="Contoh: Keripik Tempe Renyah" required>
+                        </div>
 
-                            <div class="col-md-4 field-group mb-3">
-                                <label class="field-label">Kategori</label>
-                                <select class="form-select" name="kategori" required>
-                                    <option value="UMKM" selected>UMKM</option>
-                                    <option value="Wisata">Wisata</option>
-                                </select>
-                            </div>
+                        <div class="col-md-5 field-group">
+                            <label class="field-label">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select" name="kategori" required>
+                                <option value="UMKM" selected>UMKM</option>
+                                <option value="Wisata">Wisata</option>
+                            </select>
+                        </div>
 
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Status</label>
-                                <select class="form-select" name="status" required>
-                                    <option value="Aktif" selected>Aktif</option>
-                                    <option value="Draft">Draft</option>
-                                    <option value="Nonaktif">Nonaktif</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Harga (Opsional)</label>
-                                <input type="text" class="form-control" name="harga_teks" placeholder="Contoh: Rp 15.000 - Rp 25.000">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Lokasi</label>
-                                <input type="text" class="form-control" name="lokasi" placeholder="Dusun Krajan, Desa Jarak" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Pemilik</label>
-                                <input type="text" class="form-control" name="pemilik" placeholder="Nama pemilik / pengelola" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Kontak / WhatsApp</label>
-                                <input type="tel" class="form-control" name="kontak" placeholder="08xxxxxxxxxx">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Foto Produk / Lokasi</label>
-                                <input type="file" class="form-control" name="foto" accept="image/*">
-                            </div>
-                            <div class="col-12 field-group mb-0">
-                                <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" name="deskripsi" rows="3" placeholder="Jelaskan mengenai keunggulan produk / potensi ini..." required></textarea>
-                            </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" name="status" required>
+                                <option value="Aktif" selected>Aktif</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Nonaktif">Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Harga (Opsional)</label>
+                            <input type="text" class="form-control" name="harga_teks" placeholder="Contoh: Rp 15.000 - Rp 25.000">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Pemilik <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="pemilik" placeholder="Nama pemilik / pengelola" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Kontak / WhatsApp</label>
+                            <input type="tel" class="form-control" name="kontak" placeholder="08xxxxxxxxxx">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Lokasi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" name="lokasi" placeholder="Dusun Krajan, Desa Jarak" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Foto Produk / Lokasi</label>
+                            <input type="file" class="form-control" name="foto" accept="image/*">
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Deskripsi <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="deskripsi" rows="2" placeholder="Jelaskan mengenai keunggulan produk / potensi ini..." required></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green">
-                            <i class="bi bi-check2-circle"></i> Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-primary-green">
+                        <i class="bi bi-check2-circle"></i> Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
     {{-- Modal Ubah --}}
     <div class="modal fade" id="modalUbah" tabindex="-1" aria-labelledby="modalUbahLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
-            <div class="modal-content">
-                <form id="formUbahPotensi" method="POST" action="" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-8 field-group mb-3">
-                                <label class="field-label">Nama UMKM / Potensi</label>
-                                <input type="text" class="form-control" id="edit_nama" name="nama" required>
-                            </div>
+            <form id="formUbahPotensi" method="POST" action="" enctype="multipart/form-data" class="modal-content">
+                @csrf
+                @method('PUT')
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalUbahLabel">Ubah Potensi Desa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body" style="overflow-y: auto; max-height: calc(100vh - 200px);">
+                    <div class="row g-3">
+                        <div class="col-md-7 field-group">
+                            <label class="field-label">Nama UMKM / Potensi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_nama" name="nama" required>
+                        </div>
 
-                            <div class="col-md-4 field-group mb-3">
-                                <label class="field-label">Kategori</label>
-                                <select class="form-select" id="edit_kategori" name="kategori" required>
-                                    <option value="UMKM">UMKM</option>
-                                    <option value="Wisata">Wisata</option>
-                                </select>
-                            </div>
+                        <div class="col-md-5 field-group">
+                            <label class="field-label">Kategori <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_kategori" name="kategori" required>
+                                <option value="UMKM">UMKM</option>
+                                <option value="Wisata">Wisata</option>
+                            </select>
+                        </div>
 
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Status</label>
-                                <select class="form-select" id="edit_status" name="status" required>
-                                    <option value="Aktif">Aktif</option>
-                                    <option value="Draft">Draft</option>
-                                    <option value="Nonaktif">Nonaktif</option>
-                                </select>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Harga (Opsional)</label>
-                                <input type="text" class="form-control" id="edit_harga_teks" name="harga_teks">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Lokasi</label>
-                                <input type="text" class="form-control" id="edit_lokasi" name="lokasi" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Pemilik</label>
-                                <input type="text" class="form-control" id="edit_pemilik" name="pemilik" required>
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Kontak / WhatsApp</label>
-                                <input type="tel" class="form-control" id="edit_kontak" name="kontak">
-                            </div>
-                            <div class="col-md-6 field-group mb-3">
-                                <label class="field-label">Ganti Foto (Biarkan kosong jika tidak diubah)</label>
-                                <input type="file" class="form-control" name="foto" accept="image/*">
-                            </div>
-                            <div class="col-12 field-group mb-0">
-                                <label class="field-label">Deskripsi</label>
-                                <textarea class="form-control" id="edit_deskripsi" name="deskripsi" rows="3" required></textarea>
-                            </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Status <span class="text-danger">*</span></label>
+                            <select class="form-select" id="edit_status" name="status" required>
+                                <option value="Aktif">Aktif</option>
+                                <option value="Draft">Draft</option>
+                                <option value="Nonaktif">Nonaktif</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Harga (Opsional)</label>
+                            <input type="text" class="form-control" id="edit_harga_teks" name="harga_teks">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Pemilik <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_pemilik" name="pemilik" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Kontak / WhatsApp</label>
+                            <input type="tel" class="form-control" id="edit_kontak" name="kontak">
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Lokasi <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="edit_lokasi" name="lokasi" required>
+                        </div>
+                        <div class="col-md-6 field-group">
+                            <label class="field-label">Ganti Foto (Biarkan kosong jika tidak diubah)</label>
+                            <input type="file" class="form-control" name="foto" accept="image/*">
+                        </div>
+                        <div class="col-12 field-group">
+                            <label class="field-label">Deskripsi <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="edit_deskripsi" name="deskripsi" rows="2" required></textarea>
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
-                        <button type="submit" class="btn-primary-green">
-                            <i class="bi bi-check2-circle"></i> Simpan Perubahan
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-outline-soft" data-bs-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn-primary-green">
+                        <i class="bi bi-check2-circle"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
