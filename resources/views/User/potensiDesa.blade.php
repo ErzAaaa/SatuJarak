@@ -389,8 +389,8 @@
         /* KARTU POTENSI */
         .potential-grid {
             display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
         }
 
         .potential-card {
@@ -719,7 +719,7 @@
             <h2>Jelajahi Potensi Desa Jarak</h2>
             <p>
                 Temukan berbagai potensi unggulan desa, mulai dari produk
-                UMKM, hasil pertanian, hingga potensi wisata yang dapat
+                UMKM hingga potensi wisata yang dapat
                 dikembangkan untuk meningkatkan kesejahteraan masyarakat.
             </p>
         </section>
@@ -743,7 +743,6 @@
             >
                 <option value="all">Semua Kategori</option>
                 <option value="umkm">UMKM</option>
-                <option value="pertanian">Pertanian</option>
                 <option value="wisata">Wisata</option>
             </select>
         </section>
@@ -753,7 +752,7 @@
             <div class="section-heading">
                 <h2>Potensi Unggulan</h2>
                 <span class="result-count" id="resultCount">
-                    3 potensi ditemukan
+                    2 potensi ditemukan
                 </span>
             </div>
 
@@ -794,42 +793,6 @@
                 </article>
 
                 <!-- KARTU 2 -->
-                <article
-                    class="potential-card"
-                    data-category="pertanian"
-                    data-search="pertanian hasil bumi perkebunan tanaman"
-                >
-                    <div class="card-visual">
-                        <i class="bi bi-flower1"></i>
-                    </div>
-
-                    <div class="card-body-custom">
-                        <span class="category-badge">Pertanian</span>
-                        <h3>Hasil Pertanian</h3>
-                        <p class="card-description">
-                            Potensi hasil bumi dan kegiatan pertanian
-                            masyarakat yang dapat mendukung ekonomi desa.
-                        </p>
-
-                        <div class="card-footer-custom">
-                            <span class="location-label">
-                                <i class="bi bi-geo-alt"></i>
-                                Desa Jarak
-                            </span>
-
-                            <a
-                                href="javascript:void(0)"
-                                class="detail-link"
-                                onclick="showPlaceholder(event)"
-                            >
-                                Lihat Detail
-                                <i class="bi bi-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- KARTU 3 -->
                 <article
                     class="potential-card"
                     data-category="wisata"

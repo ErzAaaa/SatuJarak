@@ -34,7 +34,6 @@ class AdminPotensiDesaController extends Controller
 
         $stats = [
             'total' => PotensiDesa::count(),
-            'pertanian' => PotensiDesa::where('kategori', 'Pertanian')->count(),
             'umkm' => PotensiDesa::where('kategori', 'UMKM')->count(),
             'wisata' => PotensiDesa::where('kategori', 'Wisata')->count(),
         ];

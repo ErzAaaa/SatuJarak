@@ -332,7 +332,6 @@
                                 <label class="field-label">Kategori</label>
                                 <select class="form-select" name="kategori" required>
                                     <option value="UMKM" {{ $potensi->kategori === 'UMKM' ? 'selected' : '' }}>UMKM</option>
-                                    <option value="Pertanian" {{ $potensi->kategori === 'Pertanian' ? 'selected' : '' }}>Pertanian</option>
                                     <option value="Wisata" {{ $potensi->kategori === 'Wisata' ? 'selected' : '' }}>Wisata</option>
                                 </select>
                             </div>

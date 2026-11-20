@@ -311,8 +311,8 @@
         </div>
     @endif
 
-    <div class="row g-3 mb-4 mt-1">
-        <div class="col-6 col-lg-3">
+    <div class="row g-3 mb-4 mt-1 justify-content-center">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card">
                 <div class="stat-icon forest"><i class="bi bi-stars"></i></div>
                 <div>
@@ -321,16 +321,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3">
-            <div class="stat-card">
-                <div class="stat-icon mint"><i class="bi bi-flower1"></i></div>
-                <div>
-                    <div class="stat-value">{{ $stats['pertanian'] ?? 0 }}</div>
-                    <div class="stat-label">Pertanian</div>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card">
                 <div class="stat-icon gold"><i class="bi bi-shop"></i></div>
                 <div>
@@ -339,7 +330,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3">
+        <div class="col-12 col-sm-6 col-md-4">
             <div class="stat-card">
                 <div class="stat-icon pink"><i class="bi bi-camera-fill"></i></div>
                 <div>
@@ -485,7 +476,6 @@
                                 <label class="field-label">Kategori</label>
                                 <select class="form-select" name="kategori" required>
                                     <option value="UMKM" selected>UMKM</option>
-                                    <option value="Pertanian">Pertanian</option>
                                     <option value="Wisata">Wisata</option>
                                 </select>
                             </div>
@@ -557,7 +547,6 @@
                                 <label class="field-label">Kategori</label>
                                 <select class="form-select" id="edit_kategori" name="kategori" required>
                                     <option value="UMKM">UMKM</option>
-                                    <option value="Pertanian">Pertanian</option>
                                     <option value="Wisata">Wisata</option>
                                 </select>
                             </div>
