@@ -239,8 +239,7 @@
             top: 0;
             bottom: 0;
             z-index: 1000;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow: hidden;
         }
 
         .sidebar::before {
@@ -252,7 +251,6 @@
             background: rgba(112, 198, 155, 0.10);
             left: -110px;
             bottom: 40px;
-            pointer-events: none;
         }
 
         .sidebar::after {
@@ -264,7 +262,6 @@
             background: rgba(217, 163, 106, 0.10);
             left: -90px;
             bottom: -50px;
-            pointer-events: none;
         }
 
         .sidebar>* {
@@ -764,9 +761,9 @@
                 <li><a href="{{ route('admin.pengajuan.index') }}" class="nav-link {{ $activeMenu == 'pengajuan' ? 'active' : '' }}"><i
                             class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
                 <li><a href="{{ route('admin.layanan.index') }}" class="nav-link {{ $activeMenu == 'layanan' ? 'active' : '' }}"><i
-                            class="bi bi-gear-fill"></i> Layanan</a></li>
+                            class="bi bi-briefcase-fill"></i> Layanan</a></li>
                 <li><a href="{{ route('admin.potensi.index') }}" class="nav-link {{ $activeMenu == 'potensi' ? 'active' : '' }}"><i
-                            class="bi bi-stars"></i> Potensi Desa</a></li>
+                            class="bi bi-building-fill"></i> Potensi Desa</a></li>
                 {{-- Fitur kelola pengguna dinonaktifkan sementara --}}
                 {{-- <li><a href="{{ route('admin.users.index') }}" class="nav-link {{ $activeMenu == 'pengguna' ? 'active' : '' }}">
                     <i class="bi bi-people-fill"></i> Kelola Pengguna</a></li> --}}
@@ -783,7 +780,7 @@
                 <div class="topbar-left">
                     <button class="topbar-toggle d-lg-none" data-sidebar-toggle aria-label="Buka menu"><i
                             class="bi bi-list"></i></button>
-                    <div class="topbar-title">@yield('topbar_title', 'ADMIN')</div>
+                    <div class="topbar-title"></div>
                 </div>
                 <div class="topbar-actions">
                     <button class="icon-btn"><i class="bi bi-bell-fill"></i><span class="dot"></span></button>

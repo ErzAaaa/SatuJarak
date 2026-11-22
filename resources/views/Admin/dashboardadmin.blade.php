@@ -275,8 +275,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   top: 0;
   bottom: 0;
   z-index: 1000;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .sidebar::before {
@@ -288,7 +287,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   background: rgba(112, 198, 155, 0.10);
   left: -110px;
   bottom: 40px;
-  pointer-events: none;
 }
 
 .sidebar::after {
@@ -300,7 +298,6 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   background: rgba(217, 163, 106, 0.10);
   left: -90px;
   bottom: -50px;
-  pointer-events: none;
 }
 
 .sidebar > * { position: relative; z-index: 2; }
@@ -636,8 +633,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
     <ul class="nav-list">
       <li><a href="{{ route('admin.dashboard') }}" class="nav-pill active"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
       <li><a href="{{ route('admin.pengajuan.index') }}" class="nav-pill"><i class="bi bi-file-earmark-text-fill"></i> Pengajuan</a></li>
-      <li><a href="{{ route('admin.layanan.index') }}" class="nav-pill"><i class="bi bi-gear-fill"></i> Layanan</a></li>
-      <li><a href="{{ route('admin.potensi.index') }}" class="nav-pill"><i class="bi bi-signpost-split-fill"></i> Potensi Desa</a></li>
+      <li><a href="{{ route('admin.layanan.index') }}" class="nav-pill"><i class="bi bi-briefcase-fill"></i> Layanan</a></li>
+      <li><a href="{{ route('admin.potensi.index') }}" class="nav-pill"><i class="bi bi-building-fill"></i> Potensi Desa</a></li>
       {{-- Fitur kelola pengguna dinonaktifkan sementara --}}
       {{-- <li><a href="{{ route('admin.users.index') }}" class="nav-pill"><i class="bi bi-sliders"></i> Kelola Pengguna</a></li> --}}
     </ul>
@@ -653,7 +650,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
     <div class="topbar">
       <div class="topbar-left">
         <button class="topbar-toggle d-lg-none" data-sidebar-toggle aria-label="Buka menu"><i class="bi bi-list"></i></button>
-        <div class="topbar-title">ADMIN · DASHBOARD</div>
+        <div class="topbar-title"></div>
       </div>
       <div class="topbar-actions">
         <label class="topbar-search">
@@ -738,7 +735,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
         </div>
         <div class="col-12 col-md-4">
           <div class="menu-card">
-            <div class="menu-icon i-mint"><i class="bi bi-gear-fill"></i></div>
+            <div class="menu-icon i-mint"><i class="bi bi-briefcase-fill"></i></div>
             <div class="menu-title">Manage Layanan</div>
             <div class="menu-count"><b id="count-layanan">{{ $counts['layanan'] }}</b> layanan</div>
             <a href="{{ route('admin.layanan.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
@@ -746,7 +743,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
         </div>
         <div class="col-12 col-md-4">
           <div class="menu-card">
-            <div class="menu-icon i-pink"><i class="bi bi-stars"></i></div>
+            <div class="menu-icon i-pink"><i class="bi bi-building-fill"></i></div>
             <div class="menu-title">Manage Potensi Desa</div>
             <div class="menu-count"><b id="count-potensi">{{ $counts['potensi'] }}</b> potensi</div>
             <a href="{{ route('admin.potensi.index') }}" class="detail-link">Detail <i class="bi bi-chevron-right"></i></a>
