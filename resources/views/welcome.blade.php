@@ -60,6 +60,36 @@
         details>summary::-webkit-details-marker {
             display: none;
         }
+
+        .site-footer-columns {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 2rem;
+        }
+
+        .site-footer-bottom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+        }
+
+        @media (max-width: 768px) {
+            .site-footer-columns {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .site-footer-bottom {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 540px) {
+            .site-footer-columns {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
@@ -86,21 +116,8 @@
             'kategori' => 'masyarakat',
         ],
         [
-            'nama_layanan' => 'PESONA',
-            'deskripsi' => 'Informasi profil dan data kependudukan desa.',
-            'link_url' => 'https://play.google.com/store/apps/details?id=com.ruwindo.pesonakediri&hl=id',
-            'logo' => 'images/logo_kediri.png',
-            'kategori' => 'masyarakat',
-        ],
-        [
             'nama_layanan' => 'SIKSNG',
             'deskripsi' => 'Sistem informasi untuk administrasi aparatur desa.',
-            'link_url' => '#',
-            'kategori' => 'aparatur',
-        ],
-        [
-            'nama_layanan' => 'SIPENAK (SIMNANGKIS)',
-            'deskripsi' => 'Sistem pendukung pekerjaan administrasi desa.',
             'link_url' => '#',
             'kategori' => 'aparatur',
         ],
@@ -126,33 +143,30 @@
         ],
     ];
 
-    $informasis = $informasis ?? [
-        ['judul' => 'Contoh judul informasi desa pertama', 'kategori' => 'Pengumuman', 'created_at' => '2026-09-01'],
-        ['judul' => 'Contoh judul informasi desa kedua', 'kategori' => 'Kegiatan', 'created_at' => '2026-08-28'],
-        ['judul' => 'Contoh judul informasi desa ketiga', 'kategori' => 'Layanan', 'created_at' => '2026-08-20'],
-    ];
-
-   $potensis = $potensis ?? [
+    $potensis = $potensis ?? [
         [
             'nama_umkm' => 'Kuliner & Makanan Khas',
             'pemilik' => 'UMKM Olahan Pangan Desa Jarak',
-            'deskripsi' => 'Beragam makanan olahan, jajanan tradisional, dan produk kuliner lokal buatan warga Desa Jarak.',
+            'deskripsi' =>
+                'Beragam makanan olahan, jajanan tradisional, dan produk kuliner lokal buatan warga Desa Jarak.',
             'url' => url('/potensi-desa/produk#produk'),
-            'gambar' => 'images/kemiri_bakery.jpeg', 
+            'gambar' => 'images/kemiri_bakery.jpeg',
         ],
         [
             'nama_umkm' => 'Kerajinan Tangan',
             'pemilik' => 'Pengrajin Lokal Desa Jarak',
-            'deskripsi' => 'Produk kriya dan kerajinan tangan kreatif dengan nilai seni serta kualitas khas warga Desa Jarak.',
+            'deskripsi' =>
+                'Produk kriya dan kerajinan tangan kreatif dengan nilai seni serta kualitas khas warga Desa Jarak.',
             'url' => url('/potensi-desa/produk#kerajinan'),
             'gambar' => 'images/riff_art.jpg',
         ],
         [
             'nama_umkm' => 'Wisata Desa',
             'pemilik' => 'Destinasi Alam & Edukasi',
-            'deskripsi' => 'Jelajahi pesona wisata alam, rekreasi keluarga, dan edukasi menarik yang ada di Desa Jarak.',
+            'deskripsi' =>
+                'Jelajahi pesona wisata alam, rekreasi keluarga, dan edukasi menarik yang ada di Desa Jarak.',
             'url' => url('/potensi-desa/wisata'),
-            'gambar' => 'Potensi Desa/Wisata/sumber_ubalan_renang.webp', 
+            'gambar' => 'Potensi Desa/Wisata/sumber_ubalan_renang.webp',
         ],
     ];
 @endphp
@@ -169,7 +183,6 @@
 
             <nav class="hidden items-center gap-7 text-sm font-medium md:flex" aria-label="Navigasi utama">
                 <a href="#layanan" class="hover:underline underline-offset-4">Layanan</a>
-                <a href="#informasi" class="hover:underline underline-offset-4">Informasi desa</a>
                 <a href="#potensi" class="hover:underline underline-offset-4">Potensi desa</a>
                 <a href="#kerja-sama" class="hover:underline underline-offset-4">Kerja sama</a>
                 @auth
@@ -308,28 +321,6 @@
             </p>
         </section>
 
-        {{-- INFORMASI DESA --}}
-        <section id="informasi" class="border-t border-[var(--line)] bg-white">
-            <div class="mx-auto max-w-6xl px-5 py-14 md:py-20">
-                <h2 class="font-display text-3xl font-bold">Informasi desa</h2>
-                <ul class="mt-8 divide-y divide-[var(--line)] border-y border-[var(--line)]">
-                    @foreach ($informasis as $i)
-                        <li class="flex flex-col gap-1 py-5 sm:flex-row sm:items-baseline sm:justify-between sm:gap-8">
-                            <div>
-                                <span
-                                    class="text-sm font-medium text-[var(--leaf)]">{{ data_get($i, 'kategori') }}</span>
-                                <p class="text-lg font-semibold">{{ data_get($i, 'judul') }}</p>
-                            </div>
-                            <time class="shrink-0 text-sm text-[var(--muted)]"
-                                datetime="{{ \Illuminate\Support\Carbon::parse(data_get($i, 'created_at'))->toDateString() }}">
-                                {{ \Illuminate\Support\Carbon::parse(data_get($i, 'created_at'))->translatedFormat('j F Y') }}
-                            </time>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </section>
-
         {{-- POTENSI DESA --}}
         <section id="potensi" class="mx-auto max-w-6xl px-5 py-14 md:py-20">
             <div class="flex items-center justify-between">
@@ -338,22 +329,24 @@
                     Lihat lebih detail
                 </a>
             </div>
-            <p class="mt-1 max-w-xl text-[var(--muted)]">Kategori potensi dan usaha warga Desa Jarak yang bisa Anda jelajahi.</p>
+            <p class="mt-1 max-w-xl text-[var(--muted)]">Kategori potensi dan usaha warga Desa Jarak yang bisa Anda
+                jelajahi.</p>
 
             <div class="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-3">
                 @foreach ($potensis as $p)
                     <a href="{{ data_get($p, 'url', route('potensi-desa')) }}"
                         class="group block border-t-4 border-[var(--kunyit)] pt-4 transition hover:bg-white/70 rounded-b-lg px-2 -mx-2">
-                        
+
                         @if (data_get($p, 'gambar'))
                             <div class="mb-4 overflow-hidden rounded-lg bg-[var(--line)]/50">
-                                <img src="{{ asset(data_get($p, 'gambar')) }}" 
-                                     alt="{{ data_get($p, 'nama_umkm') }}"
-                                     class="h-48 w-full object-cover transition duration-300 group-hover:scale-105">
+                                <img src="{{ asset(data_get($p, 'gambar')) }}" alt="{{ data_get($p, 'nama_umkm') }}"
+                                    class="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
+                                    style="display: block; width: 100%; height: 12rem; object-fit: cover;">
                             </div>
                         @endif
 
-                        <h3 class="font-display text-xl font-bold group-hover:text-[var(--leaf)] group-hover:underline underline-offset-4">
+                        <h3
+                            class="font-display text-xl font-bold group-hover:text-[var(--leaf)] group-hover:underline underline-offset-4">
                             {{ data_get($p, 'nama_umkm') }}
                         </h3>
                         <p class="text-sm text-[var(--muted)]">{{ data_get($p, 'pemilik') }}</p>
@@ -387,22 +380,65 @@
                             class="rounded-md border border-white/60 px-6 py-3 font-semibold hover:bg-white/10">Buat
                             akun</a>
                     @endauth
-            </div>
+                </div>
             </div>
         </section>
     </main>
 
     {{-- FOOTER --}}
     <footer class="bg-[var(--ink)] text-sm text-white/75">
-        <div class="mx-auto flex max-w-6xl flex-col gap-3 px-5 py-8 md:flex-row md:justify-between">
-            <p>
-                <span class="font-semibold text-white">Pemerintah Desa Jarak</span><br>
-                Kecamatan Plosoklaten, Kabupaten Kediri, Jawa Timur
-            </p>
-            <p class="md:text-right">
-                Dikembangkan oleh mahasiswa UNESA, Unesatechquest 5,<br>
-                bersama Yayasan Sagasitas Indonesia.
-            </p>
+        <div class="mx-auto max-w-6xl px-5 py-12">
+            <div class="site-footer-columns">
+                <section>
+                    <h2 class="font-display text-lg font-bold text-white">Tentang Kami</h2>
+                    <p class="mt-4 leading-relaxed">
+                        SatuJarak adalah pintu layanan digital dan informasi untuk warga Desa Jarak.
+                    </p>
+                    <div class="mt-5 flex items-center gap-3">
+                        <img src="{{ asset('images/logo.png') }}" alt="" class="h-10 w-10 object-contain">
+                        <span class="font-display text-lg font-bold text-[var(--kunyit)]">SATUJARAK</span>
+                    </div>
+                </section>
+
+                <section>
+                    <h2 class="font-display text-lg font-bold text-white">Kontak Info</h2>
+                    <p class="mt-4 leading-relaxed">
+                        Pemerintah Desa Jarak<br>
+                        Kecamatan Plosoklaten<br>
+                        Kabupaten Kediri, Jawa Timur
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="font-display text-lg font-bold text-white">Tautan Penting</h2>
+                    <ul class="mt-4 space-y-2">
+                        <li><a href="#layanan" class="hover:text-white hover:underline">Layanan desa</a></li>
+                        <li><a href="#potensi" class="hover:text-white hover:underline">Potensi desa</a></li>
+                        <li><a href="#kerja-sama" class="hover:text-white hover:underline">Kerja sama</a></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2 class="font-display text-lg font-bold text-white">Akses Akun</h2>
+                    <p class="mt-4 leading-relaxed">
+                        Masuk untuk mengajukan dan memantau kerja sama dengan Desa Jarak.
+                    </p>
+                    <div class="mt-4 flex flex-col items-start gap-2">
+                        @auth
+                            <a href="{{ route('pengajuan.index') }}" class="hover:text-white hover:underline">Pengajuan
+                                saya</a>
+                        @else
+                            <a href="{{ route('login') }}" class="hover:text-white hover:underline">Masuk</a>
+                            <a href="{{ route('daftar') }}" class="hover:text-white hover:underline">Buat akun</a>
+                        @endauth
+                    </div>
+                </section>
+            </div>
+
+            <div class="site-footer-bottom mt-5 gap-3 border-t border-white/20 pt-5 text-xs sm:text-sm">
+                <p class="mt-5">© {{ date('Y') }} Pemerintah Desa Jarak. Hak cipta dilindungi.</p>
+                <p>Dikembangkan oleh mahasiswa UNESA, Unesatechquest 5, bersama Yayasan Sagasitas Indonesia.</p>
+            </div>
         </div>
     </footer>
 

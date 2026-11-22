@@ -9,21 +9,27 @@
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('images/logo.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <style>
         :root {
             --forest: #0B3828;
-            --forest-light: #164B36;
+            --forest-light: #15533F;
             --hover-green: #2E5A43;
-            --mint: #B7E4C7;
-            --gold: #D8B45A;
+            --mint: #70C69B;
+            --sage: #A7B998;
+            --gold: #D9A36A;
+            --gold-light: #F9E1B9;
             --sky: #4F8EA6;
             --sky-light: #E5F0F4;
-            --background: #F4F7F4;
-            --text: #24352B;
-            --muted: #718077;
+            --text: #173D30;
+            --muted: #708078;
+            --border: #E5ECE8;
+            --mint-soft: #DCEFE6;
+            --background: #F7FAF8;
             --white: #FFFFFF;
         }
 
@@ -33,183 +39,94 @@
 
         body {
             margin: 0;
-            font-family: "Segoe UI", Arial, sans-serif;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
             background: var(--background);
             color: var(--text);
+            font-size: 15px;
+            line-height: 1.5;
         }
 
+        button,
+        input,
+        select { font-family: inherit; }
+
         /* ============================================================
-           SIDEBAR (sama persis dengan potensidesa.blade.php)
+           SIDEBAR (sama persis dengan user pengajuan & potensi desa)
            ============================================================ */
         .sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            width: 280px;
-            padding: 30px 20px 22px;
+            width: 280px; min-height: 100vh; padding: 30px 24px;
             background: var(--forest);
-            border-radius: 0 24px 24px 0;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            z-index: 1000;
-            box-shadow: 6px 0 24px rgba(11, 56, 40, 0.10);
+            display: flex; flex-direction: column;
+            position: fixed; left: 0; top: 0; bottom: 0;
+            z-index: 1000; overflow-x: hidden; overflow-y: auto;
         }
+        .sidebar::before {
+            content: ""; position: absolute; width: 230px; height: 230px; border-radius: 50%;
+            background: rgba(112, 198, 155, 0.10); left: -110px; bottom: 40px; pointer-events: none;
+        }
+        .sidebar::after {
+            content: ""; position: absolute; width: 180px; height: 180px; border-radius: 50%;
+            background: rgba(217, 163, 106, 0.10); left: -90px; bottom: -50px; pointer-events: none;
+        }
+        .sidebar > * { position: relative; z-index: 2; }
 
-        .brand {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            gap: 14px;
-            margin-bottom: 38px;
-            padding-top: 10px;
-            width: 100%;
+        .brand { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0; margin-bottom: 38px; }
+        .brand-icon {
+            width: 82px; height: 82px; margin: auto; border-radius: 25px;
+            background: linear-gradient(145deg, var(--gold), var(--mint));
+            display: flex; align-items: center; justify-content: center;
+            color: var(--forest); font-size: 40px;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.16);
+            flex-shrink: 0; animation: logoFloat 4s ease-in-out infinite;
         }
+        .brand-icon img { width: 100px; height: 100px; object-fit: contain; }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+        @media (prefers-reduced-motion: reduce) { .brand-icon { animation: none; } }
+        .brand-name { color: #FFFFFF; font-size: 27px; font-weight: 800; line-height: 1.2; margin: 12px 0 1px; }
+        .brand-sub { color: #D4E7DF; font-size: 12px; margin: 0; }
 
-        .brand-logo {
-            width: 86px;
-            height: 86px;
-            flex-shrink: 0;
-            display: grid;
-            place-items: center;
-            border-radius: 23px;
-            background: linear-gradient(135deg, var(--gold), var(--mint));
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
-            animation: logoFloat 3s ease-in-out infinite;
+        .nav-list { list-style: none; padding: 0; margin: 0; flex: 1; display: flex; flex-direction: column; gap: 11px; }
+        .nav-link {
+            min-height: 46px; padding: 0 18px; border-radius: 30px;
+            background: rgba(255, 255, 255, 0.96); color: var(--text);
+            display: flex; align-items: center; gap: 13px;
+            font-size: 15px; font-weight: 700; transition: all 0.25s ease; text-decoration: none;
         }
+        .nav-link i { font-size: 17px; }
+        .nav-link:hover { transform: translateX(5px); background: var(--mint); color: var(--forest); }
+        .nav-link.active { background: var(--gold); color: var(--forest); box-shadow: 0 8px 18px rgba(217, 163, 106, 0.22); }
+        .nav-link.active::after { content: "\F285"; font-family: "bootstrap-icons"; margin-left: auto; }
 
-        .brand-logo img {
-            width: 70px;
-            height: 70px;
-            object-fit: contain;
-        }
+        .help-card { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); border-radius: 20px; padding: 20px 18px; margin-top: 18px; }
+        .help-title { display: flex; align-items: center; gap: 10px; color: #FFFFFF; font-weight: 800; font-size: 14.5px; margin-bottom: 14px; }
+        .help-title-icon { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(145deg, var(--gold), var(--mint)); color: var(--forest); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+        .help-section-label { color: rgba(255,255,255,0.55); font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 8px; }
+        .help-schedule { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        .help-schedule-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12.5px; }
+        .help-day { color: #FFFFFF; font-weight: 700; }
+        .help-hours { color: rgba(255,255,255,0.65); font-weight: 600; white-space: nowrap; }
+        .help-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 14px 0; border: none; }
+        .help-contact { display: flex; flex-direction: column; gap: 10px; }
+        .help-contact-link { display: flex; align-items: center; gap: 10px; color: #FFFFFF; font-size: 12.5px; font-weight: 600; border-radius: 10px; padding: 6px 8px; margin: -6px -8px; transition: background 0.15s ease; word-break: break-all; text-decoration: none; }
+        .help-contact-link:hover { background: rgba(255,255,255,0.08); }
+        .help-contact-link i { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.10); color: var(--mint); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
 
-        .brand-name {
-            font-size: 22px;
-            font-weight: 800;
-            color: var(--white);
-            letter-spacing: 0.3px;
-        }
-
-        .brand-subtitle {
-            font-size: 11px;
-            color: #C5D9CE;
-            margin-top: 5px;
-            letter-spacing: 0.6px;
-        }
-
-        @keyframes logoFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-
-        .nav-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 10px;
-            margin-bottom: 25px;
-        }
-
-        .nav-link-custom {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            width: 100%;
-            min-height: 48px;
-            padding: 13px 18px;
-            border: none;
-            border-radius: 30px;
-            background: var(--white);
-            color: var(--forest);
-            font-size: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-        }
-
-        .nav-link-custom i {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 22px;
-            flex-shrink: 0;
-            font-size: 19px;
-        }
-
-        .nav-link-custom:hover {
-            background: var(--hover-green);
-            color: var(--white);
-            transform: translateX(4px);
-            box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
-        }
-
-        .nav-link-custom.active {
-            background: var(--mint);
-            color: var(--forest);
-            font-weight: 800;
-            box-shadow: 0 5px 15px rgba(183, 228, 199, 0.12);
-        }
-
-        .nav-link-custom.active:hover {
-            background: #C8F0D4;
-            color: var(--forest);
-        }
-
-        .help-card {
-            margin-top: auto;
-            padding: 20px 17px;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.08);
-            color: var(--white);
-        }
-
-        .help-icon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 42px;
-            height: 42px;
-            margin-bottom: 12px;
-            border-radius: 13px;
-            background: var(--mint);
-            color: var(--forest);
-            font-size: 23px;
-        }
-
-        .help-card h3 {
-            margin: 0 0 7px;
-            font-size: 16px;
-            font-weight: 800;
-        }
-
-        .help-label {
-            margin-top: 15px;
-            margin-bottom: 5px;
-            color: var(--mint);
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-        }
-
-        .help-card p {
-            margin: 0;
-            color: #E0EBE4;
-            font-size: 11px;
-            line-height: 1.8;
-            overflow-wrap: anywhere;
-        }
+        .sidebar-backdrop { display: none; }
 
         /* ============================================================
-           AREA KONTEN (shell sama dengan potensidesa.blade.php)
+           AREA KONTEN
            ============================================================ */
         .main-content {
             min-height: 100vh;
             margin-left: 280px;
             padding: 30px 34px 50px;
+        }
+
+        .topbar-toggle {
+            width: 46px; height: 46px; border-radius: 50%; border: none;
+            background: #EEF4F0; color: var(--forest); font-size: 24px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            margin-bottom: 18px;
         }
 
         .back-link {
@@ -496,7 +413,7 @@
         }
 
         /* ============================================================
-           RESPONSIVE (breakpoint sama dengan potensidesa.blade.php)
+           RESPONSIVE
            ============================================================ */
         @media (max-width: 1200px) {
             .main-content { padding-right: 25px; padding-left: 25px; }
@@ -511,25 +428,7 @@
             }
         }
 
-        @media (max-width: 850px) {
-            .sidebar { width: 230px; padding-right: 15px; padding-left: 15px; }
-            .main-content { margin-left: 230px; }
-            .brand-name { font-size: 20px; }
-        }
-
         @media (max-width: 600px) {
-            .sidebar {
-                position: relative;
-                width: 100%;
-                height: auto;
-                min-height: 0;
-                border-radius: 0 0 22px 22px;
-            }
-            .brand { margin-bottom: 25px; }
-            .brand-logo { width: 72px; height: 72px; border-radius: 20px; }
-            .brand-logo img { width: 59px; height: 59px; }
-            .nav-menu { gap: 9px; }
-            .help-card { margin-top: 22px; }
             .main-content { margin-left: 0; padding: 24px 16px; }
             .detail-hero { height: 220px; }
             .detail-hero-text { padding: 18px 20px; }
@@ -548,6 +447,17 @@
             }
             .maps-btn { grid-column: auto; padding: 12px; }
         }
+
+        /* SIDEBAR RESPONSIVE (sama seperti user pengajuan) */
+        @media (max-width: 992px) {
+            .main-content { margin-left: 0; }
+            .sidebar { left: -300px; transition: left 0.2s ease; box-shadow: 10px 0 30px rgba(0,0,0,0.2); }
+            .sidebar.open { left: 0; }
+            .sidebar.open + .sidebar-backdrop { display: block; position: fixed; inset: 0; background: rgba(11,56,40,0.45); z-index: 999; }
+        }
+        @media (max-width: 576px) {
+            .sidebar { width: 260px; left: -280px; padding: 24px 18px; }
+        }
     </style>
 </head>
 
@@ -555,66 +465,43 @@
     <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="brand">
-            <div class="brand-logo">
-                <img
-                    src="{{ asset('images/logo.png') }}"
-                    alt="Logo Satu Jarak"
-                    onerror="this.style.display='none'"
-                >
-            </div>
-
+            <div class="brand-icon"><img src="{{ asset('images/logo.png') }}" alt="Logo SatuJarak"></div>
             <div>
                 <div class="brand-name">Satu Jarak</div>
-                <div class="brand-subtitle">Pelayanan Publik Desa</div>
+                <div class="brand-sub">Pelayanan Publik Desa</div>
             </div>
         </div>
 
-        <nav class="nav-menu">
-            <a href="{{ route('home') }}" class="nav-link-custom">
-                <i class="bi bi-grid-1x2"></i>
-                <span>Dashboard</span>
-            </a>
+        <ul class="nav-list">
+            <li><a href="{{ route('home') }}" class="nav-link"><i class="bi bi-grid-fill"></i> Dashboard</a></li>
+            <li><a href="{{ route('potensi') }}" class="nav-link active"><i class="bi bi-stars"></i> Potensi Desa</a></li>
+            <li><a href="{{ route('pengajuan.index', ['action' => 'list']) }}" class="nav-link"><i class="bi bi-clock-history"></i> Riwayat Pengajuan</a></li>
+            <li><a href="{{ route('pengajuan.index', ['action' => 'create']) }}" class="nav-link"><i class="bi bi-plus-circle-fill"></i> Buat Pengajuan</a></li>
+        </ul>
 
-            <a href="{{ url('/potensi-desa') }}" class="nav-link-custom active" aria-current="page">
-                <i class="bi bi-stars"></i>
-                <span>Potensi Desa</span>
-            </a>
-
-            <a href="{{ url('/userpengajuan') }}" class="nav-link-custom">
-                <i class="bi bi-file-earmark-text"></i>
-                <span>Pengajuan</span>
-            </a>
-        </nav>
-
-        <section class="help-card">
-            <div class="help-icon">
-                <i class="bi bi-headset"></i>
+        <div class="help-card">
+            <div class="help-title">
+                <span class="help-title-icon"><i class="bi bi-headset"></i></span>
+                Butuh Bantuan?
             </div>
-
-            <h3>Butuh Bantuan?</h3>
-
-            <div class="help-label">JAM OPERASIONAL KANTOR DESA</div>
-            <p>
-                Senin–Kamis: 08.00–13.00 WIB<br>
-                Jumat: 08.00–11.00 WIB
-            </p>
-
-            <div class="help-label">EMAIL</div>
-            <p>
-                <i class="bi bi-envelope"></i>
-                desajarak204@gmail.com
-            </p>
-
-            <div class="help-label">INSTAGRAM</div>
-            <p>
-                <i class="bi bi-instagram"></i>
-                @ds.jarak
-            </p>
-        </section>
+            <div class="help-section-label">Jam Operasional Kantor Desa</div>
+            <div class="help-schedule">
+                <div class="help-schedule-row"><span class="help-day">Senin - Kamis</span><span class="help-hours">08.00 - 13.00 WIB</span></div>
+                <div class="help-schedule-row"><span class="help-day">Jumat</span><span class="help-hours">08.00 - 11.00 WIB</span></div>
+            </div>
+            <hr class="help-divider">
+            <div class="help-contact">
+                <a href="mailto:desajarak204@gmail.com" class="help-contact-link"><i class="bi bi-envelope-fill"></i> desajarak204@gmail.com</a>
+                <a href="https://instagram.com/ds.jarak" target="_blank" rel="noopener" class="help-contact-link"><i class="bi bi-instagram"></i> @ds.jarak</a>
+            </div>
+        </div>
     </aside>
+    <div class="sidebar-backdrop"></div>
 
     <!-- KONTEN UTAMA -->
     <main class="main-content">
+
+        <button class="topbar-toggle d-lg-none" data-sidebar-toggle aria-label="Buka menu"><i class="bi bi-list"></i></button>
 
         <a href="{{ url('/potensi-desa') }}" class="back-link">
             <i class="bi bi-arrow-left"></i>
@@ -812,5 +699,11 @@
             </div>
         </div>
     </main>
+
+    <script>
+        const sidebarEl = document.querySelector('.sidebar');
+        document.querySelector('[data-sidebar-toggle]')?.addEventListener('click', () => sidebarEl.classList.toggle('open'));
+        document.querySelector('.sidebar-backdrop')?.addEventListener('click', () => sidebarEl.classList.remove('open'));
+    </script>
 </body>
 </html>
