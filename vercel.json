@@ -2,7 +2,6 @@
     "version": 2,
     "framework": null,
     "outputDirectory": "public",
-    "buildCommand": "npm run build",
     "functions": {
         "api/index.php": {
             "runtime": "vercel-php@0.7.2"
@@ -10,28 +9,7 @@
     },
     "routes": [
         {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1"
-        },
-        {
-            "src": "/images/(.*)",
-            "dest": "/public/images/$1"
-        },
-        {
-            "src": "/css/(.*)",
-            "dest": "/public/css/$1"
-        },
-        {
-            "src": "/js/(.*)",
-            "dest": "/public/js/$1"
-        },
-        {
-            "src": "/favicon.(ico|png)",
-            "dest": "/public/favicon.$1"
-        },
-        {
-            "src": "/robots.txt",
-            "dest": "/public/robots.txt"
+            "handle": "filesystem"
         },
         {
             "src": "/(.*)",
@@ -41,7 +19,7 @@
     "env": {
         "VERCEL": "1",
         "APP_ENV": "production",
-        "APP_DEBUG": "true",
+        "APP_DEBUG": "false",
         "APP_KEY": "base64:TqE+IH5D48ZZx5ecfgYBPhawzaVq4m8mMlzP/3XmLIo=",
         "APP_CONFIG_CACHE": "/tmp/storage/config.php",
         "APP_EVENTS_CACHE": "/tmp/storage/events.php",
