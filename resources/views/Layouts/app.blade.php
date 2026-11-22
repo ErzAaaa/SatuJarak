@@ -117,7 +117,7 @@
             font-size: 12.5px;
             font-weight: 800;
             letter-spacing: 1.2px;
-            color: var(--mint);
+            color: #1E6B4E;
         }
 
         .topbar-actions {
@@ -590,7 +590,7 @@
 
         .pill-mint {
             background: var(--mint-soft);
-            color: #2D9B6A;
+            color: #15533F;
         }
 
         .pill-gold {

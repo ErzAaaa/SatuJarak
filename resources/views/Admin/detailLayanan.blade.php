@@ -35,7 +35,7 @@
         .summary-code {
             font-size: 12.5px;
             font-weight: 800;
-            color: #3FA57B;
+            color: #15533F;
             letter-spacing: 1.2px;
             margin-bottom: 6px;
         }

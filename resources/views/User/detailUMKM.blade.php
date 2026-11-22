@@ -122,13 +122,13 @@
             gap: 13px;
             width: 100%;
             min-height: 48px;
-            padding: 13px 17px;
+            padding: 13px 18px;
             border: none;
-            border-radius: 15px;
+            border-radius: 30px;
             background: var(--white);
             color: var(--forest);
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             transition: background 0.25s ease,
                         color 0.25s ease,
@@ -609,7 +609,7 @@
         .info-item p{margin:2px 0 0;color:var(--forest);font-size:13px;font-weight:600;line-height:1.6}
         .info-icon{width:38px;height:38px;flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;border-radius:12px;background:#E2F2E6;color:var(--forest);font-size:17px}
         .meta-label{font-size:10px;font-weight:800;letter-spacing:.5px;color:var(--muted);text-transform:uppercase}
-        .wa-btn,.back-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin-top:12px;border-radius:14px;font-size:13px;font-weight:700;text-decoration:none;transition:transform .2s,background .2s}
+        .wa-btn,.back-btn{display:flex;align-items:center;justify-content:center;gap:8px;min-height:46px;margin-top:12px;border-radius:999px;font-size:13.5px;font-weight:700;text-decoration:none;transition:transform .2s,background .2s}
         .wa-btn{margin-top:20px;background:var(--forest);color:#fff}
         .wa-btn:hover{background:var(--hover-green);color:#fff;transform:translateY(-2px)}
         .back-btn{background:#EDF1ED;color:var(--forest)}

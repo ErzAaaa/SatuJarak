@@ -122,13 +122,13 @@
             gap: 13px;
             width: 100%;
             min-height: 48px;
-            padding: 13px 17px;
+            padding: 13px 18px;
             border: none;
-            border-radius: 15px;
+            border-radius: 30px;
             background: var(--white);
             color: var(--forest);
             font-size: 14px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
             transition: background 0.25s ease,
                         color 0.25s ease,
@@ -344,9 +344,9 @@
         .search-box input {
             width: 100%;
             min-height: 45px;
-            padding: 12px 15px 12px 43px;
+            padding: 12px 18px 12px 43px;
             border: 1px solid #E0E8E0;
-            border-radius: 12px;
+            border-radius: 999px;
             outline: none;
             background: #FAFCFA;
             font-size: 13px;
@@ -360,9 +360,9 @@
         .filter-select {
             min-width: 180px;
             min-height: 45px;
-            padding: 10px 13px;
+            padding: 10px 18px;
             border: 1px solid #E0E8E0;
-            border-radius: 12px;
+            border-radius: 999px;
             background: var(--white);
             color: var(--text);
             font-size: 13px;

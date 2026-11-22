@@ -91,7 +91,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   font-size: 12.5px;
   font-weight: 800;
   letter-spacing: 1.2px;
-  color: var(--c-mint);
+  color: #1E6B4E;
 }
 
 .topbar-actions { display: flex; align-items: center; gap: 14px; }
@@ -454,7 +454,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 .summary-code {
   font-size: 12.5px;
   font-weight: 800;
-  color: #3FA57B;
+  color: #15533F;
   letter-spacing: 1.2px;
   margin-bottom: 6px;
 }
