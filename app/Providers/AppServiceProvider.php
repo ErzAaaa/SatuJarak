@@ -26,6 +26,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production') || isset($_SERVER['VERCEL']) || isset($_ENV['VERCEL'])) {
+            \Illuminate\Support\Facades\URL::forceScheme('https');
+        }
+
         Event::listen(Login::class, LimitAdminSessions::class);
     }
 }
