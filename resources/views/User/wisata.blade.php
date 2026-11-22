@@ -286,14 +286,14 @@
             gap: 8px;
             padding: 0 24px;
             border: none;
-            border-radius: 14px;
+            border-radius: 999px;
             background: var(--forest);
             color: var(--white);
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
             text-decoration: none;
             white-space: nowrap;
-            transition: background 0.2s ease;
+            transition: background 0.2s ease, transform 0.2s ease;
         }
 
         .maps-btn:hover { background: var(--hover-green); color: var(--white); }

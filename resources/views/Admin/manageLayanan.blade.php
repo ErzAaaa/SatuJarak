@@ -515,7 +515,7 @@
 
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title fs-5 fw-bold" id="addServiceModalLabel">Tambah Layanan</h4>
+                <h5 class="modal-title" id="addServiceModalLabel">Tambah Layanan</h5>
 
                 <button
                     type="button"
@@ -534,8 +534,7 @@
                 <div class="row g-3">
                     <!-- ID Layanan (Auto Generated) -->
                     <div class="col-md-6 modal-form-group mb-0">
-                        <label for="serviceId">
-                            <i class="bi bi-hash"></i>
+                        <label for="serviceId" class="field-label">
                             ID Layanan <span class="badge bg-light text-success border ms-1">Otomatis</span>
                         </label>
                         <input
@@ -543,7 +542,7 @@
                             id="serviceId"
                             name="kode_layanan"
                             value="{{ $nextKodeLayanan ?? 'LYN-009' }}"
-                            class="bg-light"
+                            class="form-control bg-light"
                             readonly
                         >
                         <small>ID digenerate otomatis dan selalu tersusun berurutan.</small>
@@ -551,14 +550,14 @@
 
                     <!-- Nama Layanan -->
                     <div class="col-md-6 modal-form-group mb-0">
-                        <label for="serviceName">
-                            <i class="bi bi-briefcase"></i>
+                        <label for="serviceName" class="field-label">
                             Nama Layanan <span class="text-danger">*</span>
                         </label>
                         <input
                             type="text"
                             id="serviceName"
                             name="nama_layanan"
+                            class="form-control"
                             placeholder="Contoh: Pengurusan Surat Domisili"
                             value="{{ old('nama_layanan') }}"
                             required
@@ -567,11 +566,10 @@
 
                     <!-- Kategori Layanan -->
                     <div class="col-md-6 modal-form-group mb-0">
-                        <label for="serviceCategory">
-                            <i class="bi bi-tag"></i>
-                            Kategori Layanan
+                        <label for="serviceCategory" class="field-label">
+                            Kategori Layanan <span class="text-danger">*</span>
                         </label>
-                        <select id="serviceCategory" name="kategori" class="form-select" style="height:38px; border-radius:10px; font-size:11px; background:#F8FAF9; border:1px solid #E1E9E5;">
+                        <select id="serviceCategory" name="kategori" class="form-select">
                             <option value="masyarakat" selected>Masyarakat</option>
                             <option value="aparatur">Aparatur Desa</option>
                             <option value="Kependudukan">Kependudukan</option>
@@ -582,14 +580,14 @@
 
                     <!-- Link Layanan -->
                     <div class="col-md-6 modal-form-group mb-0">
-                        <label for="serviceLink">
-                            <i class="bi bi-link-45deg"></i>
+                        <label for="serviceLink" class="field-label">
                             Link / URL Layanan
                         </label>
                         <input
                             type="url"
                             id="serviceLink"
                             name="link_url"
+                            class="form-control"
                             placeholder="https://..."
                             value="{{ old('link_url') }}"
                         >
@@ -597,14 +595,14 @@
 
                     <!-- Icon Layanan -->
                     <div class="col-12 modal-form-group mb-0">
-                        <label for="serviceIcon">
-                            <i class="bi bi-image"></i>
+                        <label for="serviceIcon" class="field-label">
                             Icon / Logo Layanan (Opsional)
                         </label>
                         <input
                             type="file"
                             id="serviceIcon"
                             name="logo"
+                            class="form-control"
                             accept="image/*"
                         >
                         <div id="iconPreview" class="icon-preview"></div>
@@ -613,13 +611,13 @@
 
                     <!-- Deskripsi -->
                     <div class="col-12 modal-form-group mb-0">
-                        <label for="serviceDescription">
-                            <i class="bi bi-text-paragraph"></i>
+                        <label for="serviceDescription" class="field-label">
                             Deskripsi Layanan
                         </label>
                         <textarea
                             id="serviceDescription"
                             name="deskripsi"
+                            class="form-control"
                             rows="2"
                             placeholder="Jelaskan fungsi dan manfaat layanan ini..."
                         >{{ old('deskripsi') }}</textarea>

@@ -13,6 +13,7 @@
     --blue-light: #D8EBFC;
     --white: #FFFFFF;
     --text: #173D30;
+    --text-soft: #52635B;
     --muted: #708078;
     --border: #E5ECE8;
 }
@@ -481,7 +482,7 @@ select {
 .heading-label {
     display: inline-block;
     margin-bottom: 8px;
-    color: var(--mint);
+    color: #1E6B4E;
     font-size: 10px;
     font-weight: 800;
     letter-spacing: 1.4px;
@@ -503,15 +504,16 @@ select {
 .back-button {
     min-width: 110px;
     height: 42px;
+    padding: 0 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border-radius: 12px;
+    border-radius: 999px;
     background: white;
     border: 1px solid var(--border);
     color: var(--forest);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     transition: 0.25s ease;
 }
@@ -588,7 +590,23 @@ select {
 
 .status-badge.waiting {
     background: var(--gold-light);
-    color: #9A692F;
+    color: #7A4F13;
+}
+
+.status-badge.process {
+    background: #DCEFE6;
+    color: #15533F;
+}
+
+.status-badge.completed,
+.status-badge.complete {
+    background: #D1FAE5;
+    color: #065F46;
+}
+
+.status-badge.rejected {
+    background: var(--pink-light);
+    color: #9C1F4B;
 }
 
 .detail-grid {
@@ -821,17 +839,17 @@ select {
 }
 
 .document-btn {
-    height: 32px;
+    height: 34px;
 
-    padding: 0 12px;
+    padding: 0 15px;
 
     border: none;
-    border-radius: 8px;
+    border-radius: 999px;
 
     background: #EDF5F0;
     color: var(--forest);
 
-    font-size: 10px;
+    font-size: 10.5px;
     font-weight: 700;
 
     display: flex;
@@ -1201,22 +1219,22 @@ select {
 
 /* Tombol Batal */
 .modal-cancel-btn {
-    height: 39px;
+    height: 40px;
     flex: 1 1 0;
     min-width: 0;
-    padding: 0 15px;
+    padding: 0 18px;
 
-    border: 2px solid var(--border);
-    border-radius: 10px;
+    border: 1.5px solid var(--border);
+    border-radius: 999px;
 
     background: var(--white);
-    color: var(--text-soft);
+    color: var(--text);
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
     cursor: pointer;
 
@@ -1245,20 +1263,20 @@ select {
 
 /* Tombol aksi */
 .modal-submit-btn {
-    height: 39px;
+    height: 40px;
     flex: 1 1 0;
     min-width: 0;
-    padding: 0 15px;
+    padding: 0 18px;
 
     border: none;
-    border-radius: 10px;
+    border-radius: 999px;
 
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
 
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 800;
     cursor: pointer;
 
@@ -1266,7 +1284,7 @@ select {
 }
 
 .modal-submit-btn.verify {
-    background: var(--mint);
+    background: var(--forest);
     color: var(--white);
 }
 

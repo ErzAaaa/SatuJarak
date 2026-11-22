@@ -35,7 +35,7 @@
         .summary-code {
             font-size: 12.5px;
             font-weight: 800;
-            color: #3FA57B;
+            color: #15533F;
             letter-spacing: 1.2px;
             margin-bottom: 6px;
         }
@@ -193,9 +193,9 @@
             @if($potensi->status === 'Aktif')
                 <div class="status-badge status-aktif"><span class="status-dot status-aktif"></span> Aktif</div>
             @elseif($potensi->status === 'Draft')
-                <div class="status-badge status-proses"><span class="status-dot status-proses"></span> Draft</div>
+                <div class="status-badge status-draft"><span class="status-dot status-draft"></span> Draft</div>
             @else
-                <div class="status-badge status-ditolak"><span class="status-dot status-ditolak"></span> Nonaktif</div>
+                <div class="status-badge status-nonaktif"><span class="status-dot status-nonaktif"></span> Nonaktif</div>
             @endif
             <span class="badge bg-white text-dark border px-3 py-2 rounded-pill">{{ ($potensi->jenis_produk === 'Kerajinan') ? 'Kerajinan' : ($potensi->jenis_produk ?: ($potensi->kategori ?? 'UMKM')) }}</span>
         </div>
