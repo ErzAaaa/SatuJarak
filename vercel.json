@@ -39,8 +39,10 @@
         }
     ],
     "env": {
+        "VERCEL": "1",
         "APP_ENV": "production",
-        "APP_DEBUG": "false",
+        "APP_DEBUG": "true",
+        "APP_KEY": "base64:TqE+IH5D48ZZx5ecfgYBPhawzaVq4m8mMlzP/3XmLIo=",
         "APP_CONFIG_CACHE": "/tmp/storage/config.php",
         "APP_EVENTS_CACHE": "/tmp/storage/events.php",
         "APP_PACKAGES_CACHE": "/tmp/storage/packages.php",

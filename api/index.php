@@ -1,8 +1,12 @@
 <?php
 
 // Forward request Vercel ke public/index.php bawaan Laravel
-// Pastikan direktori /tmp ada untuk cache, view compile, dan sessions
+// Pastikan semua direktori /tmp/storage ada untuk cache, view compile, sessions, dan logs
 $storagePaths = [
+    '/tmp/storage',
+    '/tmp/storage/app',
+    '/tmp/storage/app/public',
+    '/tmp/storage/framework',
     '/tmp/storage/framework/views',
     '/tmp/storage/framework/cache',
     '/tmp/storage/framework/cache/data',
