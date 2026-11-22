@@ -116,21 +116,8 @@
             'kategori' => 'masyarakat',
         ],
         [
-            'nama_layanan' => 'PESONA',
-            'deskripsi' => 'Informasi profil dan data kependudukan desa.',
-            'link_url' => 'https://play.google.com/store/apps/details?id=com.ruwindo.pesonakediri&hl=id',
-            'logo' => 'images/logo_kediri.png',
-            'kategori' => 'masyarakat',
-        ],
-        [
             'nama_layanan' => 'SIKSNG',
             'deskripsi' => 'Sistem informasi untuk administrasi aparatur desa.',
-            'link_url' => '#',
-            'kategori' => 'aparatur',
-        ],
-        [
-            'nama_layanan' => 'SIPENAK (SIMNANGKIS)',
-            'deskripsi' => 'Sistem pendukung pekerjaan administrasi desa.',
             'link_url' => '#',
             'kategori' => 'aparatur',
         ],
@@ -156,33 +143,30 @@
         ],
     ];
 
-    $informasis = $informasis ?? [
-        ['judul' => 'Contoh judul informasi desa pertama', 'kategori' => 'Pengumuman', 'created_at' => '2026-09-01'],
-        ['judul' => 'Contoh judul informasi desa kedua', 'kategori' => 'Kegiatan', 'created_at' => '2026-08-28'],
-        ['judul' => 'Contoh judul informasi desa ketiga', 'kategori' => 'Layanan', 'created_at' => '2026-08-20'],
-    ];
-
-   $potensis = $potensis ?? [
+    $potensis = $potensis ?? [
         [
             'nama_umkm' => 'Kuliner & Makanan Khas',
             'pemilik' => 'UMKM Olahan Pangan Desa Jarak',
-            'deskripsi' => 'Beragam makanan olahan, jajanan tradisional, dan produk kuliner lokal buatan warga Desa Jarak.',
+            'deskripsi' =>
+                'Beragam makanan olahan, jajanan tradisional, dan produk kuliner lokal buatan warga Desa Jarak.',
             'url' => url('/potensi-desa/produk#produk'),
-            'gambar' => 'images/kemiri_bakery.jpeg', 
+            'gambar' => 'images/kemiri_bakery.jpeg',
         ],
         [
             'nama_umkm' => 'Kerajinan Tangan',
             'pemilik' => 'Pengrajin Lokal Desa Jarak',
-            'deskripsi' => 'Produk kriya dan kerajinan tangan kreatif dengan nilai seni serta kualitas khas warga Desa Jarak.',
+            'deskripsi' =>
+                'Produk kriya dan kerajinan tangan kreatif dengan nilai seni serta kualitas khas warga Desa Jarak.',
             'url' => url('/potensi-desa/produk#kerajinan'),
             'gambar' => 'images/riff_art.jpg',
         ],
         [
             'nama_umkm' => 'Wisata Desa',
             'pemilik' => 'Destinasi Alam & Edukasi',
-            'deskripsi' => 'Jelajahi pesona wisata alam, rekreasi keluarga, dan edukasi menarik yang ada di Desa Jarak.',
+            'deskripsi' =>
+                'Jelajahi pesona wisata alam, rekreasi keluarga, dan edukasi menarik yang ada di Desa Jarak.',
             'url' => url('/potensi-desa/wisata'),
-            'gambar' => 'Potensi Desa/Wisata/sumber_ubalan_renang.webp', 
+            'gambar' => 'Potensi Desa/Wisata/sumber_ubalan_renang.webp',
         ],
     ];
 @endphp
@@ -199,7 +183,6 @@
 
             <nav class="hidden items-center gap-7 text-sm font-medium md:flex" aria-label="Navigasi utama">
                 <a href="#layanan" class="hover:underline underline-offset-4">Layanan</a>
-                <a href="#informasi" class="hover:underline underline-offset-4">Informasi desa</a>
                 <a href="#potensi" class="hover:underline underline-offset-4">Potensi desa</a>
                 <a href="#kerja-sama" class="hover:underline underline-offset-4">Kerja sama</a>
                 @auth
@@ -346,23 +329,24 @@
                     Lihat lebih detail
                 </a>
             </div>
-            <p class="mt-1 max-w-xl text-[var(--muted)]">Kategori potensi dan usaha warga Desa Jarak yang bisa Anda jelajahi.</p>
+            <p class="mt-1 max-w-xl text-[var(--muted)]">Kategori potensi dan usaha warga Desa Jarak yang bisa Anda
+                jelajahi.</p>
 
             <div class="mt-8 grid gap-x-10 gap-y-8 md:grid-cols-3">
                 @foreach ($potensis as $p)
                     <a href="{{ data_get($p, 'url', route('potensi-desa')) }}"
                         class="group block border-t-4 border-[var(--kunyit)] pt-4 transition hover:bg-white/70 rounded-b-lg px-2 -mx-2">
-                        
+
                         @if (data_get($p, 'gambar'))
                             <div class="mb-4 overflow-hidden rounded-lg bg-[var(--line)]/50">
-                                <img src="{{ asset(data_get($p, 'gambar')) }}" 
-                                     alt="{{ data_get($p, 'nama_umkm') }}"
-                                     class="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
-                                     style="display: block; width: 100%; height: 12rem; object-fit: cover;">
+                                <img src="{{ asset(data_get($p, 'gambar')) }}" alt="{{ data_get($p, 'nama_umkm') }}"
+                                    class="h-48 w-full object-cover transition duration-300 group-hover:scale-105"
+                                    style="display: block; width: 100%; height: 12rem; object-fit: cover;">
                             </div>
                         @endif
 
-                        <h3 class="font-display text-xl font-bold group-hover:text-[var(--leaf)] group-hover:underline underline-offset-4">
+                        <h3
+                            class="font-display text-xl font-bold group-hover:text-[var(--leaf)] group-hover:underline underline-offset-4">
                             {{ data_get($p, 'nama_umkm') }}
                         </h3>
                         <p class="text-sm text-[var(--muted)]">{{ data_get($p, 'pemilik') }}</p>
@@ -396,7 +380,7 @@
                             class="rounded-md border border-white/60 px-6 py-3 font-semibold hover:bg-white/10">Buat
                             akun</a>
                     @endauth
-            </div>
+                </div>
             </div>
         </section>
     </main>
@@ -441,7 +425,8 @@
                     </p>
                     <div class="mt-4 flex flex-col items-start gap-2">
                         @auth
-                            <a href="{{ route('pengajuan.index') }}" class="hover:text-white hover:underline">Pengajuan saya</a>
+                            <a href="{{ route('pengajuan.index') }}" class="hover:text-white hover:underline">Pengajuan
+                                saya</a>
                         @else
                             <a href="{{ route('login') }}" class="hover:text-white hover:underline">Masuk</a>
                             <a href="{{ route('daftar') }}" class="hover:text-white hover:underline">Buat akun</a>
