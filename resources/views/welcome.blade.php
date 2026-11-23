@@ -166,7 +166,7 @@
             'deskripsi' =>
                 'Jelajahi pesona wisata alam, rekreasi keluarga, dan edukasi menarik yang ada di Desa Jarak.',
             'url' => url('/potensi-desa/wisata'),
-            'gambar' => 'images/sumber_ubalan_renang.webp',
+            'gambar' => 'images/wisata_ubalan_taman.jpg',
             ],
         ];
     @endphp
