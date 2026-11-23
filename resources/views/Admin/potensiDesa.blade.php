@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('Layouts.app')
 
 @section('title', 'Kelola Potensi Desa')
 @section('topbar_title', 'ADMIN · POTENSI DESA')
