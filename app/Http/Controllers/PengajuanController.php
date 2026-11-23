@@ -21,7 +21,7 @@ class PengajuanController extends Controller
 
     return view('User.userpengajuan', compact('pengajuans', 'action'));
     }
-    
+
     // ── User: Detail / konfirmasi pengajuan ──────────────────
     public function show(Pengajuan $pengajuan)
     {
@@ -91,8 +91,22 @@ class PengajuanController extends Controller
         ];
 
         if ($request->hasFile('file_proposal')) {
-            $data['file_proposal'] = $request->file('file_proposal')
-                ->store('pengajuan/proposal');
+            try {
+                $data['file_proposal'] = $request->file('file_proposal')
+                    ->store('pengajuan/proposal', 's3');
+            } catch (\Throwable $e) {
+                dd([
+                    'message' => $e->getMessage(),
+                    'aws_error' => $e->getPrevious()?->getMessage(),
+                    'config_s3' => [
+                        'region' => config('filesystems.disks.s3.region'),
+                        'bucket' => config('filesystems.disks.s3.bucket'),
+                        'endpoint' => config('filesystems.disks.s3.endpoint'),
+                        'path_style' => config('filesystems.disks.s3.use_path_style_endpoint'),
+                        'key_prefix' => substr((string) config('filesystems.disks.s3.key'), 0, 6),
+                    ],
+                ]);
+            }
         }
 
         if ($request->hasFile('file_surat')) {
