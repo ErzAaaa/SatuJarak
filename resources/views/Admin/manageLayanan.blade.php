@@ -515,6 +515,42 @@
 </script>
 <script src="{{ asset('js/admin/manageLayanan.js') }}"></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const icon = document.getElementById('menuIcon');
+    if (!btn || !sidebar) return;
+
+    let backdrop = document.querySelector('.sidebar-backdrop');
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'sidebar-backdrop';
+        document.body.appendChild(backdrop);
+    }
+
+    const closeSidebar = () => {
+        sidebar.classList.remove('mobile-open');
+        backdrop.classList.remove('show');
+        if (icon) icon.className = 'bi bi-list';
+    };
+
+    btn.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = sidebar.classList.toggle('mobile-open');
+        backdrop.classList.toggle('show', isOpen);
+        if (icon) icon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
+    };
+
+    backdrop.addEventListener('click', closeSidebar);
+    document.addEventListener('click', function (e) {
+        if (sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && !btn.contains(e.target)) {
+            closeSidebar();
+        }
+    });
+});
+</script>
 </body>
 
 </html>

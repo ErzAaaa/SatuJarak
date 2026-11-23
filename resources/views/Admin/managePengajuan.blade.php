@@ -467,27 +467,36 @@
 document.addEventListener('DOMContentLoaded', function () {
     const btn = document.getElementById('mobileMenuBtn');
     const sidebar = document.querySelector('.sidebar');
-    const closeBtn = document.getElementById('sidebarCloseBtn');
     const icon = document.getElementById('menuIcon');
     if (!btn || !sidebar) return;
+
+    let backdrop = document.querySelector('.sidebar-backdrop');
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'sidebar-backdrop';
+        document.body.appendChild(backdrop);
+    }
+
+    const closeSidebar = () => {
+        sidebar.classList.remove('mobile-open');
+        backdrop.classList.remove('show');
+        if (icon) icon.className = 'bi bi-list';
+    };
 
     btn.onclick = function (e) {
         e.preventDefault();
         e.stopPropagation();
         const isOpen = sidebar.classList.toggle('mobile-open');
-        if (icon) {
-            icon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
-        }
+        backdrop.classList.toggle('show', isOpen);
+        if (icon) icon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
     };
 
-    if (closeBtn) {
-        closeBtn.onclick = function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            sidebar.classList.remove('mobile-open');
-            if (icon) icon.className = 'bi bi-list';
-        };
-    }
+    backdrop.addEventListener('click', closeSidebar);
+    document.addEventListener('click', function (e) {
+        if (sidebar.classList.contains('mobile-open') && !sidebar.contains(e.target) && !btn.contains(e.target)) {
+            closeSidebar();
+        }
+    });
 });
 </script>
 </body>

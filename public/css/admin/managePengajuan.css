@@ -2011,3 +2011,23 @@ select {
     .mobile-menu, #mobileMenuBtn { position: relative; z-index: 1050 !important; pointer-events: auto !important; cursor: pointer !important; }
     .sidebar { z-index: 1060 !important; }
 }
+
+/* Seragamkan mobile drawer seperti Dashboard & Potensi Desa */
+.sidebar-close, #sidebarCloseBtn {
+    display: none !important;
+}
+@media (max-width: 991.98px) {
+    .sidebar-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.45);
+        z-index: 1055;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+    .sidebar-backdrop.show {
+        opacity: 1;
+        visibility: visible;
+    }
+}
