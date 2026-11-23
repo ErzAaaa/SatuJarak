@@ -448,7 +448,21 @@
         @media (max-width: 576px) {
             .sidebar { width: 260px; left: -280px; padding: 24px 18px; }
         }
-    </style>
+        .potential-card {
+        position: relative;
+        cursor: pointer;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .potential-card:hover {
+        transform: translateY(-4px);
+    }
+    .potential-card .detail-link::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+</style>
 </head>
 
 <body>
@@ -544,9 +558,7 @@
         <section>
             <div class="section-heading">
                 <h2>Potensi Unggulan</h2>
-                <span class="result-count" id="resultCount">
-                    2 potensi ditemukan
-                </span>
+                <span class="result-count d-none" id="resultCount" style="display:none;"></span>
             </div>
 
             <div class="potential-grid" id="potentialGrid">
