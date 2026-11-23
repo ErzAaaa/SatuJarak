@@ -511,7 +511,7 @@
         <!-- HERO -->
         <div class="detail-hero">
             <img
-                src="{{ asset('Potensi Desa/Wisata/sumber_ubalan_renang.webp') }}"
+                src="{{ asset('images/sumber_ubalan_renang.webp') }}"
                 alt="Kolam renang alami Sumber Ubalan"
             >
             <div class="detail-hero-text">
@@ -670,28 +670,28 @@
 
                     <div class="gallery-photo">
                         <img
-                            src="{{ asset('Potensi Desa/Wisata/sumber_ubalan_renang.webp') }}"
+                            src="{{ asset('images/sumber_ubalan_renang.webp') }}"
                             alt="Kolam renang alami Sumber Ubalan"
                         >
                     </div>
 
                     <div class="gallery-photo">
                         <img
-                            src="{{ asset('Potensi Desa/Wisata/wisata_ubalan_taman.jpg') }}"
+                            src="{{ asset('images/wisata_ubalan_taman.jpg') }}"
                             alt="Taman di sekitar Sumber Ubalan"
                         >
                     </div>
 
                     <div class="gallery-photo">
                         <img
-                            src="{{ asset('Potensi Desa/Wisata/Sumber_Ubalan_Kediri_Permainan.jpg') }}"
+                            src="{{ asset('images/Sumber_Ubalan_Kediri_Permainan.jpg') }}"
                             alt="Wahana permainan di Sumber Ubalan"
                         >
                     </div>
 
                     <div class="gallery-photo">
                         <img
-                            src="{{ asset('Potensi Desa/Wisata/ubalan_kediri_tradisi.jpg') }}"
+                            src="{{ asset('images/ubalan_kediri_tradisi.jpg') }}"
                             alt="Tradisi dan budaya sekitar Sumber Ubalan"
                         >
                     </div>
