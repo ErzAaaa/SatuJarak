@@ -83,7 +83,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 }
 
 .topbar-title {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 1.2px;
   color: #1E6B4E;
@@ -189,7 +189,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 }
 
 .profile-dropdown-name { font-weight: 800; font-size: 15px; color: var(--text-main); }
-.profile-dropdown-role { font-size: 12.5px; color: var(--text-muted); }
+.profile-dropdown-role { font-size: 11.5px; color: var(--text-muted); }
 
 .profile-dropdown-list { list-style: none; padding: 0; margin: 0; }
 
@@ -471,7 +471,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   align-items: baseline;
   justify-content: space-between;
   gap: 10px;
-  font-size: 12.5px;
+  font-size: 11.5px;
 }
 
 .help-day { color: #FFFFFF; font-weight: 700; }
@@ -491,13 +491,13 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   align-items: center;
   gap: 10px;
   color: #FFFFFF;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 600;
   border-radius: 10px;
   padding: 6px 8px;
   margin: -6px -8px;
   transition: background 0.15s ease;
-  word-break: break-all;
+  white-space: nowrap;
 }
 
 .help-contact-link:hover { background: rgba(255, 255, 255, 0.08); }
@@ -656,7 +656,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   gap: 6px;
   padding: 6px 14px;
   border-radius: 999px;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 700;
   letter-spacing: 0.2px;
 }

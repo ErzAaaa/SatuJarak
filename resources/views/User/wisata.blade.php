@@ -102,12 +102,12 @@
         .help-title-icon { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(145deg, var(--gold), var(--mint)); color: var(--forest); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
         .help-section-label { color: rgba(255,255,255,0.55); font-size: 10.5px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase; margin-bottom: 8px; }
         .help-schedule { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
-        .help-schedule-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 12.5px; }
+        .help-schedule-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; font-size: 11.5px; }
         .help-day { color: #FFFFFF; font-weight: 700; }
         .help-hours { color: rgba(255,255,255,0.65); font-weight: 600; white-space: nowrap; }
         .help-divider { height: 1px; background: rgba(255,255,255,0.12); margin: 14px 0; border: none; }
         .help-contact { display: flex; flex-direction: column; gap: 10px; }
-        .help-contact-link { display: flex; align-items: center; gap: 10px; color: #FFFFFF; font-size: 12.5px; font-weight: 600; border-radius: 10px; padding: 6px 8px; margin: -6px -8px; transition: background 0.15s ease; word-break: break-all; text-decoration: none; }
+        .help-contact-link { display: flex; align-items: center; gap: 10px; color: #FFFFFF; font-size: 11.5px; font-weight: 600; border-radius: 10px; padding: 6px 8px; margin: -6px -8px; transition: background 0.15s ease; white-space: nowrap; text-decoration: none; }
         .help-contact-link:hover { background: rgba(255,255,255,0.08); }
         .help-contact-link i { width: 26px; height: 26px; border-radius: 50%; background: rgba(255,255,255,0.10); color: var(--mint); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
 
