@@ -617,6 +617,7 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
   .topbar-search span,
   .topbar-search { display: none; }
 }
+@media (min-width: 992px) { .topbar { display: none !important; } }
 </style>
 </head>
 <body>
@@ -652,42 +653,8 @@ h1, h2, h3, h4, h5, h6, p { margin: 0; }
         <button class="topbar-toggle d-lg-none" data-sidebar-toggle aria-label="Buka menu"><i class="bi bi-list"></i></button>
         <div class="topbar-title"></div>
       </div>
-      <div class="topbar-actions">
-        <label class="topbar-search">
-          <i class="bi bi-search"></i>
-          <input type="text" placeholder="Search...">
-        </label>
-
-        <button class="icon-btn"><i class="bi bi-bell-fill"></i><span class="dot"></span></button>
-
-        <div class="profile-menu">
-          <button class="profile-chip" type="button" data-profile-toggle aria-haspopup="true" aria-expanded="false">
-            <span class="profile-avatar"><i class="bi bi-person-fill"></i></span>
-            <i class="bi bi-chevron-down"></i>
-          </button>
-
-          <div class="profile-dropdown" data-profile-dropdown>
-            <div class="profile-dropdown-head">
-              <span class="profile-dropdown-avatar"><i class="bi bi-person-fill"></i></span>
-              <div>
-                <div class="profile-dropdown-name">Admin Desa</div>
-                <div class="profile-dropdown-role">Administrator</div>
-              </div>
-            </div>
-            <ul class="profile-dropdown-list">
-              <li><a href="{{ url('admin/profil') }}" class="profile-dropdown-item"><i class="bi bi-person"></i> Profil</a></li>
-              <li><a href="{{ url('admin/pengaturan') }}" class="profile-dropdown-item"><i class="bi bi-gear"></i> Pengaturan</a></li>
-              <li>
-                <form method="POST" action="{{ url('logout') }}">
-                  @csrf
-                  <button type="submit" class="profile-dropdown-item"><i class="bi bi-box-arrow-right"></i> Log Out</button>
-                </form>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
+
 
     <div class="page-body">
       <h1 class="page-heading">Dashboard Overview</h1>

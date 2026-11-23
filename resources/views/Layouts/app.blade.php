@@ -735,7 +735,8 @@
                 padding-right: 20px;
             }
         }
-    </style>
+    @media (min-width: 992px) { .topbar { display: none !important; } }
+</style>
 
     @stack('styles')
 </head>
@@ -782,14 +783,8 @@
                             class="bi bi-list"></i></button>
                     <div class="topbar-title"></div>
                 </div>
-                <div class="topbar-actions">
-                    <button class="icon-btn"><i class="bi bi-bell-fill"></i><span class="dot"></span></button>
-                    <div class="profile-chip">
-                        <div class="avatar-chip"><i class="bi bi-person-fill"></i></div>
-                        <i class="bi bi-chevron-down"></i>
-                    </div>
-                </div>
             </div>
+
 
             <div class="page-body">
                 @yield('content')

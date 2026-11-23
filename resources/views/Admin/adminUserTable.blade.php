@@ -94,7 +94,8 @@
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(11, 56, 40, 0.25);
         }
-    </style>
+    @media (min-width: 992px) { .top-header { display: none !important; } }
+</style>
 </head>
 <body>
 
@@ -158,18 +159,6 @@
                 <button class="btn" id="mobileMenuBtn">
                     <i class="bi bi-list" id="menuIcon"></i>
                 </button>
-            </div>
-
-            <div class="header-right ms-auto">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="text-end d-none d-sm-block">
-                        <strong class="d-block" style="font-size: 14px; color: var(--forest);">{{ auth()->user()->name ?? 'Administrator' }}</strong>
-                        <span class="text-muted" style="font-size: 12px;">Admin SatuJarak</span>
-                    </div>
-                    <div class="user-avatar-circle" style="width: 42px; height: 42px;">
-                        {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                    </div>
-                </div>
             </div>
         </header>
 
