@@ -88,7 +88,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 }
 
 .topbar-title {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 800;
   letter-spacing: 1.2px;
   color: #1E6B4E;
@@ -194,7 +194,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 }
 
 .profile-dropdown-name { font-weight: 800; font-size: 15px; color: var(--text-main); }
-.profile-dropdown-role { font-size: 12.5px; color: var(--text-muted); }
+.profile-dropdown-role { font-size: 11.5px; color: var(--text-muted); }
 
 .profile-dropdown-list { list-style: none; padding: 0; margin: 0; }
 
@@ -452,7 +452,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 .summary-card > * { position: relative; z-index: 1; }
 
 .summary-code {
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 800;
   color: #15533F;
   letter-spacing: 1.2px;
@@ -530,7 +530,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
 }
 
 .info-label {
-  font-size: 12.5px;
+  font-size: 11.5px;
   color: var(--text-muted);
   font-weight: 600;
   text-transform: uppercase;
@@ -640,7 +640,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   align-items: baseline;
   justify-content: space-between;
   gap: 10px;
-  font-size: 12.5px;
+  font-size: 11.5px;
 }
 
 .help-day { color: #FFFFFF; font-weight: 700; }
@@ -660,13 +660,13 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   align-items: center;
   gap: 10px;
   color: #FFFFFF;
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 600;
   border-radius: 10px;
   padding: 6px 8px;
   margin: -6px -8px;
   transition: background 0.15s ease;
-  word-break: break-all;
+  white-space: nowrap;
 }
 
 .help-contact-link:hover { background: rgba(255, 255, 255, 0.08); }
@@ -720,7 +720,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
   .step-icon { font-size: 20px; }
   .step-title { font-size: 15px; }
   .step-time { font-size: 13px; }
-  .status-badge { font-size: 12.5px; padding: 8px 14px; }
+  .status-badge { font-size: 11.5px; padding: 8px 14px; }
   .topbar-title { font-size: 11px; }
   .icon-btn, .avatar-chip, .topbar-toggle { width: 40px; height: 40px; }
   .profile-dropdown { width: 230px; right: -8px; }
