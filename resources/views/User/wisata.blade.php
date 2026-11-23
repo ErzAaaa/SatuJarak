@@ -458,7 +458,28 @@
         @media (max-width: 576px) {
             .sidebar { width: 260px; left: -280px; padding: 24px 18px; }
         }
-    </style>
+    .gallery-photo { cursor: zoom-in; overflow: hidden; }
+    .gallery-photo img { transition: transform 0.25s ease; }
+    .gallery-photo:hover img { transform: scale(1.03); }
+    .sj-lightbox {
+        display: none; position: fixed; inset: 0; z-index: 9999;
+        background: rgba(15, 23, 42, 0.9); backdrop-filter: blur(4px);
+        align-items: center; justify-content: center; padding: 24px;
+    }
+    .sj-lightbox.active { display: flex; }
+    .sj-lightbox-img {
+        max-width: 90vw; max-height: 88vh; border-radius: 12px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.5); object-fit: contain;
+    }
+    .sj-lightbox-close {
+        position: fixed; top: 20px; right: 24px;
+        background: rgba(255,255,255,0.15); color: #fff;
+        border: none; border-radius: 50%; width: 44px; height: 44px;
+        font-size: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        transition: background 0.2s;
+    }
+    .sj-lightbox-close:hover { background: rgba(255,255,255,0.3); }
+</style>
 </head>
 
 <body>
@@ -705,5 +726,37 @@
         document.querySelector('[data-sidebar-toggle]')?.addEventListener('click', () => sidebarEl.classList.toggle('open'));
         document.querySelector('.sidebar-backdrop')?.addEventListener('click', () => sidebarEl.classList.remove('open'));
     </script>
+<div class="sj-lightbox" id="sjLightbox" aria-hidden="true">
+    <button type="button" class="sj-lightbox-close" id="sjLbClose" aria-label="Tutup">&times;</button>
+    <img src="" alt="Preview Foto" class="sj-lightbox-img" id="sjLbImg">
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const lb = document.getElementById('sjLightbox');
+    const lbImg = document.getElementById('sjLbImg');
+    if (!lb) return;
+
+    function closeLightbox() {
+        lb.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.gallery-photo').forEach(card => {
+        card.addEventListener('click', () => {
+            const img = card.querySelector('img');
+            if (!img) return;
+            lbImg.src = img.src;
+            lbImg.alt = img.alt || 'Preview Foto';
+            lb.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    document.getElementById('sjLbClose').addEventListener('click', closeLightbox);
+    lb.addEventListener('click', (e) => { if (e.target === lb) closeLightbox(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && lb.classList.contains('active')) closeLightbox(); });
+});
+</script>
 </body>
 </html>
