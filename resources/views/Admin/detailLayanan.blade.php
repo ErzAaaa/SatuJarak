@@ -1,4 +1,4 @@
-@extends('admin-layout')
+@extends('Layouts.app')
 
 @section('title', 'Detail Layanan: ' . ($layanan->nama_layanan ?? 'Layanan Desa'))
 @section('topbar_title', 'ADMIN · DETAIL LAYANAN')
