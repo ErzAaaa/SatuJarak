@@ -27,7 +27,7 @@ class UserAuthController extends Controller
         return redirect()->route('pengajuan.index');
     }
 
-    public function login(Request $request)
+public function login(Request $request)
     {
         $cred = $request->validate([
             'email' => ['required', 'email'],
@@ -42,6 +42,17 @@ class UserAuthController extends Controller
         }
 
         if (Auth::attempt($cred)) {
+            // Tolak jika akun yang login adalah Administrator
+            if (Auth::user()->is_admin) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Akun administrator tidak dapat login melalui halaman ini. Silakan gunakan portal admin.',
+                ])->onlyInput('email');
+            }
+
             RateLimiter::clear($key);
             $request->session()->regenerate();
 
@@ -52,7 +63,7 @@ class UserAuthController extends Controller
 
         return back()->withErrors(['email' => 'Email atau kata sandi salah.'])->onlyInput('email');
     }
-
+    
     public function logout(Request $request)
     {
         Auth::logout();

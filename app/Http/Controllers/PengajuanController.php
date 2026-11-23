@@ -11,22 +11,24 @@ class PengajuanController extends Controller
     // ── User: Daftar / Form pengajuan (wajib login) ─────────
     public function index(Request $request)
     {
-        $pengajuans = Auth::user()
-            ? Auth::user()->pengajuans()->latest()->get()
-            : collect();
-
-        $action = $request->query('action', $pengajuans->isEmpty() ? 'create' : 'list');
-
-        return view('User.userpengajuan', compact('pengajuans', 'action'));
+    // Jika yang login adalah Admin, arahkan ke halaman kelola pengajuan milik Admin
+    if (Auth::user()->is_admin) {
+        return redirect()->route('admin.pengajuan.index');
     }
 
+    $pengajuans = Auth::user()->pengajuans()->latest()->get();
+    $action = $request->query('action', $pengajuans->isEmpty() ? 'create' : 'list');
+
+    return view('User.userpengajuan', compact('pengajuans', 'action'));
+    }
+    
     // ── User: Detail / konfirmasi pengajuan ──────────────────
     public function show(Pengajuan $pengajuan)
     {
         // Proteksi otorisasi: hanya pemilik pengajuan atau admin yang berhak melihat
-        if (Auth::check() && $pengajuan->user_id && $pengajuan->user_id !== Auth::id() && ! Auth::user()->is_admin) {
-            abort(403, 'Anda tidak memiliki hak akses untuk melihat rincian pengajuan ini.');
-        }
+        if ($pengajuan->user_id !== Auth::id() && ! Auth::user()->is_admin        ) {
+    abort(403, 'Anda tidak memiliki hak akses untuk melihat rincian pengajuan ini        .');
+    }
 
         return view('User.detailpengajuan', compact('pengajuan'));
     }
@@ -90,12 +92,12 @@ class PengajuanController extends Controller
 
         if ($request->hasFile('file_proposal')) {
             $data['file_proposal'] = $request->file('file_proposal')
-                ->store('pengajuan/proposal', 'public');
+                ->store('pengajuan/proposal');
         }
 
         if ($request->hasFile('file_surat')) {
             $data['file_surat'] = $request->file('file_surat')
-                ->store('pengajuan/surat', 'public');
+                ->store('pengajuan/surat');
         }
 
         $pengajuan = Pengajuan::create($data);
