@@ -2005,3 +2005,9 @@ select {
     }
 
 }
+/* Fix z-index & klik tombol mobile menu */
+@media (max-width: 991.98px) {
+    .top-header { position: relative; z-index: 1040 !important; }
+    .mobile-menu, #mobileMenuBtn { position: relative; z-index: 1050 !important; pointer-events: auto !important; cursor: pointer !important; }
+    .sidebar { z-index: 1060 !important; }
+}

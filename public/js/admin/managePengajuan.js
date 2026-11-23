@@ -330,28 +330,20 @@ function submitFilters() {
 
 /* Search — debounce 500ms */
 let searchTimer;
-document
-    .getElementById('searchInput')
-    .addEventListener('input', () => {
+document.getElementById('searchInput')?.addEventListener('input', () => {
         clearTimeout(searchTimer);
         searchTimer = setTimeout(submitFilters, 500);
     });
 
-document
-    .getElementById('searchInput')
-    .addEventListener('keydown', (e) => {
+document.getElementById('searchInput')?.addEventListener('keydown', (e) => {
         if (e.key === 'Enter') { clearTimeout(searchTimer); submitFilters(); }
     });
 
 /* Status filter */
-document
-    .getElementById('statusFilter')
-    .addEventListener('change', submitFilters);
+document.getElementById('statusFilter')?.addEventListener('change', submitFilters);
 
 /* Service filter */
-document
-    .getElementById('serviceFilter')
-    .addEventListener('change', submitFilters);
+document.getElementById('serviceFilter')?.addEventListener('change', submitFilters);
 
 
 /* Notification dropdown */
@@ -404,81 +396,47 @@ document.addEventListener("click", () => {
 
 
 /* Mobile sidebar */
+(function initMobileSidebar() {
+    const setup = () => {
+        const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+        const sidebar = document.querySelector(".sidebar");
+        const sidebarCloseBtn = document.getElementById("sidebarCloseBtn");
+        const menuIcon = document.getElementById("menuIcon");
+        if (!mobileMenuBtn || !sidebar) return;
 
-const mobileMenuBtn =
-    document.getElementById("mobileMenuBtn");
+        mobileMenuBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            sidebar.classList.toggle("mobile-open");
+            if (menuIcon) {
+                menuIcon.classList.toggle("bi-x-lg", sidebar.classList.contains("mobile-open"));
+                menuIcon.classList.toggle("bi-list", !sidebar.classList.contains("mobile-open"));
+            }
+        });
 
-const sidebar =
-    document.querySelector(".sidebar");
+        if (sidebarCloseBtn) {
+            sidebarCloseBtn.addEventListener("click", (event) => {
+                event.stopPropagation();
+                sidebar.classList.remove("mobile-open");
+                if (menuIcon) {
+                    menuIcon.classList.remove("bi-x-lg");
+                    menuIcon.classList.add("bi-list");
+                }
+            });
+        }
 
-const sidebarCloseBtn =
-    document.getElementById("sidebarCloseBtn");
-
-const menuIcon =
-    document.getElementById("menuIcon");
-
-
-/* Buka / tutup sidebar dari tombol burger */
-
-mobileMenuBtn.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    sidebar.classList.toggle("mobile-open");
-
-    if (sidebar.classList.contains("mobile-open")) {
-
-        menuIcon.classList.remove("bi-list");
-        menuIcon.classList.add("bi-x-lg");
-
+        document.addEventListener("click", (event) => {
+            if (sidebar.classList.contains("mobile-open") && !sidebar.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                sidebar.classList.remove("mobile-open");
+                if (menuIcon) {
+                    menuIcon.classList.remove("bi-x-lg");
+                    menuIcon.classList.add("bi-list");
+                }
+            }
+        });
+    };
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", setup);
     } else {
-
-        menuIcon.classList.remove("bi-x-lg");
-        menuIcon.classList.add("bi-list");
-
+        setup();
     }
-
-});
-
-
-/* Tombol X */
-
-sidebarCloseBtn.addEventListener("click", (event) => {
-
-    event.stopPropagation();
-
-    sidebar.classList.remove("mobile-open");
-
-    menuIcon.classList.remove("bi-x-lg");
-    menuIcon.classList.add("bi-list");
-
-});
-
-
-/* Klik area luar sidebar */
-
-document.addEventListener("click", (event) => {
-
-    if (
-        sidebar.classList.contains("mobile-open") &&
-        !sidebar.contains(event.target) &&
-        !mobileMenuBtn.contains(event.target)
-    ) {
-
-        sidebar.classList.remove("mobile-open");
-
-        menuIcon.classList.remove("bi-x-lg");
-        menuIcon.classList.add("bi-list");
-
-    }
-
-});
-
-
-/* Initial render — SSR rows dari Blade sudah ada, tidak perlu render ulang */
-
-// Hanya update pagination Blade supaya konsisten
-(function initPagination() {
-    // Pagination sudah dihandle server-side oleh Laravel paginator di Blade
-    // Tidak ada yang perlu dilakukan di sini
 })();

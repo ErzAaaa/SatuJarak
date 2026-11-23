@@ -632,5 +632,32 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="{{ asset('js/admin/detailPengajuan.js') }}"></script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const btn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.querySelector('.sidebar');
+    const closeBtn = document.getElementById('sidebarCloseBtn');
+    const icon = document.getElementById('menuIcon');
+    if (!btn || !sidebar) return;
+
+    btn.onclick = function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const isOpen = sidebar.classList.toggle('mobile-open');
+        if (icon) {
+            icon.className = isOpen ? 'bi bi-x-lg' : 'bi bi-list';
+        }
+    };
+
+    if (closeBtn) {
+        closeBtn.onclick = function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            sidebar.classList.remove('mobile-open');
+            if (icon) icon.className = 'bi bi-list';
+        };
+    }
+});
+</script>
 </body>
 </html>

@@ -4,13 +4,13 @@
  * Form submissions are processed server-side via Laravel routes.
  */
 
-document.addEventListener("DOMContentLoaded", function () {
+document?.addEventListener("DOMContentLoaded", function () {
     // Dropdown Notifikasi
     const notificationBtn = document.getElementById("notificationBtn");
     const notificationDropdown = document.getElementById("notificationDropdown");
 
     if (notificationBtn && notificationDropdown) {
-        notificationBtn.addEventListener("click", function (e) {
+        notificationBtn?.addEventListener("click", function (e) {
             e.stopPropagation();
             notificationDropdown.classList.toggle("show");
             if (profileDropdown) profileDropdown.classList.remove("show");
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const profileDropdown = document.getElementById("profileDropdown");
 
     if (profileBtn && profileDropdown) {
-        profileBtn.addEventListener("click", function (e) {
+        profileBtn?.addEventListener("click", function (e) {
             e.stopPropagation();
             profileDropdown.classList.toggle("show");
             if (notificationDropdown) notificationDropdown.classList.remove("show");
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // Tutup dropdown jika klik di luar
-    document.addEventListener("click", function () {
+    document?.addEventListener("click", function () {
         if (notificationDropdown) notificationDropdown.classList.remove("show");
         if (profileDropdown) profileDropdown.classList.remove("show");
     });
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const menuIcon = document.getElementById("menuIcon");
 
     if (mobileMenuBtn && sidebar) {
-        mobileMenuBtn.addEventListener("click", function (event) {
+        mobileMenuBtn?.addEventListener("click", function (event) {
             event.stopPropagation();
             sidebar.classList.toggle("mobile-open");
             if (menuIcon) {
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     if (sidebarCloseBtn && sidebar) {
-        sidebarCloseBtn.addEventListener("click", function (event) {
+        sidebarCloseBtn?.addEventListener("click", function (event) {
             event.stopPropagation();
             sidebar.classList.remove("mobile-open");
             if (menuIcon) {
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    document.addEventListener("click", function (event) {
+    document?.addEventListener("click", function (event) {
         if (
             sidebar &&
             sidebar.classList.contains("mobile-open") &&
