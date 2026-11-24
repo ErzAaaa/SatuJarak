@@ -874,9 +874,9 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
         <div class="info-card-header">
           <h3 class="info-card-title"><i class="bi bi-person-lines-fill"></i> Rincian Pengajuan</h3>
           @if ($pengajuan->status === 'Selesai')
-            <a href="{{ \Illuminate\Support\Facades\Storage::disk('s3')->url($pengajuan->file_surat) }}" target="_blank" class="btn btn-sm btn-outline-secondary">
-          <i class="bi bi-file-earmark-text"></i> Lihat / Unduh Surat Pengantar
-        </a>
+            <a href="{{ route('pengajuan.surat', $pengajuan->id) }}" target="_blank" class="btn btn-sm btn-success d-inline-flex align-items-center gap-1" style="border-radius: 999px;">
+              <i class="bi bi-printer"></i> Unduh Surat Persetujuan
+            </a>
           @endif
         </div>
 
@@ -941,8 +941,8 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
           <div class="info-item">
             <span class="info-label">File Berkas Proposal</span>
             <span class="info-value">
-              @if ($pengajuan->file_proposal)
-                <a href="{{ \Illuminate\Support\Facades\Storage::disk('s3')->url($pengajuan->file_proposal) }}" target="_blank" class="text-success text-decoration-underline d-inline-flex align-items-center gap-1">
+              @if ($pengajuan->proposal_url)
+                <a href="{{ $pengajuan->proposal_url }}" target="_blank" class="text-success text-decoration-underline d-inline-flex align-items-center gap-1">
                   <i class="bi bi-file-earmark-pdf"></i> Unduh Proposal
                 </a>
               @else

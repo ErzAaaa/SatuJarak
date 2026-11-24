@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 
 class Pengajuan extends Model
 {
@@ -56,5 +58,54 @@ class Pengajuan extends Model
     public function scopeSelesai($query)
     {
         return $query->where('status', 'Selesai');
+    }
+
+    // ── Accessors & Helper Storage Aman (S3 + Fallback Lokal) ─
+    public static function isS3Configured(): bool
+    {
+        return class_exists(AwsS3V3Adapter::class)
+            && filled(config('filesystems.disks.s3.key'))
+            && filled(config('filesystems.disks.s3.secret'))
+            && filled(config('filesystems.disks.s3.bucket'));
+    }
+
+    public static function uploadDisk(): string
+    {
+        return self::isS3Configured() ? 's3' : 'public';
+    }
+
+    public function getProposalUrlAttribute(): ?string
+    {
+        return self::resolveFileUrl($this->file_proposal);
+    }
+
+    public function getSuratUrlAttribute(): ?string
+    {
+        return self::resolveFileUrl($this->file_surat);
+    }
+
+    private static function resolveFileUrl(?string $path): ?string
+    {
+        if (empty($path)) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        if (file_exists(public_path('storage/'.$path))) {
+            return asset('storage/'.$path);
+        }
+
+        if (self::isS3Configured()) {
+            try {
+                return Storage::disk('s3')->url($path);
+            } catch (\Throwable) {
+                // Fallback ke storage lokal jika URL S3 gagal dibentuk
+            }
+        }
+
+        return asset('storage/'.$path);
     }
 }

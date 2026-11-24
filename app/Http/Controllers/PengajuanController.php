@@ -90,14 +90,16 @@ class PengajuanController extends Controller
             'deskripsi' => $request->input('deskripsi'),
         ];
 
+        $disk = Pengajuan::uploadDisk();
+
         if ($request->hasFile('file_proposal')) {
             $data['file_proposal'] = $request->file('file_proposal')
-                 ->store('pengajuan/proposal', 's3');
+                ->store('pengajuan/proposal', $disk);
         }
 
         if ($request->hasFile('file_surat')) {
             $data['file_surat'] = $request->file('file_surat')
-                ->store('pengajuan/surat', 's3');
+                ->store('pengajuan/surat', $disk);
         }
 
         $pengajuan = Pengajuan::create($data);
@@ -163,9 +165,13 @@ class PengajuanController extends Controller
             ->with('success', "Status pengajuan #{$pengajuan->id} berhasil diperbarui ke \"{$pengajuan->status}\".");
     }
 
-    // Menampilkan template Surat Keterangan Persetujuan
+    // Menampilkan template Surat Keterangan Persetujuan (pemilik pengajuan atau admin)
     public function suratPersetujuan(Pengajuan $pengajuan)
     {
+        if ($pengajuan->user_id !== Auth::id() && ! Auth::user()->is_admin) {
+            abort(403, 'Anda tidak memiliki hak akses untuk melihat surat persetujuan ini.');
+        }
+
         abort_unless($pengajuan->status === 'Selesai', 403);
 
         return view('Admin.suratPersetujuan', compact('pengajuan'));

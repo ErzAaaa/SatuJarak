@@ -972,7 +972,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0; }
                   </div>
                   <div class="col-lg-4 text-lg-end d-flex flex-column flex-sm-row justify-content-lg-end gap-2">
                     @if ($p->status === 'Selesai')
-                      <a href="{{ route('admin.pengajuan.surat', $p->id) }}" target="_blank" class="btn-outline-soft d-inline-flex align-items-center justify-content-center gap-2 text-decoration-none" style="padding: 10px 18px; font-size: 13.5px;">
+                      <a href="{{ route('pengajuan.surat', $p->id) }}" target="_blank" class="btn-outline-soft d-inline-flex align-items-center justify-content-center gap-2 text-decoration-none" style="padding: 10px 18px; font-size: 13.5px;">
                         <i class="bi bi-file-earmark-check-fill text-success"></i> Surat
                       </a>
                     @endif

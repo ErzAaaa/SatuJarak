@@ -42,6 +42,7 @@ Route::post($secretPath, [AdminLoginController::class, 'login'])
 Route::middleware('auth')->group(function () {
     Route::get('/userpengajuan', [PengajuanController::class, 'index'])->name('pengajuan.index');
     Route::get('/detailpengajuan/{pengajuan}', [PengajuanController::class, 'show'])->name('pengajuan.show');
+    Route::get('/detailpengajuan/{pengajuan}/surat-persetujuan', [PengajuanController::class, 'suratPersetujuan'])->name('pengajuan.surat');
     Route::post('/pengajuan', [PengajuanController::class, 'store'])->name('pengajuan.store');
 });
 

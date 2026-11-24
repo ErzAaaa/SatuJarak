@@ -299,7 +299,7 @@
                         </div>
 
                         <div class="document-list">
-                            @if ($pengajuan->file_proposal)
+                            @if ($pengajuan->proposal_url)
                                 <div class="document-item">
                                     <div class="document-icon">
                                         <i class="bi bi-file-earmark-pdf-fill"></i>
@@ -308,13 +308,13 @@
                                         <strong>Proposal Kegiatan</strong>
                                         <span>PDF Terlampir</span>
                                     </div>
-                                    <a href="{{ Storage::disk('s3')->url($pengajuan->file_proposal) }}" target="_blank" class="document-btn text-decoration-none">
+                                    <a href="{{ $pengajuan->proposal_url }}" target="_blank" class="document-btn text-decoration-none">
                                         <i class="bi bi-eye"></i> Lihat PDF
                                     </a>
                                 </div>
                             @endif
 
-                            @if ($pengajuan->file_surat)
+                            @if ($pengajuan->surat_url)
                                 <div class="document-item">
                                     <div class="document-icon">
                                         <i class="bi bi-file-earmark-pdf-fill"></i>
@@ -323,7 +323,7 @@
                                         <strong>Surat Pengantar Instansi</strong>
                                         <span>PDF Terlampir</span>
                                     </div>
-                                    <a href="{{ Storage::disk('s3')->url($pengajuan->file_surat) }}" target="_blank" class="document-btn text-decoration-none">
+                                    <a href="{{ $pengajuan->surat_url }}" target="_blank" class="document-btn text-decoration-none">
                                         <i class="bi bi-eye"></i> Lihat PDF
                                     </a>
                                 </div>
